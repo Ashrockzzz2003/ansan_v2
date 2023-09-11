@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/model/user.dart';
+import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
 import 'package:eperimetry_vtwo/screens/auth/register_screen.dart';
+import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
@@ -51,6 +53,9 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${widget.otpToken}",
           },
+          validateStatus: (status) {
+            return status! < 500;
+          },
         ),
         data: {
           "otp": otpCode,
@@ -64,28 +69,28 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
 
           if (response.data["role"] == 'USER') {
             final User user = User(
-              patientId: userData["patientId"],
-              phoneNumber: userData["phoneNumber"],
-              userName: userData["userName"],
-              gender: userData["gender"],
-              dob: userData["dob"],
-              age: userData["age"],
-              userEmail: userData["userEmail"],
-              aadharNumber: userData["aadhar"],
-              address: userData["address"],
-              district: userData["district"],
-              state: userData["state"],
-              country: userData["country"],
-              pincode: userData["pincode"],
-              surveyLevel: userData["surveyLevel"],
-              role: response.data["role"],
+              patientId: userData["patientId"].toString(),
+              phoneNumber: userData["phoneNumber"].toString(),
+              userName: userData["userName"].toString(),
+              gender: userData["gender"].toString(),
+              dob: userData["dob"].toString(),
+              age: userData["age"].toString(),
+              userEmail: userData["userEmail"].toString(),
+              aadharNumber: userData["aadhar"].toString(),
+              address: userData["address"].toString(),
+              district: userData["district"].toString(),
+              state: userData["state"].toString(),
+              country: userData["country"].toString(),
+              pincode: userData["pincode"].toString(),
+              surveyLevel: userData["surveyLevel"].toString(),
+              role: response.data["role"].toString(),
             );
 
             sp.setString("currentUser", user.toJson());
           }
-
-          return "1";
         });
+
+        return "1";
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
         return "0";
@@ -93,6 +98,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         showToast("Session Expired. Try again!");
         return "0";
       } else if (response.statusCode == 404) {
+        print(response);
         showToast("Invalid OTP. Please try again!");
       } else {
         showToast("Something went wrong. Please try again later.");
@@ -218,7 +224,28 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                                     isLoading = true;
                                   });
 
-                                  _verifyOtpAndLogin();
+                                  _verifyOtpAndLogin().then((value) {
+                                    if (value == "1") {
+                                      showToast("OTP verified successfully.");
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const UserScreen();
+                                      }), (route) => false);
+                                    } else if (value == "-1") {
+                                      showToast(
+                                          "OTP expired. Please try again.");
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const LoginScreen();
+                                      }), (route) => false);
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  });
 
                                   setState(() {
                                     isLoading = false;

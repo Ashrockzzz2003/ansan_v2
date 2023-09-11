@@ -8,4 +8,5 @@ class Constants {
   String get registerVerifyUrl => "$baseUrl/registerValidate";
 
   String get addNewFamilyMemberUrl => "$baseUrl/addMember";
+  String get takeSurvey15aUrl => "$baseUrl/takeSurvey";
 }

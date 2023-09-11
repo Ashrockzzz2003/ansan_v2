@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Question {
-  Question({
+class Question extends StatefulWidget {
+  const Question({
+    super.key,
     required this.questionFull,
     this.questionLabel,
     this.placeHolder,
@@ -14,28 +15,37 @@ class Question {
     required this.isNumber,
     this.options,
     this.values,
+    required this.controller,
+    this.validator,
   });
 
-  String questionFull;
-  String? questionLabel;
-  String? placeHolder;
-  Icon? icon;
-  bool isRequired;
-  bool isMultipleChoice;
-  bool isMultiSelect;
-  bool isText;
-  bool isNumber;
-  List<String>? options;
-  List<String>? values;
+  final String questionFull;
+  final String? questionLabel;
+  final String? placeHolder;
+  final Icon? icon;
+  final bool isRequired;
+  final bool isMultipleChoice;
+  final bool isMultiSelect;
+  final bool isText;
+  final bool isNumber;
+  final List<String>? options;
+  final List<String>? values;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
 
-  Widget renderQuestion(BuildContext context, TextEditingController controller,
-      String? Function(String?)? validator) {
+  @override
+  State<Question> createState() => _QuestionState();
+}
+
+class _QuestionState extends State<Question> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
           child: Text(
-            questionFull,
+            widget.questionFull,
             style: GoogleFonts.raleway(
               textStyle: Theme.of(context).textTheme.titleLarge,
             ),
@@ -43,16 +53,21 @@ class Question {
           ),
         ),
         const Divider(),
-        if (isText) ...[
+        const SizedBox(
+          height: 16,
+        ),
+        if (widget.isText) ...[
           TextFormField(
-            keyboardType: TextInputType.name,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
+            maxLines: null,
             style: GoogleFonts.raleway(),
-            controller: controller,
-            validator: validator,
+            controller: widget.controller,
+            validator: widget.validator,
             decoration: InputDecoration(
-              labelText: questionLabel,
-              prefixIcon: icon,
-              hintText: placeHolder,
+              labelText: widget.questionLabel,
+              prefixIcon: widget.icon,
+              hintText: widget.placeHolder,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
@@ -76,16 +91,16 @@ class Question {
               labelStyle: GoogleFonts.raleway(),
             ),
           ),
-        ] else if (isNumber) ...[
+        ] else if (widget.isNumber) ...[
           TextFormField(
             keyboardType: TextInputType.number,
             style: GoogleFonts.sourceCodePro(),
-            controller: controller,
-            validator: validator,
+            controller: widget.controller,
+            validator: widget.validator,
             decoration: InputDecoration(
-              labelText: questionLabel,
-              prefixIcon: icon,
-              hintText: placeHolder,
+              labelText: widget.questionLabel,
+              prefixIcon: widget.icon,
+              hintText: widget.placeHolder,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
@@ -109,36 +124,42 @@ class Question {
               labelStyle: GoogleFonts.raleway(),
             ),
           ),
-        ] else if (isMultipleChoice) ...[
-          for (int i = 0; i < options!.length; i++)
+        ] else if (widget.isMultipleChoice) ...[
+          for (int i = 0; i < widget.options!.length; i++)
             RadioListTile(
               title: Text(
-                options![i],
+                widget.options![i],
                 style: GoogleFonts.raleway(
                   textStyle: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
-              value: values![i],
-              groupValue: controller.text,
+              value: widget.values![i],
+              groupValue: widget.controller.text,
               onChanged: (String? value) {
-                controller.text = value!;
+                setState(() {
+                  widget.controller.text = value!;
+                });
               },
             ),
-        ] else if (isMultiSelect) ...[
-          for (int i = 0; i < options!.length; i++)
+        ] else if (widget.isMultiSelect) ...[
+          for (int i = 0; i < widget.options!.length; i++)
             CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
               title: Text(
-                options![i],
+                widget.options![i],
                 style: GoogleFonts.raleway(),
               ),
-              value: controller.text.contains(values![i]),
+              value: widget.controller.text.contains(widget.values![i]),
               onChanged: (bool? value) {
                 if (value!) {
-                  controller.text += "${values![i]},";
+                  setState(() {
+                    widget.controller.text += "${widget.values![i]},";
+                  });
                 } else {
-                  controller.text =
-                      controller.text.replaceAll("${values![i]},", "");
+                  setState(() {
+                    widget.controller.text = widget.controller.text
+                        .replaceAll("${widget.values![i]},", "");
+                  });
                 }
               },
             ),

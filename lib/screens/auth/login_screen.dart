@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/auth/otp_login.dart';
 import 'package:eperimetry_vtwo/screens/auth/register_screen.dart';
@@ -8,6 +10,7 @@ import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -59,6 +62,19 @@ class _LoginScreenState extends State<LoginScreen> {
       showToast("Something went wrong. Please try again later");
       return "0";
     }
+  }
+
+  @override
+  void initState() {
+    SharedPreferences.getInstance().then((sp) {
+      if (sp.containsKey("currentUser")) {
+        final user = jsonDecode(sp.getString("currentUser")!);
+        setState(() {
+          userEmailController.text = user["userEmail"]!;
+        });
+      }
+    });
+    super.initState();
   }
 
   @override
