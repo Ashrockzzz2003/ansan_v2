@@ -87,6 +87,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
             );
 
             sp.setString("currentUser", user.toJson());
+            sp.setString("userEmail", userData["userEmail"].toString());
           }
         });
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eperimetry_vtwo/screens/user/family_members_screen.dart';
 import 'package:eperimetry_vtwo/screens/user/new_member_screen.dart';
 import 'package:eperimetry_vtwo/screens/user/survey_l1.dart';
 import 'package:eperimetry_vtwo/screens/user/user_profile.dart';
@@ -72,7 +73,9 @@ class _UserScreenState extends State<UserScreen> {
                     IconButton(
                       onPressed: () {
                         SharedPreferences.getInstance().then((sp) {
+                          final userEmail = sp.getString("userEmail");
                           sp.clear();
+                          sp.setString("userEmail", userEmail!);
                         });
                         Navigator.of(context).pushAndRemoveUntil(
                             CupertinoPageRoute(builder: (context) {
@@ -311,6 +314,11 @@ class _UserScreenState extends State<UserScreen> {
                                       ElevatedButton.icon(
                                         onPressed: () {
                                           // TODO: redirect to all members.
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute(
+                                                  builder: (context) {
+                                            return const FamilyMembersScreen();
+                                          }));
                                         },
                                         style: ElevatedButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
@@ -483,30 +491,72 @@ class _UserScreenState extends State<UserScreen> {
                                               onPressed: () {
                                                 // Show user patientId ask them to reach out to nearest eye hospital and get the test done.
                                                 showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return Dialog(
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      16.0,
-                                                                  vertical:
-                                                                      16.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Text(
-                                                                "Patient ID",
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Dialog(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                    16.0,
+                                                                vertical: 16.0),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              "Patient ID",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: GoogleFonts
+                                                                  .raleway(
+                                                                textStyle: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .titleLarge,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            const Divider(),
+                                                            const SizedBox(
+                                                              height: 16,
+                                                            ),
+                                                            Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          16.0,
+                                                                      vertical:
+                                                                          16.0),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            16.0),
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primaryContainer
+                                                                    .withOpacity(
+                                                                        0.2),
+                                                              ),
+                                                              child: Text(
+                                                                "${user!["patientId"]}",
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -520,64 +570,67 @@ class _UserScreenState extends State<UserScreen> {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
                                                                 ),
                                                               ),
-                                                              const SizedBox(
-                                                                height: 8,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 16,
+                                                            ),
+                                                            Text(
+                                                              "Please reach out to your nearest eye hospital and get the test done. Share your patient ID displayed above with them.",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: GoogleFonts
+                                                                  .raleway(
+                                                                textStyle: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .titleSmall,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
                                                               ),
-                                                              const Divider(),
-                                                              const SizedBox(
-                                                                height: 16,
-                                                              ),
-                                                              Container(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        16.0,
-                                                                    vertical:
-                                                                        16.0),
-                                                                decoration:
-                                                                    BoxDecoration(
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 16,
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .symmetric(
+                                                                  horizontal:
+                                                                      16.0,
+                                                                  vertical:
+                                                                      16.0,
+                                                                ),
+                                                                backgroundColor:
+                                                                    Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                shape:
+                                                                    RoundedRectangleBorder(
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
                                                                               16.0),
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primaryContainer
-                                                                      .withOpacity(
-                                                                          0.2),
-                                                                ),
-                                                                child: Text(
-                                                                  "${user!["patientId"]}",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: GoogleFonts
-                                                                      .raleway(
-                                                                    textStyle: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .titleLarge,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .colorScheme
-                                                                        .primary,
-                                                                  ),
                                                                 ),
                                                               ),
-                                                              const SizedBox(
-                                                                height: 16,
-                                                              ),
-                                                              Text(
-                                                                "Please reach out to your nearest eye hospital and get the test done. Share your patient ID displayed above with them.",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
+                                                              child: Text(
+                                                                "Okay",
                                                                 style:
                                                                     GoogleFonts
                                                                         .raleway(
@@ -585,64 +638,22 @@ class _UserScreenState extends State<UserScreen> {
                                                                           context)
                                                                       .textTheme
                                                                       .titleSmall,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 16,
-                                                              ),
-                                                              ElevatedButton(
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                                style: ElevatedButton
-                                                                    .styleFrom(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .symmetric(
-                                                                    horizontal:
-                                                                        16.0,
-                                                                    vertical:
-                                                                        16.0,
-                                                                  ),
-                                                                  backgroundColor: Theme.of(
+                                                                  color: Theme.of(
                                                                           context)
                                                                       .colorScheme
-                                                                      .primary,
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            16.0),
-                                                                  ),
-                                                                ),
-                                                                child: Text(
-                                                                  "Okay",
-                                                                  style: GoogleFonts
-                                                                      .raleway(
-                                                                    textStyle: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .titleSmall,
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .colorScheme
-                                                                        .onPrimary,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
+                                                                      .onPrimary,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      );
-                                                    });
+                                                      ),
+                                                    );
+                                                  },
+                                                );
                                               },
                                               style: ElevatedButton.styleFrom(
                                                 padding:

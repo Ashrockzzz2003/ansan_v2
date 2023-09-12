@@ -9,4 +9,5 @@ class Constants {
 
   String get addNewFamilyMemberUrl => "$baseUrl/addMember";
   String get takeSurvey15aUrl => "$baseUrl/takeSurvey";
+  String get allFamilyMembersUrl => "$baseUrl/getMembers";
 }

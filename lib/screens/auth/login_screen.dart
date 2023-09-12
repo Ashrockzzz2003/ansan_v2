@@ -67,10 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     SharedPreferences.getInstance().then((sp) {
-      if (sp.containsKey("currentUser")) {
-        final user = jsonDecode(sp.getString("currentUser")!);
+      if (sp.containsKey("userEmail")) {
+        final userEmail = sp.getString("userEmail");
         setState(() {
-          userEmailController.text = user["userEmail"]!;
+          userEmailController.text = userEmail!;
         });
       }
     });

@@ -415,21 +415,6 @@ class _UserSurveyLevelOneScreenState extends State<UserSurveyLevelOneScreen> {
 
     final dio = Dio();
 
-    /*
-    req.body.height == null ||
-    req.body.weight == null ||
-    req.body.covidVaccination == null ||
-    req.body.anyAllergies == null ||
-    req.body.allergies == null ||
-    req.body.symptoms == null ||
-    req.body.symptomDuration == null ||
-    req.body.injury == null ||
-    req.body.medication == null ||
-    req.body.medicalHistory == null ||
-    req.body.consumptions == null ||
-    req.body.familyHistory == null ||
-    */
-
     final sp = await SharedPreferences.getInstance();
     final Map<String, dynamic>? user = jsonDecode(sp.getString("currentUser")!);
     final String? secretToken = sp.getString("SECRET_TOKEN");

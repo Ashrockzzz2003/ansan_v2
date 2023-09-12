@@ -87,6 +87,7 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
             );
 
             sp.setString("currentUser", user.toJson());
+            sp.setString("userEmail", userData["userEmail"].toString());
           }
         });
 
