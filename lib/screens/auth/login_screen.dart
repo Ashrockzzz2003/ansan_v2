@@ -1,13 +1,13 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/auth/otp_login.dart';
 import 'package:eperimetry_vtwo/screens/auth/register_screen.dart';
+import 'package:eperimetry_vtwo/screens/auth/verify_account.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return null;
   }
 
+  late final String verifyToken;
+
   Future<String> _moveToOtp() async {
     final dio = Dio();
 
@@ -49,6 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.statusCode == 200) {
         final otpToken = response.data["SECRET_TOKEN"];
         showToast("OTP sent to your email address");
+
+        if (response.data["message"] == "Verify Manager") {
+          setState(() {
+            verifyToken = response.data["SECRET_TOKEN"];
+          });
+          return "1";
+        }
+
         return otpToken;
       } else {
         if (response.data["message"] != null) {
@@ -59,9 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
         return "0";
       }
     } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
       showToast("Something went wrong. Please try again later");
       return "0";
     }
+
+
   }
 
   @override
@@ -221,6 +236,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       setState(() {
                                         isLoading = false;
                                       });
+                                    } else if (value == "1") {
+                                      Navigator.of(context).push(
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              VerifyAccountScreen(
+                                                  secretToken:
+                                                      verifyToken.toString(),
+                                                  userEmail: userEmailController
+                                                      .text
+                                                      .trim()),
+                                        ),
+                                      );
                                     } else {
                                       Navigator.of(context).push(
                                         CupertinoPageRoute(

@@ -1,6 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:eperimetry_vtwo/model/manager.dart';
 import 'package:eperimetry_vtwo/model/user.dart';
+import 'package:eperimetry_vtwo/screens/admin/admin_screen.dart';
 import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
+import 'package:eperimetry_vtwo/screens/doctor/doctor_screen.dart';
+import 'package:eperimetry_vtwo/screens/frontline_worker/flwrkr_screen.dart';
+import 'package:eperimetry_vtwo/screens/hospital_head/hshead_screen.dart';
 import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
@@ -88,10 +93,73 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
 
             sp.setString("currentUser", user.toJson());
             sp.setString("userEmail", userData["userEmail"].toString());
+          } else if (response.data["role"] == "ADMINISTRATOR") {
+            final Manager manager = Manager(
+              managerId: userData["managerId"].toString(),
+              phoneNumber: userData["phoneNumber"].toString(),
+              managerName: userData["managerName"].toString(),
+              userEmail: userData["userEmail"].toString(),
+              officeName: userData["officeName"].toString(),
+              role: response.data["role"].toString(),
+            );
+
+            sp.setString("currentUser", manager.toJson());
+            sp.setString("userEmail", userData["userEmail"].toString());
+          } else if (response.data["role"] == "HSPHEAD") {
+            final Manager manager = Manager(
+              managerId: userData["managerId"].toString(),
+              phoneNumber: userData["phoneNumber"].toString(),
+              managerName: userData["managerName"].toString(),
+              userEmail: userData["userEmail"].toString(),
+              officeName: userData["officeName"].toString(),
+              role: response.data["role"].toString(),
+            );
+
+            sp.setString("currentUser", manager.toJson());
+            sp.setString("userEmail", userData["userEmail"].toString());
+          } else if (response.data["role"] == "DOCTOR") {
+            final Manager manager = Manager(
+              managerId: userData["managerId"].toString(),
+              phoneNumber: userData["phoneNumber"].toString(),
+              managerName: userData["managerName"].toString(),
+              userEmail: userData["userEmail"].toString(),
+              officeName: userData["officeName"].toString(),
+              role: response.data["role"].toString(),
+            );
+
+            sp.setString("currentUser", manager.toJson());
+            sp.setString("userEmail", userData["userEmail"].toString());
+          } else if (response.data["role"] == "FRONTLINEWORKER") {
+            final Manager manager = Manager(
+              managerId: userData["managerId"].toString(),
+              phoneNumber: userData["phoneNumber"].toString(),
+              managerName: userData["managerName"].toString(),
+              userEmail: userData["userEmail"].toString(),
+              officeName: userData["officeName"].toString(),
+              role: response.data["role"].toString(),
+            );
+
+            sp.setString("currentUser", manager.toJson());
+            sp.setString("userEmail", userData["userEmail"].toString());
+          } else {
+            showToast("Something went wrong. Please try again later.");
           }
         });
 
-        return "1";
+        if (response.data["role"] == "USER") {
+          return "1";
+        } else if (response.data["role"] == "ADMINISTRATOR") {
+          return "2";
+        } else if (response.data["role"] == "HSPHEAD") {
+          return "3";
+        } else if (response.data["role"] == "DOCTOR") {
+          return "4";
+        } else if (response.data["role"] == "FRONTLINEWORKER") {
+          return "5";
+        } else {
+          showToast("Something went wrong. Please try again later.");
+          return "0";
+        }
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
         return "0";
@@ -168,7 +236,7 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
                           filterQuality: FilterQuality.high,
                         ),
                         Text(
-                          "Please enter the OTP received on your EmailID ${widget.userEmail}",
+                          "Please enter the OTP received on your email-ID ${widget.userEmail}",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.raleway(
                             textStyle: Theme.of(context).textTheme.titleMedium,
@@ -232,7 +300,34 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
                                               builder: (context) {
                                         return const UserScreen();
                                       }), (route) => false);
-
+                                    } else if (value == "2") {
+                                      showToast("OTP verified successfully.");
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const AdminScreen();
+                                      }), (route) => false);
+                                    } else if (value == "3") {
+                                      showToast("OTP verified successfully.");
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const HsHeadScreen();
+                                      }), (route) => false);
+                                    } else if (value == "4") {
+                                      showToast("OTP verified successfully.");
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const DoctorScreen();
+                                      }), (route) => false);
+                                    } else if (value == "5") {
+                                      showToast("OTP verified successfully.");
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const FrontLineWorkerScreen();
+                                      }), (route) => false);
                                     } else if (value == "-1") {
                                       showToast(
                                           "OTP expired. Please try again.");

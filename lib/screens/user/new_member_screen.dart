@@ -22,14 +22,6 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
   bool isLoading = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  /*
-  {
-    ”userName” : “Member1”,
-    ”gender” : “M”,
-    ”dob” : "2002-12-27",
-    ”aadhar” : “321321321321”
-  }
-  */
 
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
