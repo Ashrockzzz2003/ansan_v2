@@ -191,7 +191,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           controller: TextEditingController(
                               text: user!["gender"] == "M"
                                   ? "Male"
-                                  : "Female" ?? ""),
+                                  : "Female"),
                           decoration: InputDecoration(
                             prefixIcon: user!["gender"] == "M"
                                 ? const Icon(Icons.male_rounded)
@@ -219,7 +219,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         TextField(
                           controller: TextEditingController(
-                            text: user!["dob"].toString().split("T")[0] ?? "",
+                            text: user!["dob"].toString().split("T")[0],
                           ),
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.date_range_rounded),

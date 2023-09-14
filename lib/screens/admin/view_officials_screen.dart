@@ -219,7 +219,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
         return "-1";
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       showToast("Something went wrong. Please try again later.");
       return "0";
     }
@@ -281,87 +283,84 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                             height: 24,
                           ),
                           Container(
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.1),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(16.0),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text(
-                                      "No registered officials added by you!",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.raleway(
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError,
-                                      ),
-                                    ),
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.error,
+                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  const Divider(),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    "You can add registered Officials by clicking the button below.",
+                                  child: Text(
+                                    "No registered officials added by you!",
                                     textAlign: TextAlign.center,
+                                    style: GoogleFonts.raleway(
+                                      fontWeight: FontWeight.w500,
+                                      color:
+                                          Theme.of(context).colorScheme.onError,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                const Divider(),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  "You can add registered Officials by clicking the button below.",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway(
+                                    textStyle:
+                                        Theme.of(context).textTheme.titleSmall,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(builder: (context) {
+                                      return const NewOfficialScreen();
+                                    }));
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  minWidth:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24.0, vertical: 10.0),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  child: Text(
+                                    "New Official",
                                     style: GoogleFonts.raleway(
                                       textStyle: Theme.of(context)
                                           .textTheme
-                                          .titleSmall,
+                                          .titleLarge,
                                       fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute(
-                                              builder: (context) {
-                                        return const NewOfficialScreen();
-                                      }));
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    minWidth:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0, vertical: 10.0),
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    child: Text(
-                                      "New Official",
-                                      style: GoogleFonts.raleway(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ))
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                         // build a list view with patient id as avatar and patient name as title
                         ListView.builder(

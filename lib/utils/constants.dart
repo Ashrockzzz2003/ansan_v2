@@ -19,4 +19,6 @@ class Constants {
   String get registerOfficialUrl => "$baseUrl/registerOfficial";
   String get allOfficialsUrl => "$baseUrl/getRegisteredUsers";
   String get toggleOfficialStatusUrl => "$baseUrl/toggleStatus";
+  String get registerPatientUrl => "$baseUrl/addPatient";
+  String get getPatientUrl => "$baseUrl/getPatient";
 }

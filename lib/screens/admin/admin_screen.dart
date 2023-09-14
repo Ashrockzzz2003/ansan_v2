@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:eperimetry_vtwo/screens/admin/admin_profile_screen.dart';
 import 'package:eperimetry_vtwo/screens/admin/new_official_screen.dart';
+import 'package:eperimetry_vtwo/screens/admin/new_patient_admin.dart';
 import 'package:eperimetry_vtwo/screens/admin/view_officials_screen.dart';
+import 'package:eperimetry_vtwo/screens/admin/view_patient_admin.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +23,9 @@ class _AdminScreenState extends State<AdminScreen> {
   bool isLoading = true;
 
   Map<String, dynamic>? admin;
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -230,6 +235,162 @@ class _AdminScreenState extends State<AdminScreen> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Card(
+                            borderOnForeground: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 16.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Manage Patients",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.raleway(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  const Divider(),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Form(
+                                    key: _formKey,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      style: GoogleFonts.sourceCodePro(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall),
+                                      controller: _searchController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid Patient ID";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        labelText: "Patient ID",
+                                        suffixIcon: IconButton(
+                                            icon: const Icon(
+                                                Icons.search_rounded),
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                Navigator.of(context).push(
+                                                    CupertinoPageRoute(
+                                                        builder: (context) {
+                                                  return ViewPatientAdmin(
+                                                    patientId:
+                                                        _searchController.text.trim().toString(),
+                                                  );
+                                                }));
+                                              }
+                                            }),
+                                        hintText:
+                                            "Search patient by Patient ID",
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimaryContainer),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimaryContainer),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onErrorContainer),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onErrorContainer),
+                                        ),
+                                        labelStyle: GoogleFonts.raleway(),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        // TODO: redirect to add new Member.
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return const NewPatientAdminScreen();
+                                        }));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                          vertical: 16.0,
+                                        ),
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.medical_services_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
+                                      label: Text(
+                                        "New Patient",
+                                        style: GoogleFonts.raleway(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

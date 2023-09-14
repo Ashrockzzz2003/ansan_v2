@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/model/question.dart';
 import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
@@ -418,7 +416,6 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
     final dio = Dio();
 
     final sp = await SharedPreferences.getInstance();
-    final Map<String, dynamic>? user = jsonDecode(sp.getString("currentUser")!);
     final String? secretToken = sp.getString("SECRET_TOKEN");
 
     if (secretToken == null) {

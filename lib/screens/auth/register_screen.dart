@@ -82,8 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? _aadharValidator(String? value) {
-    if (aadharMaskFormatter.getUnmaskedText() == null ||
-        aadharMaskFormatter.getUnmaskedText().isEmpty) {
+    if (aadharMaskFormatter.getUnmaskedText().isEmpty) {
       return "Please enter your Aadhar number";
     } else if (!RegExp(r"^[0-9]{12}$")
         .hasMatch(aadharMaskFormatter.getUnmaskedText())) {
@@ -93,8 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? _pincodeValidator(String? value) {
-    if (pincodeMaskFormatter.getUnmaskedText() == null ||
-        pincodeMaskFormatter.getUnmaskedText().isEmpty) {
+    if (pincodeMaskFormatter.getUnmaskedText().isEmpty) {
       return "Please enter your pincode";
     } else if (!RegExp(r"^[0-9]{6}$")
         .hasMatch(pincodeMaskFormatter.getUnmaskedText())) {
