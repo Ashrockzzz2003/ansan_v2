@@ -68,7 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => const RegisterScreen()));
+                                builder: (context) => const LoginScreen()));
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -78,7 +78,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           horizontal: 24.0, vertical: 10.0),
                       color: Theme.of(context).colorScheme.secondary,
                       child: Text(
-                        "Register",
+                        "Login",
                         style: GoogleFonts.raleway(
                           textStyle: Theme.of(context).textTheme.titleLarge,
                           fontWeight: FontWeight.w500,
@@ -134,7 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => const LoginScreen()));
+                                builder: (context) => const RegisterScreen()));
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -144,7 +144,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           horizontal: 24.0, vertical: 10.0),
                       color: Theme.of(context).colorScheme.secondary,
                       child: Text(
-                        "Login",
+                        "Register",
                         style: GoogleFonts.raleway(
                           textStyle: Theme.of(context).textTheme.titleLarge,
                           fontWeight: FontWeight.w500,

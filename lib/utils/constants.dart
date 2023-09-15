@@ -14,6 +14,10 @@ class Constants {
   // Management
   String get verifyManagerDetailsUrl => "$baseUrl/verifyManagerDetails";
   String get editManagerDetailsUrl => "$baseUrl/editManagementData";
+  String get predictGlaucomaUrl => "$baseUrl/predictGlaucoma";
+  String get allPatientReportsUrl => "$baseUrl/getReportId";
+  String get getReportUrl => "$baseUrl/getReportData";
+  String get downloadReportUrl => "$baseUrl/downloadReport";
 
   // ADMIN
   String get registerOfficialUrl => "$baseUrl/registerOfficial";

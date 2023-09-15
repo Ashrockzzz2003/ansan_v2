@@ -44,6 +44,8 @@ dependencies:
   mask_text_input_formatter: ^2.5.0
   pinput: ^3.0.1
   im_stepper: ^1.0.1+1
+  image_picker: ^1.0.4
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

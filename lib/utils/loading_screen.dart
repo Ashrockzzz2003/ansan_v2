@@ -20,7 +20,7 @@ class LoadingScreen extends StatelessWidget {
             Text(
               message ?? "Loading...",
               textAlign: TextAlign.center,
-              style: GoogleFonts.raleway(
+              style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                     fontSize: 16,
                   )),

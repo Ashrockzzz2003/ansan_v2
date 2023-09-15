@@ -590,7 +590,7 @@ class _Questionnaire15cScreenState extends State<Questionnaire15cScreen> {
         },
       );
 
-      if(kDebugMode) {
+      if (kDebugMode) {
         print(response.data);
       }
 

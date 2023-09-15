@@ -41,8 +41,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
           .get(
         Constants().allOfficialsUrl,
         options: Options(
-            headers: {"Authorization": "Bearer $secretToken"},
-            validateStatus: (status) => status! < 500),
+          headers: {"Authorization": "Bearer $secretToken"},
+          validateStatus: (status) => status! < 500,
+        ),
       )
           .then((response) {
         if (response.statusCode == 200) {
@@ -1127,96 +1128,166 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                   const SizedBox(
                                                     height: 24,
                                                   ),
-                                                  DropdownButtonFormField(
-                                                    value: role,
-                                                    items: <DropdownMenuItem<
-                                                        String>>[
-                                                      DropdownMenuItem(
-                                                        value: "DOC",
-                                                        child: Text(
-                                                          "Doctor",
-                                                          style: GoogleFonts
-                                                              .raleway(),
+                                                  if (role != "ADMIN") ...[
+                                                    DropdownButtonFormField(
+                                                      value: role,
+                                                      items: <DropdownMenuItem<
+                                                          String>>[
+                                                        DropdownMenuItem(
+                                                          value: "DOC",
+                                                          child: Text(
+                                                            "Doctor",
+                                                            style: GoogleFonts
+                                                                .raleway(),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        value: "FLWRKR",
-                                                        child: Text(
-                                                          "Frontline Worker",
-                                                          style: GoogleFonts
-                                                              .raleway(),
+                                                        DropdownMenuItem(
+                                                          value: "FLWRKR",
+                                                          child: Text(
+                                                            "Frontline Worker",
+                                                            style: GoogleFonts
+                                                                .raleway(),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        value: "HSHEAD",
-                                                        child: Text(
-                                                          "Hospital Head",
-                                                          style: GoogleFonts
-                                                              .raleway(),
+                                                        DropdownMenuItem(
+                                                          value: "HSHEAD",
+                                                          child: Text(
+                                                            "Hospital Head",
+                                                            style: GoogleFonts
+                                                                .raleway(),
+                                                          ),
                                                         ),
+                                                      ],
+                                                      validator: _fieldValidator,
+                                                      decoration: InputDecoration(
+                                                        labelText: "Role",
+                                                        prefixIcon: const Icon(Icons
+                                                            .verified_user_rounded),
+                                                        enabledBorder:
+                                                        OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                  context)
+                                                                  .colorScheme
+                                                                  .onPrimaryContainer),
+                                                        ),
+                                                        focusedBorder:
+                                                        OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                  context)
+                                                                  .colorScheme
+                                                                  .onPrimaryContainer),
+                                                        ),
+                                                        errorBorder:
+                                                        OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                  context)
+                                                                  .colorScheme
+                                                                  .onErrorContainer),
+                                                        ),
+                                                        focusedErrorBorder:
+                                                        OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                  context)
+                                                                  .colorScheme
+                                                                  .onErrorContainer),
+                                                        ),
+                                                        labelStyle:
+                                                        GoogleFonts.raleway(),
                                                       ),
-                                                    ],
-                                                    validator: _fieldValidator,
-                                                    decoration: InputDecoration(
-                                                      labelText: "Role",
-                                                      prefixIcon: const Icon(Icons
-                                                          .verified_user_rounded),
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        borderSide: BorderSide(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .onPrimaryContainer),
-                                                      ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        borderSide: BorderSide(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .onPrimaryContainer),
-                                                      ),
-                                                      errorBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        borderSide: BorderSide(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .onErrorContainer),
-                                                      ),
-                                                      focusedErrorBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        borderSide: BorderSide(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .onErrorContainer),
-                                                      ),
-                                                      labelStyle:
-                                                          GoogleFonts.raleway(),
+                                                      onChanged: (String? value) {
+                                                        setState(() {
+                                                          role = value;
+                                                        });
+                                                      },
                                                     ),
-                                                    onChanged: (String? value) {
-                                                      setState(() {
-                                                        role = value;
-                                                      });
-                                                    },
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 24,
-                                                  ),
+                                                    const SizedBox(
+                                                      height: 24,
+                                                    ),
+                                                  ] else ...[
+                                                    // ReadOnly text field telling he's ADMIN
+                                                    TextFormField(
+                                                      keyboardType:
+                                                          TextInputType.name,
+                                                      style: GoogleFonts
+                                                          .sourceCodePro(),
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: "ADMIN"),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText: "Role",
+                                                        prefixIcon: const Icon(
+                                                            Icons
+                                                                .verified_user_rounded),
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onPrimaryContainer),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onPrimaryContainer),
+                                                        ),
+                                                        errorBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onErrorContainer),
+                                                        ),
+                                                        focusedErrorBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          borderSide: BorderSide(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onErrorContainer),
+                                                        ),
+                                                        labelStyle:
+                                                            GoogleFonts.raleway(),
+                                                      ),
+                                                      readOnly: true,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 24,
+                                                    ),
+                                                  ],
                                                   MaterialButton(
                                                     onPressed: () {
                                                       if (_formKey.currentState!

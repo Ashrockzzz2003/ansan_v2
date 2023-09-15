@@ -301,8 +301,10 @@ class _AdminScreenState extends State<AdminScreen> {
                                                     CupertinoPageRoute(
                                                         builder: (context) {
                                                   return ViewPatientAdmin(
-                                                    patientId:
-                                                        _searchController.text.trim().toString(),
+                                                    patientId: _searchController
+                                                        .text
+                                                        .trim()
+                                                        .toString(),
                                                   );
                                                 }));
                                               }
