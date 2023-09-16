@@ -46,6 +46,10 @@ dependencies:
   im_stepper: ^1.0.1+1
   image_picker: ^1.0.4
   http_parser: ^4.0.2
+  path_provider: ^2.1.1
+  file_saver: ^0.2.8
+  url_launcher: ^6.1.14
+  permission_handler: ^11.0.0
 
 dev_dependencies:
   flutter_test:

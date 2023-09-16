@@ -51,5 +51,10 @@
 	<string>This app requires access to the camera.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>This app requires access to the microphone.</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>sms</string>
+      <string>tel</string>
+    </array>
 </dict>
 </plist>

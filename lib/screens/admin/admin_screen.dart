@@ -277,6 +277,16 @@ class _AdminScreenState extends State<AdminScreen> {
                                   Form(
                                     key: _formKey,
                                     child: TextFormField(
+                                      textInputAction: TextInputAction.search,
+                                      onFieldSubmitted: (value) {
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return ViewPatientAdmin(
+                                            patientId: value.trim().toString(),
+                                          );
+                                        }));
+                                      },
                                       keyboardType: TextInputType.number,
                                       style: GoogleFonts.sourceCodePro(
                                           textStyle: Theme.of(context)
@@ -290,10 +300,13 @@ class _AdminScreenState extends State<AdminScreen> {
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        labelText: "Patient ID",
+                                        labelText:
+                                            "Search patient by Patient ID",
                                         suffixIcon: IconButton(
-                                            icon: const Icon(
-                                                Icons.search_rounded),
+                                            icon: Icon(Icons.search_rounded,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
                                             onPressed: () {
                                               if (_formKey.currentState!
                                                   .validate()) {
@@ -309,8 +322,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                                 }));
                                               }
                                             }),
-                                        hintText:
-                                            "Search patient by Patient ID",
+                                        hintText: "Please enter the Patient ID",
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(16),
@@ -355,7 +367,6 @@ class _AdminScreenState extends State<AdminScreen> {
                                         MediaQuery.of(context).size.width * 0.9,
                                     child: ElevatedButton.icon(
                                       onPressed: () {
-                                        // TODO: redirect to add new Member.
                                         Navigator.of(context).push(
                                             CupertinoPageRoute(
                                                 builder: (context) {

@@ -4,6 +4,7 @@ import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -110,7 +111,9 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
         return "-1";
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       showToast("Something went wrong. Please try again later.");
       return "0";
     }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/admin/view_patient_admin.dart';
+import 'package:eperimetry_vtwo/screens/admin/view_report_admin.dart';
 import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
@@ -38,6 +39,8 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
   List<File?> imageFiles = List.generate(4, (index) => null);
   List<ImagePicker?>? imagePickers;
 
+  String? reportId;
+
   List<String> questionList = [
     "Please take/upload 1st image of Left Eye",
     "Please take/upload 2nd image of Left Eye",
@@ -69,6 +72,16 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
       isLoading = false;
     });
     super.initState();
+  }
+
+  void _cameraPermissionInitState() {
+    if (kIsWeb) {
+      return;
+    }
+
+    if (Platform.isAndroid) {
+
+    }
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -451,9 +464,14 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
         data: formData,
       );
 
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
 
       if (response.statusCode == 200) {
+        setState(() {
+          reportId = response.data["reportId"];
+        });
         showToast("Report processed successfully!");
         return "1";
       } else if (response.statusCode == 401) {
@@ -494,7 +512,8 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                     if (value == "1") {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(builder: (context) {
-                        return ViewPatientAdmin(patientId: widget.patientId);
+                        return ViewReportAdminScreen(
+                            patientId: widget.patientId, reportId: reportId!);
                       }), (route) => false);
                     } else if (value == "-1") {
                       Navigator.of(context).pushAndRemoveUntil(

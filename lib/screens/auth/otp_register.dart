@@ -7,6 +7,7 @@ import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
@@ -99,14 +100,18 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         showToast("Session Expired. Try again!");
         return "0";
       } else if (response.statusCode == 404) {
-        print(response);
+        if (kDebugMode) {
+          print(response);
+        }
         showToast("Invalid OTP. Please try again!");
       } else {
         showToast("Something went wrong. Please try again later.");
         return "0";
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       showToast("Something went wrong. Please try again later.");
     }
 

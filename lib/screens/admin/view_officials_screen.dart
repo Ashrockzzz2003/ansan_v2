@@ -56,7 +56,15 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                   "managerName": familyMember["managerName"],
                   "userEmail": familyMember["userEmail"],
                   "officeName": familyMember["officeName"],
-                  "role": familyMember["roleId"],
+                  "role": familyMember["roleId"] == "ADMIN"
+                      ? "Administrator"
+                      : familyMember["roleId"] == "HSHEAD"
+                          ? "Hospital Head"
+                          : familyMember["roleId"] == "FLWRKR"
+                              ? "Frontline Worker"
+                              : familyMember["roleId"] == "DOC"
+                                  ? "Doctor"
+                                  : "Unknown",
                   "status": familyMember["status"],
                 });
               });
@@ -474,6 +482,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                         useSafeArea: true,
                                         isDismissible: true,
                                         showDragHandle: true,
+                                        isScrollControlled: true,
                                         builder: (context) {
                                           return SingleChildScrollView(
                                             padding: const EdgeInsets.symmetric(
@@ -807,6 +816,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                         useSafeArea: true,
                                         isDismissible: true,
                                         showDragHandle: true,
+                                        isScrollControlled: true,
                                         builder: (context) {
                                           return SingleChildScrollView(
                                             padding: const EdgeInsets.symmetric(
@@ -1128,9 +1138,22 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                   const SizedBox(
                                                     height: 24,
                                                   ),
-                                                  if (role != "ADMIN") ...[
+                                                  if (role !=
+                                                      "Administrator") ...[
                                                     DropdownButtonFormField(
-                                                      value: role,
+                                                      value: role ==
+                                                              "Administrator"
+                                                          ? "ADMIN"
+                                                          : role ==
+                                                                  "Hospital Head"
+                                                              ? "HSHEAD"
+                                                              : role ==
+                                                                      "Frontline Worker"
+                                                                  ? "FLWRKR"
+                                                                  : role ==
+                                                                          "Doctor"
+                                                                      ? "DOC"
+                                                                      : "USR",
                                                       items: <DropdownMenuItem<
                                                           String>>[
                                                         DropdownMenuItem(
@@ -1158,59 +1181,62 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                           ),
                                                         ),
                                                       ],
-                                                      validator: _fieldValidator,
-                                                      decoration: InputDecoration(
+                                                      validator:
+                                                          _fieldValidator,
+                                                      decoration:
+                                                          InputDecoration(
                                                         labelText: "Role",
                                                         prefixIcon: const Icon(Icons
                                                             .verified_user_rounded),
                                                         enabledBorder:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(8),
+                                                              BorderRadius
+                                                                  .circular(8),
                                                           borderSide: BorderSide(
                                                               color: Theme.of(
-                                                                  context)
+                                                                      context)
                                                                   .colorScheme
                                                                   .onPrimaryContainer),
                                                         ),
                                                         focusedBorder:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(8),
+                                                              BorderRadius
+                                                                  .circular(8),
                                                           borderSide: BorderSide(
                                                               color: Theme.of(
-                                                                  context)
+                                                                      context)
                                                                   .colorScheme
                                                                   .onPrimaryContainer),
                                                         ),
                                                         errorBorder:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(8),
+                                                              BorderRadius
+                                                                  .circular(8),
                                                           borderSide: BorderSide(
                                                               color: Theme.of(
-                                                                  context)
+                                                                      context)
                                                                   .colorScheme
                                                                   .onErrorContainer),
                                                         ),
                                                         focusedErrorBorder:
-                                                        OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(8),
+                                                              BorderRadius
+                                                                  .circular(8),
                                                           borderSide: BorderSide(
                                                               color: Theme.of(
-                                                                  context)
+                                                                      context)
                                                                   .colorScheme
                                                                   .onErrorContainer),
                                                         ),
-                                                        labelStyle:
-                                                        GoogleFonts.raleway(),
+                                                        labelStyle: GoogleFonts
+                                                            .raleway(),
                                                       ),
-                                                      onChanged: (String? value) {
+                                                      onChanged:
+                                                          (String? value) {
                                                         setState(() {
                                                           role = value;
                                                         });
@@ -1232,9 +1258,8 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                       decoration:
                                                           InputDecoration(
                                                         labelText: "Role",
-                                                        prefixIcon: const Icon(
-                                                            Icons
-                                                                .verified_user_rounded),
+                                                        prefixIcon: const Icon(Icons
+                                                            .verified_user_rounded),
                                                         enabledBorder:
                                                             OutlineInputBorder(
                                                           borderRadius:
@@ -1279,8 +1304,8 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                                   .colorScheme
                                                                   .onErrorContainer),
                                                         ),
-                                                        labelStyle:
-                                                            GoogleFonts.raleway(),
+                                                        labelStyle: GoogleFonts
+                                                            .raleway(),
                                                       ),
                                                       readOnly: true,
                                                     ),
@@ -1404,7 +1429,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                     ),
                                   ),
                                   if (familyMembers[index]["status"] ==
-                                      "ACTIVE") ...[
+                                          "ACTIVE" &&
+                                      familyMembers[index]["role"] !=
+                                          "Administrator") ...[
                                     ListTile(
                                       onTap: () {
                                         _toggleStatus(index).then((value) {
@@ -1429,7 +1456,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                       ),
                                     ),
                                   ] else if (familyMembers[index]["status"] ==
-                                      "INACTIVE") ...[
+                                          "INACTIVE" &&
+                                      familyMembers[index]["role"] !=
+                                          "Administrator") ...[
                                     ListTile(
                                       onTap: () {
                                         _toggleStatus(index).then((value) {

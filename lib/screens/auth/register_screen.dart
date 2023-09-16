@@ -6,6 +6,7 @@ import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -146,7 +147,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return "0";
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return "0";
     }
   }

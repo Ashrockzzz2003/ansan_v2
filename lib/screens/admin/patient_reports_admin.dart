@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PatientReportsScreen extends StatefulWidget {
   const PatientReportsScreen({super.key, required this.patientId});
@@ -59,9 +60,9 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
               patientReports.add({
                 "reportId": report["reportId"].toString(),
                 "leftEye":
-                    "${report["modelOutput"].toString().split(",")[0]} %",
+                    "${double.parse(report["modelOutput"].toString().split(",")[0])*100} %",
                 "rightEye":
-                    "${report["modelOutput"].toString().split(",")[1]} %",
+                    "${double.parse(report["modelOutput"].toString().split(",")[1])*100} %",
                 "timeStamp": report["reportTimeStamp"].toString(),
               });
             });
@@ -128,7 +129,6 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
           pdfFileName = response.data["pdfName"];
         });
 
-        showToast("Downloaded $reportId successfully!");
         return "1";
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
@@ -458,8 +458,12 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                               .toString())
                                           .then((value) {
                                         if (value == "1") {
-                                          // success
-
+                                          launchUrl(
+                                            Uri.parse(
+                                              "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                            ),
+                                            mode: LaunchMode.inAppWebView,
+                                          );
                                         } else if (value == "0") {
                                           // failure
                                         } else if (value == "-1") {

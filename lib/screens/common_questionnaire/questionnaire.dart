@@ -828,7 +828,9 @@ class _QuestionnaireFull15bScreenState
         },
       );
 
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
 
       if (response.statusCode == 200) {
         showToast("Survey submitted successfully!");

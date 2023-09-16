@@ -55,7 +55,7 @@ class _HsHeadViewOfficialsScreenState extends State<HsHeadViewOfficialsScreen> {
                   "managerName": familyMember["managerName"],
                   "userEmail": familyMember["userEmail"],
                   "officeName": familyMember["officeName"],
-                  "role": familyMember["roleId"],
+                  "role": familyMember["roleId"] == "FLWRKR" ? "Frontline Worker" : familyMember["roleId"] == "DOC" ? "Doctor" : "Unknown",
                   "status": familyMember["status"],
                 });
               });

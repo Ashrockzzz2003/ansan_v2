@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewReportAdminScreen extends StatefulWidget {
   const ViewReportAdminScreen(
@@ -32,7 +33,8 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
   String? secretToken;
   String? patientToken;
 
-  final _formKey = GlobalKey<FormState>();
+  String loadingMessage = "Loading ...";
+  String? pdfFileName;
 
   final TextEditingController _doctorComment = TextEditingController();
 
@@ -41,6 +43,61 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
       return "This field is required";
     }
     return null;
+  }
+
+  Future<String> _downloadReport(String reportId) async {
+    setState(() {
+      isLoading = true;
+      loadingMessage = "Downloading $reportId ...";
+    });
+
+    final dio = Dio();
+
+    try {
+      final response = await dio.post(
+        Constants().downloadReportUrl,
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $secretToken",
+        }),
+        data: {
+          "patient_token": patientToken,
+          "reportId": reportId,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print(response.data);
+        }
+        setState(() {
+          pdfFileName = response.data["pdfName"];
+        });
+
+        return "1";
+      } else if (response.data["message"] != null) {
+        showToast(response.data["message"]);
+      } else if (response.statusCode == 401) {
+        showToast("Session Expired! Please login again.");
+        return "-1";
+      } else {
+        showToast("Something went wrong! Please try again later.");
+      }
+
+      return "0";
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      showToast("Something went wrong!");
+    } finally {
+      setState(() {
+        isLoading = false;
+        loadingMessage = "Fetching Reports ...";
+      });
+    }
+
+    return "0";
   }
 
   @override
@@ -73,9 +130,10 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
             reportData = {
               "reportId": reportD["reportId"],
               "managerId": reportD["managerId"],
-              "leftEye": "${reportD["modelOutput"].toString().split(",")[0]} %",
+              "leftEye":
+                  "${(double.parse(reportD["modelOutput"].toString().split(",")[0]) * 100)} %",
               "rightEye":
-                  "${reportD["modelOutput"].toString().split(",")[1]} %",
+                  "${(double.parse(reportD["modelOutput"].toString().split(",")[1]) * 100)} %",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
               "timeStamp": reportD["timeStamp"],
@@ -146,6 +204,32 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                     },
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        _downloadReport(widget.reportId.toString())
+                            .then((value) {
+                          if (value == "1") {
+                            launchUrl(
+                              Uri.parse(
+                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                              ),
+                              mode: LaunchMode.inAppWebView,
+                            );
+                          } else if (value == "0") {
+                            // failure
+                          } else if (value == "-1") {
+                            // session expired
+                            Navigator.of(context).pushAndRemoveUntil(
+                                CupertinoPageRoute(builder: (context) {
+                              return const WelcomeScreen();
+                            }), (route) => false);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.file_download_outlined),
+                    ),
+                  ],
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
@@ -194,6 +278,75 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                         const SizedBox(
                           height: 16,
                         ),
+                        // disclaimer that the reports are predicted by the model and not by an actual doctor. Like a warning Card with icon
+                        Card(
+                          borderOnForeground: true,
+                          color: Theme.of(context).colorScheme.error,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.warning_rounded,
+                                      color:
+                                          Theme.of(context).colorScheme.onError,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Disclaimer",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.raleway(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onError,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                  color: Theme.of(context).colorScheme.onError,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "These reports are predicted by an AI model and not by an actual doctor and only serve as a preliminary diagnosis.",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway(
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                         Card(
                           borderOnForeground: true,
                           shape: RoundedRectangleBorder(
@@ -350,13 +503,15 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                   const SizedBox(
                                     height: 16,
                                   ),
-                                  Image.network(
-                                    imageFiles[i],
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.84,
-                                    filterQuality: FilterQuality.high,
-                                    isAntiAlias: true,
+                                  ClipRect(
+                                    child: Image.network(
+                                      imageFiles[i],
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.84,
+                                      filterQuality: FilterQuality.high,
+                                      isAntiAlias: true,
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 16,
@@ -1671,7 +1826,54 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                             );
                           },
                         ),
-
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        ElevatedButton.icon(
+                          label: Text(
+                            "Download Report",
+                            style: GoogleFonts.raleway(
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              textStyle:
+                                  Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.download_rounded,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8.0),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                          ),
+                          onPressed: () {
+                            _downloadReport(widget.reportId.toString())
+                                .then((value) {
+                              if (value == "1") {
+                                launchUrl(
+                                  Uri.parse(
+                                    "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                  ),
+                                  mode: LaunchMode.inAppWebView,
+                                );
+                              } else if (value == "0") {
+                                // failure
+                              } else if (value == "-1") {
+                                // session expired
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    CupertinoPageRoute(builder: (context) {
+                                  return const WelcomeScreen();
+                                }), (route) => false);
+                              }
+                            });
+                          },
+                        ),
                         const SizedBox(
                           height: 48,
                         ),
