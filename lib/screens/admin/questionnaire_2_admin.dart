@@ -13,16 +13,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Questionnaire15cScreen extends StatefulWidget {
-  const Questionnaire15cScreen({super.key, required this.patientId});
+class Questionnaire15cAdminScreen extends StatefulWidget {
+  const Questionnaire15cAdminScreen({super.key, required this.patientId});
 
   final String patientId;
 
   @override
-  State<Questionnaire15cScreen> createState() => _Questionnaire15cScreenState();
+  State<Questionnaire15cAdminScreen> createState() => _Questionnaire15cAdminScreenState();
 }
 
-class _Questionnaire15cScreenState extends State<Questionnaire15cScreen> {
+class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScreen> {
   String? secretToken = "";
   String? patientToken = "";
   bool isLoading = false;

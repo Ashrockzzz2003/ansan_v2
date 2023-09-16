@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:eperimetry_vtwo/screens/common_questionnaire/questionnaire.dart';
-import 'package:eperimetry_vtwo/screens/common_questionnaire/questionnaire_2.dart';
+import 'package:eperimetry_vtwo/screens/doctor/questionnaire_1_doctor.dart';
+import 'package:eperimetry_vtwo/screens/doctor/questionnaire_2_doctor.dart';
 import 'package:eperimetry_vtwo/screens/doctor/new_test_doctor.dart';
 import 'package:eperimetry_vtwo/screens/doctor/patient_reports_doctor.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
@@ -772,7 +772,7 @@ class _ViewPatientDoctorState extends State<ViewPatientDoctor> {
                                     Navigator.of(context)
                                         .push(CupertinoPageRoute(
                                       builder: (context) {
-                                        return QuestionnaireFull15bScreen(
+                                        return QuestionnaireFull15bDoctorScreen(
                                           patientId: patientData["patientId"]
                                               .toString(),
                                         );
@@ -1360,7 +1360,7 @@ class _ViewPatientDoctorState extends State<ViewPatientDoctor> {
                                     Navigator.of(context)
                                         .push(CupertinoPageRoute(
                                       builder: (context) {
-                                        return Questionnaire15cScreen(
+                                        return Questionnaire15cDoctorScreen(
                                           patientId: patientData["patientId"]
                                               .toString(),
                                         );

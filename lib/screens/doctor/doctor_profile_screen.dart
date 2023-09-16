@@ -215,7 +215,8 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                         const SizedBox(
                           height: 16,
                         ),
-                        if (hsHead!["officeName"].toString().isNotEmpty) ...[
+                        if (hsHead!["officeName"].toString().isNotEmpty &&
+                            hsHead!["officeName"] != "null") ...[
                           TextField(
                             controller: TextEditingController(
                                 text: hsHead!["officeName"] ?? ""),

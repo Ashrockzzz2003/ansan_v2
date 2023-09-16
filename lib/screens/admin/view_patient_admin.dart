@@ -3,8 +3,8 @@ import 'package:eperimetry_vtwo/screens/admin/admin_screen.dart';
 import 'package:eperimetry_vtwo/screens/admin/new_patient_admin.dart';
 import 'package:eperimetry_vtwo/screens/admin/new_test_admin.dart';
 import 'package:eperimetry_vtwo/screens/admin/patient_reports_admin.dart';
-import 'package:eperimetry_vtwo/screens/common_questionnaire/questionnaire.dart';
-import 'package:eperimetry_vtwo/screens/common_questionnaire/questionnaire_2.dart';
+import 'package:eperimetry_vtwo/screens/admin/questionnaire_1_admin.dart';
+import 'package:eperimetry_vtwo/screens/admin/questionnaire_2_admin.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
@@ -772,7 +772,7 @@ class _ViewPatientAdminState extends State<ViewPatientAdmin> {
                                     Navigator.of(context)
                                         .push(CupertinoPageRoute(
                                       builder: (context) {
-                                        return QuestionnaireFull15bScreen(
+                                        return QuestionnaireFull15bAdminScreen(
                                           patientId: patientData["patientId"]
                                               .toString(),
                                         );
@@ -1360,7 +1360,7 @@ class _ViewPatientAdminState extends State<ViewPatientAdmin> {
                                     Navigator.of(context)
                                         .push(CupertinoPageRoute(
                                       builder: (context) {
-                                        return Questionnaire15cScreen(
+                                        return Questionnaire15cAdminScreen(
                                           patientId: patientData["patientId"]
                                               .toString(),
                                         );
@@ -2812,6 +2812,8 @@ class _ViewPatientAdminState extends State<ViewPatientAdmin> {
                                         return PatientReportsScreen(
                                           patientId: patientData["patientId"]
                                               .toString(),
+                                          patientEmail: patientData["userEmail"]
+                                              .toString(),
                                         );
                                       },
                                     ));
@@ -2875,7 +2877,11 @@ class _ViewPatientAdminState extends State<ViewPatientAdmin> {
                                               CupertinoPageRoute(
                                                   builder: (context) {
                                             return PatientReportsScreen(
-                                                patientId: widget.patientId);
+                                                patientId: widget.patientId,
+                                                patientEmail: patientData[
+                                                        "userEmail"]
+                                                    .toString()
+                                            );
                                           }));
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -2916,7 +2922,11 @@ class _ViewPatientAdminState extends State<ViewPatientAdmin> {
                                               CupertinoPageRoute(
                                                   builder: (context) {
                                             return NewReportAdminScreen(
-                                                patientId: widget.patientId);
+                                                patientId: widget.patientId,
+                                                patientEmail: patientData[
+                                                        "userEmail"]
+                                                    .toString()
+                                            );
                                           }));
                                         },
                                         style: ElevatedButton.styleFrom(

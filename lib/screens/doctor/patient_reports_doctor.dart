@@ -14,7 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientReportsDoctorScreen extends StatefulWidget {
-  const PatientReportsDoctorScreen({super.key, required this.patientId, required this.patientEmail});
+  const PatientReportsDoctorScreen(
+      {super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
   final String patientEmail;
@@ -57,17 +58,31 @@ class _PatientReportsDoctorScreenState
           "patient_token": patientToken,
         },
       ).then((response) {
+        if (kDebugMode) {
+          print(response.data);
+        }
+
         if (response.statusCode == 200) {
-          for (final report in response.data["id"]) {
+          if (response.data["id"] == null) {
             setState(() {
-              patientReports.add({
-                "reportId": report["reportId"].toString(),
-                "leftEye":
-                    "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
-                "rightEye":
-                    "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
-                "timeStamp": report["reportTimeStamp"].toString(),
+              patientReports.clear();
+            });
+          } else if (response.data["id"].length > 0) {
+            for (final report in response.data["id"]) {
+              setState(() {
+                patientReports.add({
+                  "reportId": report["reportId"].toString(),
+                  "leftEye":
+                      "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
+                  "rightEye":
+                      "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
+                  "timeStamp": report["reportTimeStamp"].toString(),
+                });
               });
+            }
+          } else {
+            setState(() {
+              patientReports.clear();
             });
           }
 
@@ -93,7 +108,7 @@ class _PatientReportsDoctorScreenState
         if (kDebugMode) {
           print(e);
         }
-        showToast("Something went wrong!");
+        showToast("Something went wrong! 1");
         setState(() {
           isLoading = false;
         });
@@ -289,8 +304,8 @@ class _PatientReportsDoctorScreenState
                                     Navigator.of(context).push(
                                         CupertinoPageRoute(builder: (context) {
                                       return NewReportDoctorScreen(
-                                          patientId: widget.patientId,
-                                          patientEmail: widget.patientEmail,
+                                        patientId: widget.patientId,
+                                        patientEmail: widget.patientEmail,
                                       );
                                     }));
                                   },

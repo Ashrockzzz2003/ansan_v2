@@ -215,7 +215,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                         const SizedBox(
                           height: 16,
                         ),
-                        if (admin!["officeName"].toString().isNotEmpty) ...[
+                        if (admin!["officeName"].toString().isNotEmpty && admin!["officeName"].toString() != "null") ...[
                           TextField(
                             controller: TextEditingController(
                                 text: admin!["officeName"] ?? ""),

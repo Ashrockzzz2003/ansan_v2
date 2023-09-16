@@ -919,6 +919,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                         .sourceCodePro(),
                                                     controller:
                                                         _managerIdController,
+                                                    readOnly: true,
                                                     validator: _fieldValidator,
                                                     decoration: InputDecoration(
                                                       labelText: "Manager ID",

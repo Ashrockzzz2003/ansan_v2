@@ -19,9 +19,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewReportAdminScreen extends StatefulWidget {
-  const NewReportAdminScreen({super.key, required this.patientId});
+  const NewReportAdminScreen({super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
+  final String patientEmail;
 
   @override
   State<NewReportAdminScreen> createState() => _NewReportAdminScreenState();
@@ -521,7 +522,8 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(builder: (context) {
                         return ViewReportAdminScreen(
-                            patientId: widget.patientId, reportId: reportId!);
+                            patientId: widget.patientId, reportId: reportId!, patientEmail: widget.patientEmail,
+                        );
                       }), (route) => false);
                     } else if (value == "-1") {
                       Navigator.of(context).pushAndRemoveUntil(

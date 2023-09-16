@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HsHeadNewOfficialScreen extends StatefulWidget {
-  const HsHeadNewOfficialScreen({super.key});
+class NewOfficialHsHeadScreen extends StatefulWidget {
+  const NewOfficialHsHeadScreen({super.key});
 
   @override
-  State<HsHeadNewOfficialScreen> createState() => _HsHeadNewOfficialScreenState();
+  State<NewOfficialHsHeadScreen> createState() => _NewOfficialHsHeadScreenState();
 }
 
-class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
+class _NewOfficialHsHeadScreenState extends State<NewOfficialHsHeadScreen> {
   /*
   {
     "newManagerId" : "DOCT",
@@ -36,6 +36,8 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
   final TextEditingController _officeNameController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String? role;
 
   String? _mobileNumberValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -94,7 +96,7 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
           _managerPhoneNumberController.text.trim().toString(),
           "managerName": _managerNameController.text.trim().toString(),
           "userEmail": _userEmailController.text.trim().toString(),
-          "newRole": "DOC",
+          "newRole": role,
           "officeName": _officeNameController.text.trim().toString().isEmpty
               ? "NIL"
               : _officeNameController.text.trim().toString(),
@@ -102,7 +104,7 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
       );
 
       if (response.statusCode == 200) {
-        showToast("Doctor added successfully!");
+        showToast("Official added successfully!");
         return "1";
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
@@ -156,7 +158,7 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
                 filterQuality: FilterQuality.high,
               ),
               title: Text(
-                "Register New Doctor",
+                "Register New Official",
                 style: GoogleFonts.raleway(
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onBackground,
@@ -352,6 +354,67 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
                       const SizedBox(
                         height: 24,
                       ),
+                      DropdownButtonFormField(
+                        items: <DropdownMenuItem<String>>[
+                          DropdownMenuItem(
+                            value: "DOC",
+                            child: Text(
+                              "Doctor",
+                              style: GoogleFonts.raleway(),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "FLWRKR",
+                            child: Text(
+                              "Frontline Worker",
+                              style: GoogleFonts.raleway(),
+                            ),
+                          ),
+                        ],
+                        validator: _fieldValidator,
+                        decoration: InputDecoration(
+                          labelText: "Role",
+                          prefixIcon:
+                          const Icon(Icons.verified_user_rounded),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onErrorContainer),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onErrorContainer),
+                          ),
+                          labelStyle: GoogleFonts.raleway(),
+                        ),
+                        onChanged: (String? value) {
+                          setState(() {
+                            role = value;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
                       TextFormField(
                         keyboardType: TextInputType.name,
                         style: GoogleFonts.raleway(),
@@ -396,29 +459,6 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
                       const SizedBox(
                         height: 24,
                       ),
-                      TextField(
-                        controller: TextEditingController(
-                            text: "Doctor"),
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.qr_code_rounded),
-                          labelText: "Role",
-                          labelStyle: GoogleFonts.raleway(
-                            textStyle:
-                            Theme.of(context).textTheme.titleMedium,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                        ),
-                        readOnly: true,
-                        style: GoogleFonts.sourceCodePro(
-                          textStyle: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
                       const SizedBox(
                         height: 24,
                       ),
@@ -454,7 +494,7 @@ class _HsHeadNewOfficialScreenState extends State<HsHeadNewOfficialScreen> {
                             horizontal: 24.0, vertical: 10.0),
                         color: Theme.of(context).colorScheme.secondary,
                         child: Text(
-                          "Register Doctor",
+                          "Register Official",
                           style: GoogleFonts.raleway(
                             textStyle:
                             Theme.of(context).textTheme.titleLarge,

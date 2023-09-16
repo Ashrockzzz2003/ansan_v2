@@ -14,9 +14,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientReportsScreen extends StatefulWidget {
-  const PatientReportsScreen({super.key, required this.patientId});
+  const PatientReportsScreen({super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
+  final String patientEmail;
 
   @override
   State<PatientReportsScreen> createState() => _PatientReportsScreenState();
@@ -55,16 +56,26 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
         },
       ).then((response) {
         if (response.statusCode == 200) {
-          for (final report in response.data["id"]) {
+          if (response.data["id"] == null) {
             setState(() {
-              patientReports.add({
-                "reportId": report["reportId"].toString(),
-                "leftEye":
-                    "${double.parse(report["modelOutput"].toString().split(",")[0])*100} %",
-                "rightEye":
-                    "${double.parse(report["modelOutput"].toString().split(",")[1])*100} %",
-                "timeStamp": report["reportTimeStamp"].toString(),
+              patientReports.clear();
+            });
+          } else if (response.data["id"].length > 0) {
+            for (final report in response.data["id"]) {
+              setState(() {
+                patientReports.add({
+                  "reportId": report["reportId"].toString(),
+                  "leftEye":
+                      "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
+                  "rightEye":
+                      "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
+                  "timeStamp": report["reportTimeStamp"].toString(),
+                });
               });
+            }
+          } else {
+            setState(() {
+              patientReports.clear();
             });
           }
 
@@ -282,7 +293,9 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                     Navigator.of(context).push(
                                         CupertinoPageRoute(builder: (context) {
                                       return NewReportAdminScreen(
-                                          patientId: widget.patientId);
+                                          patientId: widget.patientId,
+                                        patientEmail: widget.patientEmail,
+                                      );
                                     }));
                                   },
                                   shape: RoundedRectangleBorder(
@@ -433,6 +446,7 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                           reportId: patientReports[index]
                                                   ["reportId"]
                                               .toString(),
+                                          patientEmail: widget.patientEmail,
                                         );
                                       }));
                                     },

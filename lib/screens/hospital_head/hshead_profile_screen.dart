@@ -92,11 +92,28 @@ class _HsHeadProfileScreenState extends State<HsHeadProfileScreen> {
                         Image.asset(
                           "assets/logo.png",
                           width: MediaQuery.of(context).size.width * 0.6,
-                          height: MediaQuery.of(context).size.height * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           filterQuality: FilterQuality.high,
                         ),
                         const SizedBox(
-                          height: 24,
+                          height: 2,
+                        ),
+                        Chip(
+                          padding: const EdgeInsets.all(2.0),
+                          label: Text(
+                            "Hospital Head",
+                            style: GoogleFonts.raleway(
+                              fontWeight: FontWeight.w500,
+                              color:
+                              Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          backgroundColor:
+                          Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(
+                          height: 16,
                         ),
                         TextField(
                           controller: TextEditingController(
@@ -202,7 +219,7 @@ class _HsHeadProfileScreenState extends State<HsHeadProfileScreen> {
                         const SizedBox(
                           height: 16,
                         ),
-                        if (hsHead!["officeName"].toString().isNotEmpty) ...[
+                        if (hsHead!["officeName"].toString().isNotEmpty && hsHead!["officeName"].toString() != "null") ...[
                           TextField(
                             controller: TextEditingController(
                                 text: hsHead!["officeName"] ?? ""),
