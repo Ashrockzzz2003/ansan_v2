@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:eperimetry_vtwo/screens/doctor/doctor_profile_screen.dart';
+import 'package:eperimetry_vtwo/screens/doctor/view_patient_doctor.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
@@ -20,6 +21,9 @@ class _DoctorScreenState extends State<DoctorScreen> {
   bool isLoading = true;
 
   Map<String, dynamic>? hsHead;
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -99,9 +103,6 @@ class _DoctorScreenState extends State<DoctorScreen> {
                             width: MediaQuery.of(context).size.width * 0.6,
                             height: MediaQuery.of(context).size.height * 0.25,
                           ),
-                          const SizedBox(
-                            height: 24,
-                          ),
                           Text(
                             "${hsHead!["managerName"]}",
                             textAlign: TextAlign.center,
@@ -128,6 +129,201 @@ class _DoctorScreenState extends State<DoctorScreen> {
                           ),
                           const SizedBox(
                             height: 24,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.0),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.lightbulb,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Know your patients better!",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.raleway(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "Enter the Patient ID of the patient to see their reports, or to add a new report or review a report and view/complete the questionnaire for them.",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway(
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Card(
+                            borderOnForeground: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 16.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Find Patient",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.raleway(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  const Divider(),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Form(
+                                    key: _formKey,
+                                    child: TextFormField(
+                                      textInputAction: TextInputAction.search,
+                                      onFieldSubmitted: (value) {
+                                        if (_formKey.currentState!.validate()) {
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute(
+                                                  builder: (context) {
+                                            return ViewPatientDoctor(
+                                              patientId:
+                                                  value.trim().toString(),
+                                            );
+                                          }));
+                                        }
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      style: GoogleFonts.sourceCodePro(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall),
+                                      controller: _searchController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid Patient ID";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        labelText:
+                                            "Search patient by Patient ID",
+                                        suffixIcon: IconButton(
+                                            icon: Icon(Icons.search_rounded,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                Navigator.of(context).push(
+                                                    CupertinoPageRoute(
+                                                        builder: (context) {
+                                                  return ViewPatientDoctor(
+                                                    patientId: _searchController
+                                                        .text
+                                                        .trim()
+                                                        .toString(),
+                                                  );
+                                                }));
+                                              }
+                                            }),
+                                        hintText: "Please enter the Patient ID",
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimaryContainer),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimaryContainer),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onErrorContainer,
+                                          ),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onErrorContainer),
+                                        ),
+                                        labelStyle: GoogleFonts.raleway(),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 24,

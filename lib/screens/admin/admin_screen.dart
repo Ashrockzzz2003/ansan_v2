@@ -115,6 +115,23 @@ class _AdminScreenState extends State<AdminScreen> {
                             ),
                           ),
                           const SizedBox(
+                            height: 8,
+                          ),
+                          Chip(
+                            padding: const EdgeInsets.all(2.0),
+                            label: Text(
+                              "Administrator",
+                              style: GoogleFonts.raleway(
+                                fontWeight: FontWeight.w500,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                          ),
+                          const SizedBox(
                             height: 24,
                           ),
                           Card(
@@ -156,7 +173,6 @@ class _AdminScreenState extends State<AdminScreen> {
                                     children: [
                                       ElevatedButton.icon(
                                         onPressed: () {
-                                          // TODO: redirect to all members.
                                           Navigator.of(context).push(
                                               CupertinoPageRoute(
                                                   builder: (context) {
@@ -279,13 +295,16 @@ class _AdminScreenState extends State<AdminScreen> {
                                     child: TextFormField(
                                       textInputAction: TextInputAction.search,
                                       onFieldSubmitted: (value) {
-                                        Navigator.of(context).push(
-                                            CupertinoPageRoute(
-                                                builder: (context) {
-                                          return ViewPatientAdmin(
-                                            patientId: value.trim().toString(),
-                                          );
-                                        }));
+                                        if (_formKey.currentState!.validate()) {
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute(
+                                                  builder: (context) {
+                                            return ViewPatientAdmin(
+                                              patientId:
+                                                  value.trim().toString(),
+                                            );
+                                          }));
+                                        }
                                       },
                                       keyboardType: TextInputType.number,
                                       style: GoogleFonts.sourceCodePro(
@@ -405,12 +424,52 @@ class _AdminScreenState extends State<AdminScreen> {
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                          vertical: 16.0,
+                                        ),
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.remove_red_eye_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
+                                      label: Text(
+                                        "View Patients",
+                                        style: GoogleFonts.raleway(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                           const SizedBox(
-                            height: 24,
+                            height: 48,
                           ),
                         ],
                       ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/admin/admin_screen.dart';
 import 'package:eperimetry_vtwo/screens/admin/new_official_screen.dart';
@@ -19,8 +21,12 @@ class ViewOfficialsScreen extends StatefulWidget {
 }
 
 class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
-  final List<Map<String, dynamic>> familyMembers = [];
+  List<Map<String, dynamic>> familyMembers = [
+    {"statusCode": "400"}
+  ];
   bool isLoading = true;
+
+  String? managerId;
 
   @override
   void initState() {
@@ -29,6 +35,10 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
     });
     SharedPreferences.getInstance().then((sp) {
       final secretToken = sp.getString("SECRET_TOKEN");
+      setState(() {
+        managerId = jsonDecode(sp.getString("currentUser")!)["managerId"];
+      });
+
       if (secretToken == null) {
         showToast("Session Expired! Please login again.");
         Navigator.of(context).pushAndRemoveUntil(
@@ -56,19 +66,15 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                   "managerName": familyMember["managerName"],
                   "userEmail": familyMember["userEmail"],
                   "officeName": familyMember["officeName"],
-                  "role": familyMember["roleId"] == "ADMIN"
-                      ? "Administrator"
-                      : familyMember["roleId"] == "HSHEAD"
-                          ? "Hospital Head"
-                          : familyMember["roleId"] == "FLWRKR"
-                              ? "Frontline Worker"
-                              : familyMember["roleId"] == "DOC"
-                                  ? "Doctor"
-                                  : "Unknown",
+                  "role": familyMember["roleId"],
                   "status": familyMember["status"],
                 });
               });
             }
+
+            setState(() {
+              familyMembers.removeAt(0);
+            });
           }
         } else if (response.statusCode == 401) {
           showToast("Session Expired! Please login again.");
@@ -240,7 +246,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
+    return isLoading ||
+            (familyMembers[0]["statusCode"] != null &&
+                familyMembers[0]["statusCode"] == "400")
         ? const LoadingScreen()
         : Scaffold(
             extendBodyBehindAppBar: true,
@@ -450,7 +458,20 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                     Chip(
                                       padding: const EdgeInsets.all(2.0),
                                       label: Text(
-                                        familyMembers[index]["role"],
+                                        familyMembers[index]["role"] == "ADMIN"
+                                            ? "Administrator"
+                                            : familyMembers[index]["role"] ==
+                                                    "HSHEAD"
+                                                ? "Hospital Head"
+                                                : familyMembers[index]
+                                                            ["role"] ==
+                                                        "FLWRKR"
+                                                    ? "Frontline Worker"
+                                                    : familyMembers[index]
+                                                                ["role"] ==
+                                                            "DOC"
+                                                        ? "Doctor"
+                                                        : "Unknown",
                                         style: GoogleFonts.raleway(
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context)
@@ -734,10 +755,26 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                 TextField(
                                                   controller:
                                                       TextEditingController(
-                                                          text: familyMembers[
-                                                                      index]
-                                                                  ["role"] ??
-                                                              ""),
+                                                    text: familyMembers[index]
+                                                                ["role"] ==
+                                                            "ADMIN"
+                                                        ? "Administrator"
+                                                        : familyMembers[index]
+                                                                    ["role"] ==
+                                                                "HSHEAD"
+                                                            ? "Hospital Head"
+                                                            : familyMembers[index]
+                                                                        [
+                                                                        "role"] ==
+                                                                    "FLWRKR"
+                                                                ? "Frontline Worker"
+                                                                : familyMembers[index]
+                                                                            [
+                                                                            "role"] ==
+                                                                        "DOC"
+                                                                    ? "Doctor"
+                                                                    : "Unknown",
+                                                  ),
                                                   decoration: InputDecoration(
                                                     prefixIcon: const Icon(
                                                         Icons.person),
@@ -1138,22 +1175,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                   const SizedBox(
                                                     height: 24,
                                                   ),
-                                                  if (role !=
-                                                      "Administrator") ...[
+                                                  if (role != "ADMIN") ...[
                                                     DropdownButtonFormField(
-                                                      value: role ==
-                                                              "Administrator"
-                                                          ? "ADMIN"
-                                                          : role ==
-                                                                  "Hospital Head"
-                                                              ? "HSHEAD"
-                                                              : role ==
-                                                                      "Frontline Worker"
-                                                                  ? "FLWRKR"
-                                                                  : role ==
-                                                                          "Doctor"
-                                                                      ? "DOC"
-                                                                      : "USR",
+                                                      value: role,
                                                       items: <DropdownMenuItem<
                                                           String>>[
                                                         DropdownMenuItem(
@@ -1254,7 +1278,8 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                           .sourceCodePro(),
                                                       controller:
                                                           TextEditingController(
-                                                              text: "ADMIN"),
+                                                              text:
+                                                                  "Administrator"),
                                                       decoration:
                                                           InputDecoration(
                                                         labelText: "Role",
@@ -1360,6 +1385,17 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                                                           index]
                                                                       ["role"] =
                                                                   role;
+                                                              if (familyMembers[
+                                                                          index]
+                                                                      [
+                                                                      "managerId"] !=
+                                                                  managerId) {
+                                                                familyMembers[
+                                                                            index]
+                                                                        [
+                                                                        "status"] =
+                                                                    "WAITLIST";
+                                                              }
                                                             });
                                                             Navigator.of(
                                                                     context)
@@ -1428,10 +1464,10 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                       ),
                                     ),
                                   ),
-                                  if (familyMembers[index]["status"] ==
-                                          "ACTIVE" &&
+                                  if ((familyMembers[index]["status"] ==
+                                          "ACTIVE") &&
                                       familyMembers[index]["role"] !=
-                                          "Administrator") ...[
+                                          "ADMIN") ...[
                                     ListTile(
                                       onTap: () {
                                         _toggleStatus(index).then((value) {
@@ -1458,7 +1494,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                   ] else if (familyMembers[index]["status"] ==
                                           "INACTIVE" &&
                                       familyMembers[index]["role"] !=
-                                          "Administrator") ...[
+                                          "ADMIN") ...[
                                     ListTile(
                                       onTap: () {
                                         _toggleStatus(index).then((value) {
@@ -1490,6 +1526,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                               ),
                             );
                           },
+                        ),
+                        const SizedBox(
+                          height: 48,
                         ),
                       ],
                     ),

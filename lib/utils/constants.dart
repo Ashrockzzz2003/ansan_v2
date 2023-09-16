@@ -18,6 +18,8 @@ class Constants {
   String get allPatientReportsUrl => "$baseUrl/getReportId";
   String get getReportUrl => "$baseUrl/getReportData";
   String get downloadReportUrl => "$baseUrl/downloadReport";
+  String get addDescriptionUrl => "$baseUrl/addDescription";
+  String get emailReportUrl => "$baseUrl/emailReport";
 
   // ADMIN
   String get registerOfficialUrl => "$baseUrl/registerOfficial";

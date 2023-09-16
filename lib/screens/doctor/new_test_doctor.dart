@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:eperimetry_vtwo/screens/admin/view_patient_admin.dart';
-import 'package:eperimetry_vtwo/screens/admin/view_report_admin.dart';
 import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
+import 'package:eperimetry_vtwo/screens/doctor/view_patient_doctor.dart';
+import 'package:eperimetry_vtwo/screens/doctor/view_report_doctor.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
@@ -18,16 +18,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class NewReportAdminScreen extends StatefulWidget {
-  const NewReportAdminScreen({super.key, required this.patientId});
+class NewReportDoctorScreen extends StatefulWidget {
+  const NewReportDoctorScreen({super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
+  final String patientEmail;
 
   @override
-  State<NewReportAdminScreen> createState() => _NewReportAdminScreenState();
+  State<NewReportDoctorScreen> createState() => _NewReportDoctorScreenState();
 }
 
-class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
+class _NewReportDoctorScreenState extends State<NewReportDoctorScreen> {
   String? secretToken = "";
   String? patientToken = "";
   bool isLoading = false;
@@ -83,7 +84,7 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
 
     if (Platform.isAndroid) {
       if (await Permission.camera.request().isGranted) {
-        if(kDebugMode) {
+        if (kDebugMode) {
           print("Camera permission granted");
         }
       }
@@ -114,7 +115,7 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                     onPressed: () {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(builder: (context) {
-                        return ViewPatientAdmin(patientId: widget.patientId);
+                        return ViewPatientDoctor(patientId: widget.patientId);
                       }), (route) => false);
                     },
                     icon: const Icon(Icons.arrow_back_ios),
@@ -520,8 +521,11 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                     if (value == "1") {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(builder: (context) {
-                        return ViewReportAdminScreen(
-                            patientId: widget.patientId, reportId: reportId!);
+                        return ViewReportDoctorScreen(
+                            patientId: widget.patientId,
+                            reportId: reportId!,
+                            patientEmail: widget.patientEmail,
+                        );
                       }), (route) => false);
                     } else if (value == "-1") {
                       Navigator.of(context).pushAndRemoveUntil(

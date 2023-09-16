@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/admin/admin_screen.dart';
+import 'package:eperimetry_vtwo/screens/admin/view_patient_admin.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
@@ -38,6 +39,8 @@ class _NewPatientAdminScreenState extends State<NewPatientAdminScreen> {
 
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
+
+  String? patientId;
 
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
@@ -136,36 +139,45 @@ class _NewPatientAdminScreenState extends State<NewPatientAdminScreen> {
         return "-1";
       }
 
-      final response = await dio.post(Constants().registerPatientUrl,
-          options: Options(
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $secretToken"
-            },
-            validateStatus: (status) {
-              return status! < 500;
-            },
-          ),
-          data: {
-            "phoneNumber":
-                phoneNumberMaskFormatter.getUnmaskedText().toString(),
-            "userName": userNameController.text.trim().toString(),
-            "gender": gender.toString(),
-            "dob": dobMaskFormatter.getUnmaskedText().toString(),
-            "userEmail": userEmailController.text.trim().toString(),
-            "aadhar": aadharMaskFormatter.getUnmaskedText().trim().toString(),
-            "address": addressController.text.trim().toString(),
-            "district": districtController.text.trim().toString(),
-            "state": stateController.text.trim().toString(),
-            "country": countryController.text.trim().toString(),
-            "pincode": pincodeMaskFormatter.getUnmaskedText().toString(),
-          });
+      final response = await dio.post(
+        Constants().registerPatientUrl,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $secretToken"
+          },
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ),
+        data: {
+          "newPhoneNumber":
+              phoneNumberMaskFormatter.getUnmaskedText().toString() == ""
+                  ? null
+                  : phoneNumberMaskFormatter.getUnmaskedText().toString(),
+          "userName": userNameController.text.trim().toString(),
+          "gender": gender.toString(),
+          "dob": dobController.text.trim().toString(),
+          "userEmail": userEmailController.text.trim().toString() == ""
+              ? null
+              : userEmailController.text.trim().toString(),
+          "aadhar": aadharMaskFormatter.getUnmaskedText().trim().toString(),
+          "address": addressController.text.trim().toString(),
+          "district": districtController.text.trim().toString(),
+          "state": stateController.text.trim().toString(),
+          "country": countryController.text.trim().toString(),
+          "pincode": pincodeMaskFormatter.getUnmaskedText().toString(),
+        },
+      );
 
       if (response.statusCode == 200) {
-        final patientToken = response.data["patient_token"];
-        sp.setString("patient_token", patientToken.toString());
-
+        setState(() {
+          patientId = response.data["details"]["patientId"].toString();
+          final patientToken = response.data["patient_token"];
+          sp.setString("patient_token", patientToken.toString());
+        });
         showToast("Patient added successfully!");
+
         return "1";
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
@@ -247,7 +259,7 @@ class _NewPatientAdminScreenState extends State<NewPatientAdminScreen> {
                           child: Column(
                             children: [
                               Text(
-                                "Not Mandatory Fields",
+                                "Non Mandatory Fields",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.raleway(
                                   textStyle:
@@ -319,6 +331,7 @@ class _NewPatientAdminScreenState extends State<NewPatientAdminScreen> {
                                   labelText: "Email ID",
                                   prefixIcon: const Icon(Icons.email_rounded),
                                   hintText: "Please enter your Email-ID",
+                                  helperText: "Not mandatory to fill Email-ID",
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide(
@@ -810,12 +823,153 @@ class _NewPatientAdminScreenState extends State<NewPatientAdminScreen> {
                                     });
                                     _registerPatient().then((value) {
                                       if (value == "1") {
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                                CupertinoPageRoute(
-                                                    builder: (context) {
-                                          return const AdminScreen();
-                                        }), (route) => false);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Dialog(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 16.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "Patient ID",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          GoogleFonts.raleway(
+                                                        textStyle:
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .titleLarge,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    const Divider(),
+                                                    const SizedBox(
+                                                      height: 16,
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 16.0,
+                                                          vertical: 16.0),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16.0),
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primaryContainer
+                                                            .withOpacity(0.2),
+                                                      ),
+                                                      child: Text(
+                                                        patientId!,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                          textStyle:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .titleLarge,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 16,
+                                                    ),
+                                                    Text(
+                                                      "Please ask the patient to make a note of this patientId for future Reference",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          GoogleFonts.raleway(
+                                                        textStyle:
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .titleSmall,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 16,
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pushAndRemoveUntil(
+                                                                CupertinoPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                          return ViewPatientAdmin(
+                                                            patientId:
+                                                                patientId!,
+                                                          );
+                                                        }), (route) => false);
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 16.0,
+                                                          vertical: 16.0,
+                                                        ),
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .primary,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      16.0),
+                                                        ),
+                                                      ),
+                                                      child: Text(
+                                                        "Okay",
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                          textStyle:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .titleSmall,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
                                       } else if (value == "-1") {
                                         Navigator.of(context)
                                             .pushAndRemoveUntil(
@@ -854,11 +1008,11 @@ class _NewPatientAdminScreenState extends State<NewPatientAdminScreen> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           );
