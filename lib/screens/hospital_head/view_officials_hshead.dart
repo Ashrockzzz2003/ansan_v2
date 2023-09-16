@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/hospital_head/hshead_screen.dart';
-import 'package:eperimetry_vtwo/screens/hospital_head/new_official_screen.dart';
+import 'package:eperimetry_vtwo/screens/hospital_head/new_official_hshead_screen.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';

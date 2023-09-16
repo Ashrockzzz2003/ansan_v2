@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/model/question.dart';
-import 'package:eperimetry_vtwo/screens/admin/view_patient_admin.dart';
 import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
+import 'package:eperimetry_vtwo/screens/doctor/view_patient_doctor.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
@@ -13,18 +13,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class QuestionnaireFull15bScreen extends StatefulWidget {
-  const QuestionnaireFull15bScreen({super.key, required this.patientId});
+class QuestionnaireFull15bDoctorScreen extends StatefulWidget {
+  const QuestionnaireFull15bDoctorScreen({super.key, required this.patientId});
 
   final String patientId;
 
   @override
-  State<QuestionnaireFull15bScreen> createState() =>
-      _QuestionnaireFull15bScreenState();
+  State<QuestionnaireFull15bDoctorScreen> createState() =>
+      _QuestionnaireFull15bDoctorScreenState();
 }
 
-class _QuestionnaireFull15bScreenState
-    extends State<QuestionnaireFull15bScreen> {
+class _QuestionnaireFull15bDoctorScreenState
+    extends State<QuestionnaireFull15bDoctorScreen> {
   String? secretToken = "";
   String? patientToken = "";
   bool isLoading = false;
@@ -51,8 +51,8 @@ class _QuestionnaireFull15bScreenState
         showToast("Session expired. Please login again.");
         Navigator.of(context).pushAndRemoveUntil(
             CupertinoPageRoute(builder: (context) {
-          return const WelcomeScreen();
-        }), (route) => false);
+              return const WelcomeScreen();
+            }), (route) => false);
       }
     });
     controllers = List.generate(maxIndex, (index) {
@@ -150,7 +150,7 @@ class _QuestionnaireFull15bScreenState
       ),
       Question(
         questionFull:
-            "How long have you been experiencing symptoms? (Enter NIL if none)",
+        "How long have you been experiencing symptoms? (Enter NIL if none)",
         questionLabel: "Symptoms Duration",
         placeHolder: "x days or y weeks",
         icon: const Icon(Icons.coronavirus_rounded),
@@ -178,7 +178,7 @@ class _QuestionnaireFull15bScreenState
       ),
       Question(
         questionFull:
-            "Any long term medication? Please specify. (Enter NIL if none)",
+        "Any long term medication? Please specify. (Enter NIL if none)",
         questionLabel: "Medication",
         placeHolder: "Your medication",
         icon: const Icon(Icons.medical_services_rounded),
@@ -513,7 +513,7 @@ class _QuestionnaireFull15bScreenState
       ),
       Question(
         questionFull:
-            "Have you got Optical Coherence Tomography investigations?",
+        "Have you got Optical Coherence Tomography investigations?",
         questionLabel: "Optical Coherence Tomography",
         placeHolder: "Optical Coherence Tomography",
         icon: const Icon(Icons.coronavirus_rounded),
@@ -556,7 +556,7 @@ class _QuestionnaireFull15bScreenState
       ),
       Question(
         questionFull:
-            "Have you got Central Corneal Thickness Analysis investigations?",
+        "Have you got Central Corneal Thickness Analysis investigations?",
         questionLabel: "Central Corneal Thickness Analysis",
         placeHolder: "Central Corneal Thickness Analysis",
         icon: const Icon(Icons.coronavirus_rounded),
@@ -654,113 +654,113 @@ class _QuestionnaireFull15bScreenState
     return isLoading
         ? const LoadingScreen()
         : Scaffold(
-            extendBodyBehindAppBar: true,
-            body: CustomScrollView(
-              slivers: [
-                SliverAppBar.large(
-                  floating: false,
-                  pinned: true,
-                  snap: false,
-                  centerTitle: true,
-                  expandedHeight: MediaQuery.of(context).size.height * 0.21,
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          CupertinoPageRoute(builder: (context) {
-                        return ViewPatientAdmin(patientId: widget.patientId);
-                      }), (route) => false);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios),
-                  ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    collapseMode: CollapseMode.parallax,
-                    background: Image.asset(
-                      "assets/login.png",
-                      color: Theme.of(context)
-                          .colorScheme
-                          .tertiary
-                          .withOpacity(0.2),
-                      fit: BoxFit.cover,
-                      filterQuality: FilterQuality.high,
-                    ),
-                    title: Text(
-                      "Questionnaire",
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                    ),
-                  ),
+      extendBodyBehindAppBar: true,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            floating: false,
+            pinned: true,
+            snap: false,
+            centerTitle: true,
+            expandedHeight: MediaQuery.of(context).size.height * 0.21,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    CupertinoPageRoute(builder: (context) {
+                      return ViewPatientDoctor(patientId: widget.patientId);
+                    }), (route) => false);
+              },
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              collapseMode: CollapseMode.parallax,
+              background: Image.asset(
+                "assets/login.png",
+                color: Theme.of(context)
+                    .colorScheme
+                    .tertiary
+                    .withOpacity(0.2),
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+              title: Text(
+                "Questionnaire",
+                style: GoogleFonts.raleway(
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
-                SliverToBoxAdapter(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 16.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0, vertical: 16.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    NumberStepper(
+                      activeStepColor:
+                      Theme.of(context).primaryIconTheme.color,
+                      activeStepBorderColor:
+                      Theme.of(context).secondaryHeaderColor,
+                      stepColor: Theme.of(context).splashColor,
+                      lineColor: Theme.of(context).secondaryHeaderColor,
+                      stepReachedAnimationEffect: Curves.easeInOutCubic,
+                      enableStepTapping: false,
+                      direction: Axis.horizontal,
+                      enableNextPreviousButtons: false,
+                      numbers: numbers,
+                      activeStep: activeStep,
+                      lineLength: 24,
+                      onStepReached: (index) {
+                        setState(() {
+                          activeStep = index;
+                        });
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        previousButton(),
+                        nextButton(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.outline),
+                      ),
                       child: Column(
                         children: [
-                          NumberStepper(
-                            activeStepColor:
-                                Theme.of(context).primaryIconTheme.color,
-                            activeStepBorderColor:
-                                Theme.of(context).secondaryHeaderColor,
-                            stepColor: Theme.of(context).splashColor,
-                            lineColor: Theme.of(context).secondaryHeaderColor,
-                            stepReachedAnimationEffect: Curves.easeInOutCubic,
-                            enableStepTapping: false,
-                            direction: Axis.horizontal,
-                            enableNextPreviousButtons: false,
-                            numbers: numbers,
-                            activeStep: activeStep,
-                            lineLength: 24,
-                            onStepReached: (index) {
-                              setState(() {
-                                activeStep = index;
-                              });
-                            },
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              previousButton(),
-                              nextButton(),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: Theme.of(context).colorScheme.outline),
-                            ),
-                            child: Column(
-                              children: [
-                                Form(
-                                    autovalidateMode: AutovalidateMode.disabled,
-                                    key: _formKey,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        questionList[activeStep],
-                                      ],
-                                    )),
-                              ],
-                            ),
-                          ),
+                          Form(
+                              autovalidateMode: AutovalidateMode.disabled,
+                              key: _formKey,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: [
+                                  questionList[activeStep],
+                                ],
+                              )),
                         ],
                       ),
                     ),
-                  ),
-                )
-              ],
+                  ],
+                ),
+              ),
             ),
-          );
+          )
+        ],
+      ),
+    );
   }
 
   Future<String> _submitSurvey() async {
@@ -864,62 +864,62 @@ class _QuestionnaireFull15bScreenState
       child: MaterialButton(
         onPressed: activeStep == maxIndex - 1
             ? () async {
-                if (_formKey.currentState!.validate() &&
-                    controllers[activeStep].text.isNotEmpty) {
-                  _formKey.currentState!.save();
-                  _submitSurvey().then((value) {
-                    if (value == "1") {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          CupertinoPageRoute(builder: (context) {
-                        return ViewPatientAdmin(patientId: widget.patientId);
-                      }), (route) => false);
-                    } else if (value == "-1") {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          CupertinoPageRoute(builder: (context) {
-                        return const LoginScreen();
-                      }), (route) => false);
-                    } else {
-                      setState(() {
-                        activeStep = 0;
-                      });
-                    }
+          if (_formKey.currentState!.validate() &&
+              controllers[activeStep].text.isNotEmpty) {
+            _formKey.currentState!.save();
+            _submitSurvey().then((value) {
+              if (value == "1") {
+                Navigator.of(context).pushAndRemoveUntil(
+                    CupertinoPageRoute(builder: (context) {
+                      return ViewPatientDoctor(patientId: widget.patientId);
+                    }), (route) => false);
+              } else if (value == "-1") {
+                Navigator.of(context).pushAndRemoveUntil(
+                    CupertinoPageRoute(builder: (context) {
+                      return const LoginScreen();
+                    }), (route) => false);
+              } else {
+                setState(() {
+                  activeStep = 0;
+                });
+              }
+            });
+          } else {
+            showToast(
+              "Please select an option or fill the filed to proceed",
+            );
+          }
+        }
+            : () {
+          if (_formKey.currentState!.validate() &&
+              controllers[activeStep].text.isNotEmpty) {
+            _formKey.currentState!.save();
+
+            if (activeStep < maxIndex - 1) {
+              if (activeStep == 3) {
+                if (controllers[activeStep].text == "Yes") {
+                  setState(() {
+                    activeStep++;
                   });
                 } else {
-                  showToast(
-                    "Please select an option or fill the filed to proceed",
-                  );
+                  setState(() {
+                    controllers[activeStep + 1].text = "NIL";
+                    activeStep += 2;
+                  });
                 }
+              } else {
+                setState(() {
+                  activeStep++;
+                });
               }
-            : () {
-                if (_formKey.currentState!.validate() &&
-                    controllers[activeStep].text.isNotEmpty) {
-                  _formKey.currentState!.save();
-
-                  if (activeStep < maxIndex - 1) {
-                    if (activeStep == 3) {
-                      if (controllers[activeStep].text == "Yes") {
-                        setState(() {
-                          activeStep++;
-                        });
-                      } else {
-                        setState(() {
-                          controllers[activeStep + 1].text = "NIL";
-                          activeStep += 2;
-                        });
-                      }
-                    } else {
-                      setState(() {
-                        activeStep++;
-                      });
-                    }
-                  }
-                } else {
-                  showToast(
-                      "Please select an option or fill the filed to proceed");
-                }
-              },
+            }
+          } else {
+            showToast(
+                "Please select an option or fill the filed to proceed");
+          }
+        },
         minWidth:
-            activeStep == 0 ? MediaQuery.of(context).size.width * 0.8 : null,
+        activeStep == 0 ? MediaQuery.of(context).size.width * 0.8 : null,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -940,50 +940,50 @@ class _QuestionnaireFull15bScreenState
   Widget previousButton() {
     return activeStep > 0
         ? Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-            child: MaterialButton(
-              onPressed: activeStep <= 0
-                  ? null
-                  : () {
-                      // Decrement activeStep, when the previous button is tapped. However, check for lower bound i.e., must be greater than 0.
-                      if (activeStep > 0) {
-                        if (activeStep == 5) {
-                          if (controllers[3].text == "Yes") {
-                            setState(() {
-                              activeStep--;
-                            });
-                          } else {
-                            setState(() {
-                              controllers[activeStep - 1].text = "NIL";
-                              activeStep -= 2;
-                            });
-                          }
-                        } else {
-                          setState(() {
-                            activeStep--;
-                          });
-                        }
-                      }
-                    },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
-              color: activeStep > 0
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).disabledColor,
-              child: Text(
-                "Previous",
-                style: GoogleFonts.raleway(
-                  textStyle: Theme.of(context).textTheme.titleLarge,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onSecondary,
-                ),
-              ),
-            ),
-          )
+      padding:
+      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+      child: MaterialButton(
+        onPressed: activeStep <= 0
+            ? null
+            : () {
+          // Decrement activeStep, when the previous button is tapped. However, check for lower bound i.e., must be greater than 0.
+          if (activeStep > 0) {
+            if (activeStep == 5) {
+              if (controllers[3].text == "Yes") {
+                setState(() {
+                  activeStep--;
+                });
+              } else {
+                setState(() {
+                  controllers[activeStep - 1].text = "NIL";
+                  activeStep -= 2;
+                });
+              }
+            } else {
+              setState(() {
+                activeStep--;
+              });
+            }
+          }
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        padding:
+        const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
+        color: activeStep > 0
+            ? Theme.of(context).colorScheme.secondary
+            : Theme.of(context).disabledColor,
+        child: Text(
+          "Previous",
+          style: GoogleFonts.raleway(
+            textStyle: Theme.of(context).textTheme.titleLarge,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+        ),
+      ),
+    )
         : const SizedBox();
   }
 }
