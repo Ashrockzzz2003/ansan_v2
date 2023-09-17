@@ -21,6 +21,9 @@ class Constants {
   String get addDescriptionUrl => "$baseUrl/addDescription";
   String get emailReportUrl => "$baseUrl/emailReport";
 
+  // TODO: Update and test this API
+  String get viewPatientsUrl => "$baseUrl/getPatientsUnderMe";
+
   // ADMIN
   String get registerOfficialUrl => "$baseUrl/registerOfficial";
   String get allOfficialsUrl => "$baseUrl/getRegisteredUsers";

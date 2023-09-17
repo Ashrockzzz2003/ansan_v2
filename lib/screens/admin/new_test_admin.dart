@@ -19,7 +19,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewReportAdminScreen extends StatefulWidget {
-  const NewReportAdminScreen({super.key, required this.patientId, required this.patientEmail});
+  const NewReportAdminScreen(
+      {super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
   final String patientEmail;
@@ -84,7 +85,7 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
 
     if (Platform.isAndroid) {
       if (await Permission.camera.request().isGranted) {
-        if(kDebugMode) {
+        if (kDebugMode) {
           print("Camera permission granted");
         }
       }
@@ -258,20 +259,43 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                                                                         .all(
                                                                         4.0),
                                                                 child:
-                                                                    ElevatedButton(
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(
-                                                                            4.0),
-                                                                    child: Text(
-                                                                      "Upload Image from Gallery",
-                                                                      style: GoogleFonts
-                                                                          .raleway(),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
+                                                                    ElevatedButton
+                                                                        .icon(
+                                                                  label: Text(
+                                                                    "Upload Image from Gallery",
+                                                                    style: GoogleFonts
+                                                                        .raleway(
+                                                                      textStyle: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .titleSmall,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onPrimary,
+                                                                    ),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .upload_rounded,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onPrimary),
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    backgroundColor: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
                                                                     ),
                                                                   ),
                                                                   onPressed:
@@ -306,20 +330,43 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                                                                         .all(
                                                                         4.0),
                                                                 child:
-                                                                    ElevatedButton(
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(
-                                                                            4.0),
-                                                                    child: Text(
-                                                                      "Take Image from Camera",
-                                                                      style: GoogleFonts
-                                                                          .raleway(),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
+                                                                    ElevatedButton
+                                                                        .icon(
+                                                                  label: Text(
+                                                                    "Take Image from Camera",
+                                                                    style: GoogleFonts
+                                                                        .raleway(
+                                                                      textStyle: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .titleSmall,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onPrimary,
+                                                                    ),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .camera_alt_rounded,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onPrimary),
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    backgroundColor: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
                                                                     ),
                                                                   ),
                                                                   onPressed:
@@ -522,7 +569,9 @@ class _NewReportAdminScreenState extends State<NewReportAdminScreen> {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(builder: (context) {
                         return ViewReportAdminScreen(
-                            patientId: widget.patientId, reportId: reportId!, patientEmail: widget.patientEmail,
+                          patientId: widget.patientId,
+                          reportId: reportId!,
+                          patientEmail: widget.patientEmail,
                         );
                       }), (route) => false);
                     } else if (value == "-1") {

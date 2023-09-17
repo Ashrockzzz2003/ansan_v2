@@ -8,6 +8,13 @@ class ViewPatientsAdmin extends StatefulWidget {
 }
 
 class _ViewPatientsAdminState extends State<ViewPatientsAdmin> {
+  final List<Map<String, dynamic>> patientList = [];
+  bool isLoading = true;
+
+  String? secretToken;
+  String? patientToken;
+  String loadingMessage = "Fetching Patients ...";
+
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

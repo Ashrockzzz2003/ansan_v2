@@ -94,8 +94,22 @@ class _FrontLineWorkerProfileScreenState
                         Image.asset(
                           "assets/logo.png",
                           width: MediaQuery.of(context).size.width * 0.6,
-                          height: MediaQuery.of(context).size.height * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.15,
                           filterQuality: FilterQuality.high,
+                        ),
+                        Chip(
+                          padding: const EdgeInsets.all(2.0),
+                          label: Text(
+                            "Frontline Worker",
+                            style: GoogleFonts.raleway(
+                              fontWeight: FontWeight.w500,
+                              color:
+                              Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          backgroundColor:
+                          Theme.of(context).colorScheme.secondary,
                         ),
                         const SizedBox(
                           height: 24,
