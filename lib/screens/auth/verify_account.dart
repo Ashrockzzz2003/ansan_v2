@@ -115,7 +115,6 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
         } else if (response.data["role"] == "FRONTLINEWORKER") {
           return "3";
         }
-
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
         return "0";
@@ -272,8 +271,8 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
                                       Navigator.of(context).pushAndRemoveUntil(
                                           CupertinoPageRoute(
                                               builder: (context) {
-                                                return const FrontLineWorkerScreen();
-                                              }), (route) => false);
+                                        return const FrontLineWorkerScreen();
+                                      }), (route) => false);
                                     }
                                   });
                                   setState(() {

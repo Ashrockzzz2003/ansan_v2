@@ -57,6 +57,11 @@ class _ViewOfficialsHsHeadScreenState extends State<ViewOfficialsHsHeadScreen> {
           .then((response) {
         if (response.statusCode == 200) {
           if (response.data["users"] != null) {
+
+            if (kDebugMode) {
+              print(response.data["users"]);
+            }
+
             if (response.data["users"].length > 0) {
               for (final familyMember in response.data["users"]) {
                 setState(() {
@@ -136,13 +141,20 @@ class _ViewOfficialsHsHeadScreenState extends State<ViewOfficialsHsHeadScreen> {
         ),
         data: {
           "affectedManagerId": familyMembers[index]["managerId"].toString(),
-          "newStatus": familyMembers[index]["status"] == "ACTIVE"
+          "newStatus": familyMembers[index]["status"] == "ACTIVE" || familyMembers[index]["status"] == "WAITLIST"
               ? "INACTIVE"
-              : "ACTIVE",
+              : "WAITLIST",
         },
       );
 
       if (response.statusCode == 200) {
+
+        setState(() {
+          familyMembers[index]["status"] = familyMembers[index]["status"] == "ACTIVE" || familyMembers[index]["status"] == "WAITLIST"
+              ? "INACTIVE"
+              : "WAITLIST";
+        });
+
         showToast("Official status updated!");
         return "1";
       } else if (response.data["message"] != null) {
@@ -1493,10 +1505,7 @@ class _ViewOfficialsHsHeadScreenState extends State<ViewOfficialsHsHeadScreen> {
                                       onTap: () {
                                         _toggleStatus(index).then((value) {
                                           if (value == "1") {
-                                            setState(() {
-                                              familyMembers[index]["status"] =
-                                                  "ACTIVE";
-                                            });
+
                                           }
                                         });
                                       },

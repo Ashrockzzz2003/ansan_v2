@@ -21,9 +21,7 @@ class ViewOfficialsScreen extends StatefulWidget {
 }
 
 class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
-  List<Map<String, dynamic>> familyMembers = [
-    {"statusCode": "400"}
-  ];
+  List<Map<String, dynamic>> familyMembers = [];
   bool isLoading = true;
 
   String? managerId;
@@ -71,10 +69,8 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                 });
               });
             }
-
-            setState(() {
-              familyMembers.removeAt(0);
-            });
+          } else {
+            showToast("No registered officials added by you!");
           }
         } else if (response.statusCode == 401) {
           showToast("Session Expired! Please login again.");
@@ -133,13 +129,20 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
         ),
         data: {
           "affectedManagerId": familyMembers[index]["managerId"].toString(),
-          "newStatus": familyMembers[index]["status"] == "ACTIVE"
+          "newStatus": familyMembers[index]["status"] == "ACTIVE" || familyMembers[index]["status"] == "WAITLIST"
               ? "INACTIVE"
-              : "ACTIVE",
+              : "WAITLIST",
         },
       );
 
       if (response.statusCode == 200) {
+
+        setState(() {
+          familyMembers[index]["status"] = familyMembers[index]["status"] == "ACTIVE" || familyMembers[index]["status"] == "WAITLIST"
+              ? "INACTIVE"
+              : "WAITLIST";
+        });
+
         showToast("Official status updated!");
         return "1";
       } else if (response.data["message"] != null) {
@@ -246,9 +249,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ||
-            (familyMembers[0]["statusCode"] != null &&
-                familyMembers[0]["statusCode"] == "400")
+    return isLoading && familyMembers.isEmpty
         ? const LoadingScreen()
         : Scaffold(
             extendBodyBehindAppBar: true,
@@ -1466,7 +1467,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                     ),
                                   ),
                                   if ((familyMembers[index]["status"] ==
-                                          "ACTIVE") &&
+                                          "ACTIVE" || familyMembers[index]["status"] == "WAITLIST") &&
                                       familyMembers[index]["role"] !=
                                           "ADMIN") ...[
                                     ListTile(
@@ -1500,10 +1501,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                       onTap: () {
                                         _toggleStatus(index).then((value) {
                                           if (value == "1") {
-                                            setState(() {
-                                              familyMembers[index]["status"] =
-                                                  "ACTIVE";
-                                            });
+                                            // success
                                           }
                                         });
                                       },

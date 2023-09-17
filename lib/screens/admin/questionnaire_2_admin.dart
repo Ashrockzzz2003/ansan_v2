@@ -30,7 +30,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
   int activeStep = 0;
   int maxIndex = 23;
 
-  List<int> numbers = List.generate(35, (index) => index + 1);
+  List<int> numbers = List.generate(23, (index) => index + 1);
 
   late List<TextEditingController> controllers;
 
@@ -95,7 +95,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[12],
+        controller: controllers[0],
       ),
       Question(
         questionFull: "Do you face pain in eye?",
@@ -109,7 +109,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[13],
+        controller: controllers[1],
       ),
       Question(
         questionFull: "Do you see halos around lights?",
@@ -123,7 +123,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[14],
+        controller: controllers[2],
       ),
       Question(
         questionFull: "Any time you had sudden exacerbation of the problem?",
@@ -137,7 +137,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[15],
+        controller: controllers[3],
       ),
       Question(
         questionFull: "Did you show to any doctor for this problem?",
@@ -151,7 +151,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[16],
+        controller: controllers[4],
       ),
       Question(
         questionFull: "Have you been taking any medicines for this problem?",
@@ -165,7 +165,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[17],
+        controller: controllers[5],
       ),
       Question(
         questionFull: "Any general investigations you have got done?",
@@ -179,7 +179,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[18],
+        controller: controllers[6],
       ),
       Question(
         questionFull: "Do you have diabetic retinopathy?",
@@ -193,7 +193,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[19],
+        controller: controllers[7],
       ),
       Question(
         questionFull: "Do you have macular degenerations?",
@@ -207,7 +207,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[20],
+        controller: controllers[8],
       ),
       Question(
         questionFull: "Do you have macular hole?",
@@ -221,7 +221,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[21],
+        controller: controllers[9],
       ),
       Question(
         questionFull: "Do you have glaucoma?",
@@ -235,7 +235,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[22],
+        controller: controllers[10],
       ),
       Question(
         questionFull: "Do you have cataract?",
@@ -249,7 +249,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[23],
+        controller: controllers[11],
       ),
       Question(
         questionFull: "Do you have uveitis?",
@@ -263,7 +263,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[24],
+        controller: controllers[12],
       ),
       Question(
         questionFull: "Have you got Fundus Photography investigations?",
@@ -277,7 +277,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[25],
+        controller: controllers[13],
       ),
       Question(
         questionFull: "Have you got Fundus Angiography investigations?",
@@ -291,7 +291,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[26],
+        controller: controllers[14],
       ),
       Question(
         questionFull:
@@ -306,7 +306,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[27],
+        controller: controllers[15],
       ),
       Question(
         questionFull: "Have you got Visual Field Analysis investigations?",
@@ -320,7 +320,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[28],
+        controller: controllers[16],
       ),
       Question(
         questionFull: "Have you got Gonioscopy investigations?",
@@ -334,7 +334,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[29],
+        controller: controllers[17],
       ),
       Question(
         questionFull:
@@ -349,7 +349,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[30],
+        controller: controllers[18],
       ),
       Question(
         questionFull: "Have you got Slit Lamp investigations?",
@@ -363,7 +363,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[31],
+        controller: controllers[19],
       ),
       Question(
         questionFull: "Have you got Applanation Tonometry investigations?",
@@ -377,7 +377,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[32],
+        controller: controllers[20],
       ),
       Question(
         questionFull: "Have you got B Scan investigations?",
@@ -391,7 +391,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[33],
+        controller: controllers[21],
       ),
       Question(
         questionFull: "Have you got Biochemical Parameters investigations?",
@@ -405,7 +405,7 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
         isNumber: false,
         options: const ["Yes", "No", "Don't Know"],
         values: const ["Yes", "No", "Don't Know"],
-        controller: controllers[34],
+        controller: controllers[22],
       ),
     ];
     setState(() {

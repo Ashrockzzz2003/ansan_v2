@@ -19,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: CustomScrollView(
         slivers: [
           //AppBar
-          SliverAppBar.large(
+          SliverAppBar.medium(
             floating: false,
             pinned: true,
             snap: false,
@@ -27,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               title: Text(
-                "ANSAN",
+                "",
                 style: GoogleFonts.raleway(
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onBackground,
@@ -49,9 +49,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       "assets/logo.png",
                       width: MediaQuery.of(context).size.width * 0.6,
                       height: MediaQuery.of(context).size.height * 0.25,
-                    ),
-                    const SizedBox(
-                      height: 16,
                     ),
                     Text(
                       "Welcome to",

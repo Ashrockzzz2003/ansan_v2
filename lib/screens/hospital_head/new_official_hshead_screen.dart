@@ -7,13 +7,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewOfficialHsHeadScreen extends StatefulWidget {
   const NewOfficialHsHeadScreen({super.key});
 
   @override
-  State<NewOfficialHsHeadScreen> createState() => _NewOfficialHsHeadScreenState();
+  State<NewOfficialHsHeadScreen> createState() =>
+      _NewOfficialHsHeadScreenState();
 }
 
 class _NewOfficialHsHeadScreenState extends State<NewOfficialHsHeadScreen> {
@@ -30,7 +32,7 @@ class _NewOfficialHsHeadScreenState extends State<NewOfficialHsHeadScreen> {
 
   final TextEditingController _newManagerIdController = TextEditingController();
   final TextEditingController _managerPhoneNumberController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _managerNameController = TextEditingController();
   final TextEditingController _userEmailController = TextEditingController();
   final TextEditingController _officeNameController = TextEditingController();
@@ -65,6 +67,13 @@ class _NewOfficialHsHeadScreenState extends State<NewOfficialHsHeadScreen> {
     return null;
   }
 
+  final phoneNumberMaskFormatter = MaskTextInputFormatter(
+    mask: "1111111111",
+    filter: {
+      "1": RegExp(r"[0-9]"),
+    },
+  );
+
   bool isLoading = false;
 
   Future<String> _addMember() async {
@@ -93,7 +102,7 @@ class _NewOfficialHsHeadScreenState extends State<NewOfficialHsHeadScreen> {
         data: {
           "newManagerId": _newManagerIdController.text.trim().toString(),
           "managerPhoneNumber":
-          _managerPhoneNumberController.text.trim().toString(),
+              _managerPhoneNumberController.text.trim().toString(),
           "managerName": _managerNameController.text.trim().toString(),
           "userEmail": _userEmailController.text.trim().toString(),
           "newRole": role,
@@ -128,390 +137,393 @@ class _NewOfficialHsHeadScreenState extends State<NewOfficialHsHeadScreen> {
     return isLoading
         ? const LoadingScreen()
         : Scaffold(
-      extendBodyBehindAppBar: true,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            floating: false,
-            pinned: true,
-            snap: false,
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    CupertinoPageRoute(builder: (context) {
-                      return const HsHeadScreen();
-                    }), (route) => false);
-              },
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              collapseMode: CollapseMode.parallax,
-              background: Image.asset(
-                "assets/login.png",
-                color: Theme.of(context)
-                    .colorScheme
-                    .tertiary
-                    .withOpacity(0.2),
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-              ),
-              title: Text(
-                "Register New Official",
-                style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 24,
+            extendBodyBehindAppBar: true,
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar.large(
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  centerTitle: true,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          CupertinoPageRoute(builder: (context) {
+                        return const HsHeadScreen();
+                      }), (route) => false);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios),
                   ),
-                  Form(
-                    key: _formKey,
-                    child: Column(children: [
-                      const SizedBox(
-                        height: 16,
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    collapseMode: CollapseMode.parallax,
+                    background: Image.asset(
+                      "assets/login.png",
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.2),
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
+                    ),
+                    title: Text(
+                      "Register New Official",
+                      style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
-                      TextFormField(
-                        keyboardType: TextInputType.name,
-                        style: GoogleFonts.sourceCodePro(),
-                        controller: _newManagerIdController,
-                        validator: _fieldValidator,
-                        decoration: InputDecoration(
-                          labelText: "Manager ID",
-                          prefixIcon: const Icon(Icons.verified_rounded),
-                          hintText: "Enter a new manager ID",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          labelStyle: GoogleFonts.raleway(),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 24,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.name,
-                        style: GoogleFonts.raleway(),
-                        controller: _managerNameController,
-                        validator: _fieldValidator,
-                        decoration: InputDecoration(
-                          labelText: "Manager Name",
-                          prefixIcon: const Icon(Icons.person_rounded),
-                          hintText: "Enter manager name",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          labelStyle: GoogleFonts.raleway(),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        style: GoogleFonts.sourceCodePro(),
-                        controller: _userEmailController,
-                        validator: _emailValidator,
-                        decoration: InputDecoration(
-                          labelText: "Email ID",
-                          prefixIcon: const Icon(Icons.email_rounded),
-                          hintText: "Please enter your Email-ID",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          labelStyle: GoogleFonts.raleway(),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.phone,
-                        style: GoogleFonts.sourceCodePro(),
-                        controller: _managerPhoneNumberController,
-                        validator: _mobileNumberValidator,
-                        decoration: InputDecoration(
-                          labelText: "Mobile Number",
-                          prefixIcon: const Icon(Icons.phone_rounded),
-                          hintText: "Enter mobile number",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          labelStyle: GoogleFonts.raleway(),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      DropdownButtonFormField(
-                        items: <DropdownMenuItem<String>>[
-                          DropdownMenuItem(
-                            value: "DOC",
-                            child: Text(
-                              "Doctor",
-                              style: GoogleFonts.raleway(),
+                        Form(
+                          key: _formKey,
+                          child: Column(children: [
+                            const SizedBox(
+                              height: 16,
                             ),
-                          ),
-                          DropdownMenuItem(
-                            value: "FLWRKR",
-                            child: Text(
-                              "Frontline Worker",
-                              style: GoogleFonts.raleway(),
+                            TextFormField(
+                              keyboardType: TextInputType.name,
+                              style: GoogleFonts.sourceCodePro(),
+                              controller: _newManagerIdController,
+                              validator: _fieldValidator,
+                              decoration: InputDecoration(
+                                labelText: "Manager ID",
+                                prefixIcon: const Icon(Icons.verified_rounded),
+                                hintText: "Enter a new manager ID",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                labelStyle: GoogleFonts.raleway(),
+                              ),
                             ),
-                          ),
-                        ],
-                        validator: _fieldValidator,
-                        decoration: InputDecoration(
-                          labelText: "Role",
-                          prefixIcon:
-                          const Icon(Icons.verified_user_rounded),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          labelStyle: GoogleFonts.raleway(),
-                        ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            role = value;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.name,
-                        style: GoogleFonts.raleway(),
-                        controller: _officeNameController,
-                        validator: null,
-                        decoration: InputDecoration(
-                          labelText: "Office Name",
-                          prefixIcon:
-                          const Icon(Icons.cell_tower_rounded),
-                          hintText: "Enter office name",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onErrorContainer),
-                          ),
-                          labelStyle: GoogleFonts.raleway(),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            _addMember().then((value) {
-                              if (value == "1") {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    CupertinoPageRoute(
-                                        builder: (context) {
-                                          return const HsHeadScreen();
-                                        }), (route) => false);
-                              } else if (value == "0") {
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.name,
+                              style: GoogleFonts.raleway(),
+                              controller: _managerNameController,
+                              validator: _fieldValidator,
+                              decoration: InputDecoration(
+                                labelText: "Manager Name",
+                                prefixIcon: const Icon(Icons.person_rounded),
+                                hintText: "Enter manager name",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                labelStyle: GoogleFonts.raleway(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              style: GoogleFonts.sourceCodePro(),
+                              controller: _userEmailController,
+                              validator: _emailValidator,
+                              decoration: InputDecoration(
+                                labelText: "Email ID",
+                                prefixIcon: const Icon(Icons.email_rounded),
+                                hintText: "Please enter your Email-ID",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                labelStyle: GoogleFonts.raleway(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.phone,
+                              style: GoogleFonts.sourceCodePro(),
+                              controller: _managerPhoneNumberController,
+                              inputFormatters: [
+                                phoneNumberMaskFormatter,
+                              ],
+                              validator: _mobileNumberValidator,
+                              decoration: InputDecoration(
+                                labelText: "Mobile Number",
+                                prefixIcon: const Icon(Icons.phone_rounded),
+                                hintText: "Enter mobile number",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                labelStyle: GoogleFonts.raleway(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            DropdownButtonFormField(
+                              items: <DropdownMenuItem<String>>[
+                                DropdownMenuItem(
+                                  value: "DOC",
+                                  child: Text(
+                                    "Doctor",
+                                    style: GoogleFonts.raleway(),
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: "FLWRKR",
+                                  child: Text(
+                                    "Frontline Worker",
+                                    style: GoogleFonts.raleway(),
+                                  ),
+                                ),
+                              ],
+                              validator: _fieldValidator,
+                              decoration: InputDecoration(
+                                labelText: "Role",
+                                prefixIcon:
+                                    const Icon(Icons.verified_user_rounded),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                labelStyle: GoogleFonts.raleway(),
+                              ),
+                              onChanged: (String? value) {
                                 setState(() {
-                                  isLoading = false;
+                                  role = value;
                                 });
-                              }
-                            });
-                            setState(() {
-                              isLoading = false;
-                            });
-                          }
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        minWidth: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24.0, vertical: 10.0),
-                        color: Theme.of(context).colorScheme.secondary,
-                        child: Text(
-                          "Register Official",
-                          style: GoogleFonts.raleway(
-                            textStyle:
-                            Theme.of(context).textTheme.titleLarge,
-                            fontWeight: FontWeight.w500,
-                            color:
-                            Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                      ),
-                    ]),
-                  )
-                ],
-              ),
+                              },
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.name,
+                              style: GoogleFonts.raleway(),
+                              controller: _officeNameController,
+                              validator: null,
+                              decoration: InputDecoration(
+                                labelText: "Office Name",
+                                prefixIcon:
+                                    const Icon(Icons.cell_tower_rounded),
+                                hintText: "Enter office name",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer),
+                                ),
+                                labelStyle: GoogleFonts.raleway(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            MaterialButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  _addMember().then((value) {
+                                    if (value == "1") {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return const HsHeadScreen();
+                                      }), (route) => false);
+                                    } else if (value == "0") {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  });
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              minWidth: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24.0, vertical: 10.0),
+                              color: Theme.of(context).colorScheme.secondary,
+                              child: Text(
+                                "Register Official",
+                                style: GoogleFonts.raleway(
+                                  textStyle:
+                                      Theme.of(context).textTheme.titleLarge,
+                                  fontWeight: FontWeight.w500,
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                ),
+                              ),
+                            ),
+                          ]),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

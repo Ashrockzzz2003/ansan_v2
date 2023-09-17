@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewOfficialScreen extends StatefulWidget {
@@ -64,6 +65,13 @@ class _NewOfficialScreenState extends State<NewOfficialScreen> {
     }
     return null;
   }
+
+  final phoneNumberMaskFormatter = MaskTextInputFormatter(
+    mask: "1111111111",
+    filter: {
+      "1": RegExp(r"[0-9]"),
+    },
+  );
 
   bool isLoading = false;
 
@@ -315,6 +323,9 @@ class _NewOfficialScreenState extends State<NewOfficialScreen> {
                               keyboardType: TextInputType.phone,
                               style: GoogleFonts.sourceCodePro(),
                               controller: _managerPhoneNumberController,
+                              inputFormatters: [
+                                phoneNumberMaskFormatter,
+                              ],
                               validator: _mobileNumberValidator,
                               decoration: InputDecoration(
                                 labelText: "Mobile Number",

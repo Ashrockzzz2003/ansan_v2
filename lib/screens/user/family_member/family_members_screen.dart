@@ -31,6 +31,7 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
     setState(() {
       isLoading = true;
     });
+
     SharedPreferences.getInstance().then((sp) {
       final secretToken = sp.getString("SECRET_TOKEN");
       if (secretToken == null) {
@@ -80,6 +81,7 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
                 });
               });
             }
+
           }
         } else if (response.statusCode == 401) {
           showToast("Session Expired! Please login again.");
@@ -117,7 +119,7 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading && familyMembers.isEmpty
+    return (isLoading && familyMembers.isEmpty)
         ? const LoadingScreen()
         : Scaffold(
             extendBodyBehindAppBar: true,
