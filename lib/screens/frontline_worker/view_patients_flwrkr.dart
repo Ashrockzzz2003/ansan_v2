@@ -66,7 +66,6 @@ class _ViewPatientsFrontLineWorkerState
             if (patientList.isEmpty) {
               loadingMessage = "No patients found!";
             }
-
           } else if (response.data["message"] != null) {
             showToast(response.data["message"]);
           } else {
@@ -253,105 +252,113 @@ class _ViewPatientsFrontLineWorkerState
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: patientList.length,
                             itemBuilder: (context, index) {
-                              return ExpansionTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                collapsedShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                collapsedBackgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondary
-                                    .withOpacity(0.2),
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondary
-                                    .withOpacity(0.3),
-                                tilePadding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 16.0),
-                                title: Text(
-                                  "ID: ${patientList[index]["patientId"]}",
-                                  style: GoogleFonts.sourceCodePro(
-                                    textStyle:
-                                        Theme.of(context).textTheme.titleLarge,
-                                    fontWeight: FontWeight.w500,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: ExpansionTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
                                   ),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 8.0,
+                                  collapsedShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  collapsedBackgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondary
+                                      .withOpacity(0.2),
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondary
+                                      .withOpacity(0.3),
+                                  tilePadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 16.0),
+                                  title: Text(
+                                    "ID: ${patientList[index]["patientId"]}",
+                                    style: GoogleFonts.sourceCodePro(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
-                                    const Divider(
-                                      thickness: 1,
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Text(
-                                      patientList[index]["userName"],
-                                      style: GoogleFonts.raleway(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium,
-                                        fontWeight: FontWeight.w500,
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 8.0,
                                       ),
-                                    ),
-                                    Chip(
-                                      label: Text(
-                                        DateFormat("d/M/y h:mm a").format(
-                                          DateTime.parse(
-                                            patientList[index]["timeStamp"]
-                                                .toString(),
-                                          ),
-                                        ),
-                                        style: GoogleFonts.sourceCodePro(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
+                                      const Divider(
+                                        thickness: 1,
+                                      ),
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Text(
+                                        patientList[index]["userName"],
+                                        style: GoogleFonts.raleway(
                                           textStyle: Theme.of(context)
                                               .textTheme
-                                              .titleSmall,
-                                          fontWeight: FontWeight.w600,
+                                              .titleMedium,
+                                          fontWeight: FontWeight.w500,
                                         ),
-                                        textAlign: TextAlign.left,
                                       ),
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                  ],
-                                ),
-                                children: [
-                                  const Divider(
-                                    thickness: 1,
-                                  ),
-                                  ListTile(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute(
-                                              builder: (context) {
-                                        return ViewPatientFrontlineWorkerScreen(
-                                            patientId: patientList[index]
-                                                    ["patientId"]
-                                                .toString());
-                                      }));
-                                    },
-                                    leading: const Icon(Icons.person),
-                                    title: Text(
-                                      "View Patient",
-                                      style: GoogleFonts.raleway(
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
+                                      Chip(
+                                        label: Text(
+                                          DateFormat("d/M/y h:mm a").format(
+                                            DateTime.parse(
+                                              patientList[index]["timeStamp"]
+                                                  .toString(),
+                                            ),
+                                          ),
+                                          style: GoogleFonts.sourceCodePro(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary,
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        backgroundColor: Theme.of(context)
                                             .colorScheme
                                             .primary,
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
+                                  children: [
+                                    const Divider(
+                                      thickness: 1,
+                                    ),
+                                    ListTile(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return ViewPatientFrontlineWorkerScreen(
+                                              patientId: patientList[index]
+                                                      ["patientId"]
+                                                  .toString());
+                                        }));
+                                      },
+                                      leading: const Icon(Icons.person),
+                                      title: Text(
+                                        "View Patient",
+                                        style: GoogleFonts.raleway(
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                           ),

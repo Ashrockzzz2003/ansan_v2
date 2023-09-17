@@ -5,6 +5,7 @@ import 'package:eperimetry_vtwo/screens/admin/new_official_screen.dart';
 import 'package:eperimetry_vtwo/screens/admin/new_patient_admin.dart';
 import 'package:eperimetry_vtwo/screens/admin/view_officials_screen.dart';
 import 'package:eperimetry_vtwo/screens/admin/view_patient_admin.dart';
+import 'package:eperimetry_vtwo/screens/admin/view_patients_admin.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -431,7 +432,13 @@ class _AdminScreenState extends State<AdminScreen> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.9,
                                     child: ElevatedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return const ViewPatientsAdmin();
+                                        }));
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0,
