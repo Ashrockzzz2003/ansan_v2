@@ -334,7 +334,7 @@ class _UserReportsScreenState
                                         style: GoogleFonts.sourceCodePro(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .onError,
+                                              .onSecondary,
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .titleSmall,
@@ -342,7 +342,7 @@ class _UserReportsScreenState
                                         textAlign: TextAlign.left,
                                       ),
                                       backgroundColor:
-                                          Theme.of(context).colorScheme.error,
+                                          Theme.of(context).colorScheme.secondary,
                                     ),
                                     const SizedBox(
                                       height: 16,

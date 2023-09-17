@@ -188,9 +188,15 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
               "reportId": reportD["reportId"],
               "managerId": reportD["managerId"],
               "leftEye":
-                  "${(double.parse(reportD["modelOutput"].toString().split(",")[0]) * 100)} %",
+                  int.parse(reportD["modelOutput"].toString().split(",")[0]) ==
+                          0
+                      ? "Negative"
+                      : "Positive",
               "rightEye":
-                  "${(double.parse(reportD["modelOutput"].toString().split(",")[1]) * 100)} %",
+                  int.parse(reportD["modelOutput"].toString().split(",")[1]) ==
+                          0
+                      ? "Negative"
+                      : "Positive",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
               "timeStamp": reportD["reportTimestamp"],
@@ -528,15 +534,27 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                                   textStyle: Theme.of(context)
                                                       .textTheme
                                                       .titleMedium,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary,
+                                                  color:
+                                                      reportData["leftEye"] ==
+                                                              "Negative"
+                                                          ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimary
+                                                          : Theme.of(context)
+                                                              .colorScheme
+                                                              .onError,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              backgroundColor:
+                                                  reportData["leftEye"] ==
+                                                          "Negative"
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .primary
+                                                      : Theme.of(context)
+                                                          .colorScheme
+                                                          .error,
                                             ),
                                           ),
                                         ),
@@ -552,14 +570,26 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                                       .textTheme
                                                       .titleMedium,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary,
+                                                  color:
+                                                      reportData["rightEye"] ==
+                                                              "Negative"
+                                                          ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimary
+                                                          : Theme.of(context)
+                                                              .colorScheme
+                                                              .onError,
                                                 ),
                                               ),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              backgroundColor:
+                                                  reportData["rightEye"] ==
+                                                          "Negative"
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .primary
+                                                      : Theme.of(context)
+                                                          .colorScheme
+                                                          .error,
                                             ),
                                           ),
                                         ),

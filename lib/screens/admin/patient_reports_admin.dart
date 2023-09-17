@@ -15,7 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientReportsScreen extends StatefulWidget {
-  const PatientReportsScreen({super.key, required this.patientId, required this.patientEmail});
+  const PatientReportsScreen(
+      {super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
   final String patientEmail;
@@ -66,10 +67,16 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
               setState(() {
                 patientReports.add({
                   "reportId": report["reportId"].toString(),
-                  "leftEye":
-                      "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
-                  "rightEye":
-                      "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
+                  "leftEye": int.parse(
+                              report["modelOutput"].toString().split(",")[0]) ==
+                          0
+                      ? "Negative"
+                      : "Positive",
+                  "rightEye": int.parse(
+                              report["modelOutput"].toString().split(",")[1]) ==
+                          0
+                      ? "Negative"
+                      : "Positive",
                   "timeStamp": report["reportTimeStamp"].toString(),
                 });
               });
@@ -294,7 +301,7 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                     Navigator.of(context).push(
                                         CupertinoPageRoute(builder: (context) {
                                       return NewReportAdminScreen(
-                                          patientId: widget.patientId,
+                                        patientId: widget.patientId,
                                         patientEmail: widget.patientEmail,
                                       );
                                     }));
@@ -373,12 +380,13 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                       label: Text(
                                         DateFormat("E d/M/y h:mm a").format(
                                           DateTime.parse(patientReports[index]
-                                          ["timeStamp"]).toLocal(),
+                                                  ["timeStamp"])
+                                              .toLocal(),
                                         ),
                                         style: GoogleFonts.sourceCodePro(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .onError,
+                                              .onSecondary,
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .titleSmall,
@@ -386,7 +394,7 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                         textAlign: TextAlign.left,
                                       ),
                                       backgroundColor:
-                                      Theme.of(context).colorScheme.error,
+                                          Theme.of(context).colorScheme.secondary,
                                     ),
                                     const SizedBox(
                                       height: 16,
@@ -410,15 +418,27 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                             patientReports[index]["leftEye"],
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary,
+                                              color: patientReports[index]
+                                                          ["leftEye"] ==
+                                                      "Negative"
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .onError,
                                             ),
                                             textAlign: TextAlign.left,
                                           ),
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          backgroundColor: patientReports[index]
+                                                      ["leftEye"] ==
+                                                  "Negative"
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ],
                                     ),
@@ -441,15 +461,27 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                             patientReports[index]["rightEye"],
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary,
+                                              color: patientReports[index][
+                                                          "rightEye"] ==
+                                                      "Negative"
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .onError,
                                             ),
                                             textAlign: TextAlign.left,
                                           ),
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          backgroundColor: patientReports[index]
+                                                      ["rightEye"] ==
+                                                  "Negative"
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ],
                                     ),

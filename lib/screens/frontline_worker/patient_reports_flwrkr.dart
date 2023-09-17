@@ -74,9 +74,17 @@ class _PatientReportsFrontlineWorkerScreenState
                 patientReports.add({
                   "reportId": report["reportId"].toString(),
                   "leftEye":
-                      "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
+                  int.parse(
+                      report["modelOutput"].toString().split(",")[0]) ==
+                      0
+                      ? "Negative"
+                      : "Positive",
                   "rightEye":
-                      "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
+                  int.parse(
+                      report["modelOutput"].toString().split(",")[1]) ==
+                      0
+                      ? "Negative"
+                      : "Positive",
                   "timeStamp": report["reportTimeStamp"].toString(),
                 });
               });
@@ -390,7 +398,7 @@ class _PatientReportsFrontlineWorkerScreenState
                                         style: GoogleFonts.sourceCodePro(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .onError,
+                                              .onSecondary,
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .titleSmall,
@@ -398,7 +406,7 @@ class _PatientReportsFrontlineWorkerScreenState
                                         textAlign: TextAlign.left,
                                       ),
                                       backgroundColor:
-                                          Theme.of(context).colorScheme.error,
+                                          Theme.of(context).colorScheme.secondary,
                                     ),
                                     const SizedBox(
                                       height: 16,
@@ -422,15 +430,27 @@ class _PatientReportsFrontlineWorkerScreenState
                                             patientReports[index]["leftEye"],
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary,
+                                              color: patientReports[index]
+                                                          ["leftEye"] ==
+                                                      "Negative"
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .onError,
                                             ),
                                             textAlign: TextAlign.left,
                                           ),
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          backgroundColor: patientReports[index]
+                                                      ["leftEye"] ==
+                                                  "Negative"
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ],
                                     ),
@@ -453,15 +473,27 @@ class _PatientReportsFrontlineWorkerScreenState
                                             patientReports[index]["rightEye"],
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary,
+                                              color: patientReports[index][
+                                                          "rightEye"] ==
+                                                      "Negative"
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .onError,
                                             ),
                                             textAlign: TextAlign.left,
                                           ),
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          backgroundColor: patientReports[index]
+                                                      ["rightEye"] ==
+                                                  "Negative"
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ],
                                     ),
