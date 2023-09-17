@@ -5,6 +5,7 @@ import 'package:eperimetry_vtwo/screens/hospital_head/new_official_hshead_screen
 import 'package:eperimetry_vtwo/screens/hospital_head/new_patient_hshead.dart';
 import 'package:eperimetry_vtwo/screens/hospital_head/view_officials_hshead.dart';
 import 'package:eperimetry_vtwo/screens/hospital_head/view_patient_hshead.dart';
+import 'package:eperimetry_vtwo/screens/hospital_head/view_patients_hshead.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
@@ -433,7 +434,13 @@ class _HsHeadScreenState extends State<HsHeadScreen> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.9,
                                     child: ElevatedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) {
+                                          return const ViewPatientsHsHead();
+                                        }));
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0,

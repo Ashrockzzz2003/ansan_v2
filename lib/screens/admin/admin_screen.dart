@@ -105,9 +105,6 @@ class _AdminScreenState extends State<AdminScreen> {
                             width: MediaQuery.of(context).size.width * 0.6,
                             height: MediaQuery.of(context).size.height * 0.25,
                           ),
-                          const SizedBox(
-                            height: 24,
-                          ),
                           Text(
                             "${admin!["managerName"]}",
                             textAlign: TextAlign.center,
@@ -459,7 +456,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                             .onPrimary,
                                       ),
                                       label: Text(
-                                        "View Patients",
+                                        "View Patients added by you",
                                         style: GoogleFonts.raleway(
                                           textStyle: Theme.of(context)
                                               .textTheme
