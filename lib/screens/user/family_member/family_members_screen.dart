@@ -50,6 +50,10 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
       )
           .then((response) {
         if (response.statusCode == 200) {
+          if (kDebugMode) {
+            print(response.data["data"]);
+          }
+
           if (response.data["data"].length > 0) {
             for (final familyMember in response.data["data"]) {
               setState(() {
@@ -489,17 +493,12 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
                                                   controller:
                                                       TextEditingController(
                                                           text: familyMembers[
-                                                                          index]
-                                                                      [
-                                                                      "gender"] ==
-                                                                  "M"
-                                                              ? "Male"
-                                                              : "Female"),
+                                                              index]["gender"]),
                                                   decoration: InputDecoration(
                                                     prefixIcon: familyMembers[
                                                                     index]
                                                                 ["gender"] ==
-                                                            "M"
+                                                            "Male"
                                                         ? const Icon(
                                                             Icons.male_rounded)
                                                         : const Icon(Icons

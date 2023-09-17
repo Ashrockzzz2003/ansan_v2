@@ -75,8 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
       showToast("Something went wrong. Please try again later");
       return "0";
     }
-
-
   }
 
   @override
@@ -216,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .withOpacity(0.2)),
                               ),
                               child: Text(
-                                "Don't have an acoount? Create Account",
+                                "Don't have an account? Create Account",
                                 style: GoogleFonts.raleway(
                                   fontWeight: FontWeight.w500,
                                 ),
