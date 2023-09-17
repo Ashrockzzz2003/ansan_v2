@@ -9,20 +9,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientReportsHsHeadScreen extends StatefulWidget {
-  const PatientReportsHsHeadScreen({super.key, required this.patientId, required this.patientEmail});
+  const PatientReportsHsHeadScreen(
+      {super.key, required this.patientId, required this.patientEmail});
 
   final String patientId;
   final String patientEmail;
 
   @override
-  State<PatientReportsHsHeadScreen> createState() => _PatientReportsHsHeadScreenState();
+  State<PatientReportsHsHeadScreen> createState() =>
+      _PatientReportsHsHeadScreenState();
 }
 
-class _PatientReportsHsHeadScreenState extends State<PatientReportsHsHeadScreen> {
+class _PatientReportsHsHeadScreenState
+    extends State<PatientReportsHsHeadScreen> {
   final List<Map<String, dynamic>> patientReports = [];
   bool isLoading = true;
 
@@ -65,9 +69,9 @@ class _PatientReportsHsHeadScreenState extends State<PatientReportsHsHeadScreen>
                 patientReports.add({
                   "reportId": report["reportId"].toString(),
                   "leftEye":
-                  "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
+                      "${double.parse(report["modelOutput"].toString().split(",")[0]) * 100} %",
                   "rightEye":
-                  "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
+                      "${double.parse(report["modelOutput"].toString().split(",")[1]) * 100} %",
                   "timeStamp": report["reportTimeStamp"].toString(),
                 });
               });
@@ -85,8 +89,8 @@ class _PatientReportsHsHeadScreenState extends State<PatientReportsHsHeadScreen>
           showToast("Session Expired! Please login again.");
           Navigator.of(context).pushAndRemoveUntil(
               CupertinoPageRoute(builder: (context) {
-                return const WelcomeScreen();
-              }), (route) => false);
+            return const WelcomeScreen();
+          }), (route) => false);
         } else if (response.data["message"] != null) {
           showToast(response.data["message"]);
         } else {
@@ -169,302 +173,324 @@ class _PatientReportsHsHeadScreenState extends State<PatientReportsHsHeadScreen>
   Widget build(BuildContext context) {
     return isLoading
         ? LoadingScreen(
-      message: loadingMessage,
-    )
+            message: loadingMessage,
+          )
         : Scaffold(
-      extendBodyBehindAppBar: true,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            floating: false,
-            pinned: true,
-            snap: false,
-            centerTitle: true,
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    CupertinoPageRoute(builder: (context) {
-                      return ViewPatientHsHead(patientId: widget.patientId);
-                    }), (route) => false);
-              },
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              collapseMode: CollapseMode.parallax,
-              background: Image.asset(
-                "assets/login.png",
-                color: Theme.of(context)
-                    .colorScheme
-                    .tertiary
-                    .withOpacity(0.2),
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-              ),
-              title: Text(
-                "Patient Reports",
-                style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  // Patient ID
-                  const SizedBox(
-                    height: 24,
+            extendBodyBehindAppBar: true,
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar.large(
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  centerTitle: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          CupertinoPageRoute(builder: (context) {
+                        return ViewPatientHsHead(patientId: widget.patientId);
+                      }), (route) => false);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios),
                   ),
-                  Chip(
-                    padding: const EdgeInsets.all(2.0),
-                    label: Text(
-                      "Patient ID: ${widget.patientId}",
-                      style: GoogleFonts.sourceCodePro(
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    collapseMode: CollapseMode.parallax,
+                    background: Image.asset(
+                      "assets/login.png",
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.2),
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
+                    ),
+                    title: Text(
+                      "Patient Reports",
+                      style: GoogleFonts.raleway(
                         fontWeight: FontWeight.w500,
-                        textStyle:
-                        Theme.of(context).textTheme.titleMedium,
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
-                      textAlign: TextAlign.left,
                     ),
-                    backgroundColor:
-                    Theme.of(context).colorScheme.primary,
                   ),
+                ),
+                SliverToBoxAdapter(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        // Patient ID
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Chip(
+                          padding: const EdgeInsets.all(2.0),
+                          label: Text(
+                            "Patient ID: ${widget.patientId}",
+                            style: GoogleFonts.sourceCodePro(
+                              fontWeight: FontWeight.w500,
+                              textStyle:
+                                  Theme.of(context).textTheme.titleMedium,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                        ),
 
-                  if (patientReports.isEmpty) ...[
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.1),
-                      ),
-                      child: Column(
-                        children: [
+                        if (patientReports.isEmpty) ...[
+                          const SizedBox(
+                            height: 24,
+                          ),
                           Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.error,
                               borderRadius: BorderRadius.circular(8.0),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1),
                             ),
-                            child: Text(
-                              "No reports found! Please take a new test to view reports.",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.raleway(
-                                fontWeight: FontWeight.w500,
-                                color:
-                                Theme.of(context).colorScheme.onError,
-                              ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.error,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Text(
+                                    "No reports found! Please take a new test to view reports.",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.raleway(
+                                      fontWeight: FontWeight.w500,
+                                      color:
+                                          Theme.of(context).colorScheme.onError,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                  ],
-                  // build a list view with patient id as avatar and patient name as title
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: patientReports.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding:
-                        const EdgeInsets.symmetric(vertical: 4.0),
-                        child: ExpansionTile(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          collapsedShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          collapsedBackgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSecondary
-                              .withOpacity(0.2),
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSecondary
-                              .withOpacity(0.3),
-                          tilePadding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 16.0),
-                          title: Text(
-                            "ID: ${patientReports[index]["reportId"]}",
-                            style: GoogleFonts.sourceCodePro(
-                              textStyle:
-                              Theme.of(context).textTheme.titleLarge,
-                              fontWeight: FontWeight.w500,
-                              color:
-                              Theme.of(context).colorScheme.secondary,
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Row(
-                                children: [
-                                  Chip(
-                                    padding: const EdgeInsets.all(2.0),
-                                    label: Text(
-                                      "Left Eye  ",
-                                      style: GoogleFonts.raleway(),
-                                      textAlign: TextAlign.left,
+                        // build a list view with patient id as avatar and patient name as title
+                        ListView.builder(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: patientReports.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 4.0),
+                              child: ExpansionTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                collapsedShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                collapsedBackgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondary
+                                    .withOpacity(0.2),
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondary
+                                    .withOpacity(0.3),
+                                tilePadding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 16.0),
+                                title: Text(
+                                  "ID: ${patientReports[index]["reportId"]}",
+                                  style: GoogleFonts.sourceCodePro(
+                                    textStyle:
+                                        Theme.of(context).textTheme.titleLarge,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 16,
                                     ),
+                                    Chip(
+                                      label: Text(
+                                        DateFormat("E d/M/y h:mm a").format(
+                                          DateTime.parse(patientReports[index]
+                                              ["timeStamp"]),
+                                        ),
+                                        style: GoogleFonts.sourceCodePro(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onError,
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Chip(
+                                          padding: const EdgeInsets.all(2.0),
+                                          label: Text(
+                                            "Left Eye  ",
+                                            style: GoogleFonts.raleway(),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Chip(
+                                          padding: const EdgeInsets.all(2.0),
+                                          label: Text(
+                                            patientReports[index]["leftEye"],
+                                            style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Chip(
+                                          padding: const EdgeInsets.all(2.0),
+                                          label: Text(
+                                            "Right Eye",
+                                            style: GoogleFonts.raleway(),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Chip(
+                                          padding: const EdgeInsets.all(2.0),
+                                          label: Text(
+                                            patientReports[index]["rightEye"],
+                                            style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                children: [
+                                  const Divider(
+                                    thickness: 1,
                                   ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Chip(
-                                    padding: const EdgeInsets.all(2.0),
-                                    label: Text(
-                                      patientReports[index]["leftEye"],
+                                  ListTile(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
+                                        return ViewReportHsHeadScreen(
+                                          patientId: widget.patientId,
+                                          reportId: patientReports[index]
+                                                  ["reportId"]
+                                              .toString(),
+                                          patientEmail: widget.patientEmail,
+                                        );
+                                      }));
+                                    },
+                                    leading: const Icon(Icons.assignment),
+                                    title: Text(
+                                      "View Entire Report",
                                       style: GoogleFonts.raleway(
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onPrimary,
+                                            .primary,
                                       ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .primary,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Chip(
-                                    padding: const EdgeInsets.all(2.0),
-                                    label: Text(
-                                      "Right Eye",
-                                      style: GoogleFonts.raleway(),
-                                      textAlign: TextAlign.left,
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    height: 16,
                                   ),
-                                  Chip(
-                                    padding: const EdgeInsets.all(2.0),
-                                    label: Text(
-                                      patientReports[index]["rightEye"],
-                                      style: GoogleFonts.raleway(
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .primary,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          children: [
-                            const Divider(
-                              thickness: 1,
-                            ),
-                            ListTile(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                    CupertinoPageRoute(
-                                        builder: (context) {
-                                          return ViewReportHsHeadScreen(
-                                            patientId: widget.patientId,
-                                            reportId: patientReports[index]
-                                            ["reportId"]
-                                                .toString(),
-                                            patientEmail: widget.patientEmail,
+                                  ListTile(
+                                    onTap: () {
+                                      // TODO: download report
+                                      _downloadReport(patientReports[index]
+                                                  ["reportId"]
+                                              .toString())
+                                          .then((value) {
+                                        if (value == "1") {
+                                          launchUrl(
+                                            Uri.parse(
+                                              "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                            ),
+                                            mode: LaunchMode.inAppWebView,
                                           );
-                                        }));
-                              },
-                              leading: const Icon(Icons.assignment),
-                              title: Text(
-                                "View Entire Report",
-                                style: GoogleFonts.raleway(
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            ListTile(
-                              onTap: () {
-                                // TODO: download report
-                                _downloadReport(patientReports[index]
-                                ["reportId"]
-                                    .toString())
-                                    .then((value) {
-                                  if (value == "1") {
-                                    launchUrl(
-                                      Uri.parse(
-                                        "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                        } else if (value == "0") {
+                                          // failure
+                                        } else if (value == "-1") {
+                                          // session expired
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  CupertinoPageRoute(
+                                                      builder: (context) {
+                                            return const WelcomeScreen();
+                                          }), (route) => false);
+                                        }
+                                      });
+                                    },
+                                    leading: const Icon(
+                                        Icons.file_download_outlined),
+                                    title: Text(
+                                      "Download Report",
+                                      style: GoogleFonts.raleway(
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                       ),
-                                      mode: LaunchMode.inAppWebView,
-                                    );
-                                  } else if (value == "0") {
-                                    // failure
-                                  } else if (value == "-1") {
-                                    // session expired
-                                    Navigator.of(context)
-                                        .pushAndRemoveUntil(
-                                        CupertinoPageRoute(
-                                            builder: (context) {
-                                              return const WelcomeScreen();
-                                            }), (route) => false);
-                                  }
-                                });
-                              },
-                              leading: const Icon(
-                                  Icons.file_download_outlined),
-                              title: Text(
-                                "Download Report",
-                                style: GoogleFonts.raleway(
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary,
-                                ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                          ],
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

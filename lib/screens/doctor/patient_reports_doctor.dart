@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -376,6 +377,28 @@ class _PatientReportsDoctorScreenState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    Chip(
+                                      label: Text(
+                                        DateFormat("E d/M/y h:mm a").format(
+                                          DateTime.parse(patientReports[index]
+                                          ["timeStamp"]),
+                                        ),
+                                        style: GoogleFonts.sourceCodePro(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onError,
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      backgroundColor:
+                                      Theme.of(context).colorScheme.error,
+                                    ),
                                     const SizedBox(
                                       height: 16,
                                     ),

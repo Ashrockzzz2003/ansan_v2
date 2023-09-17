@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -193,7 +194,7 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                   "${(double.parse(reportD["modelOutput"].toString().split(",")[1]) * 100)} %",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
-              "timeStamp": reportD["timeStamp"],
+              "timeStamp": reportD["reportTimestamp"],
             };
             patientData = response.data["data"] as Map<String, dynamic>;
             _doctorComment.text = reportData["description"] ?? "";
@@ -489,6 +490,36 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                 ),
                                 const SizedBox(
                                   height: 24,
+                                ),
+                                const Divider(
+                                  height: 0,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Chip(
+                                  label: Text(
+                                    DateFormat("EEEE d/M/y h:mm a").format(
+                                      DateTime.parse(
+                                        reportData["timeStamp"].toString(),
+                                      ),
+                                    ),
+                                    style: GoogleFonts.sourceCodePro(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                                ),
+                                const SizedBox(
+                                  height: 16,
                                 ),
                                 const Divider(
                                   height: 0,
