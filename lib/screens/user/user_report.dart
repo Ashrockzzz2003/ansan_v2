@@ -193,7 +193,7 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                   "${(double.parse(reportD["modelOutput"].toString().split(",")[1]) * 100)} %",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
-              "timeStamp": reportD["reportTimeStamp"],
+              "timeStamp": reportD["reportTimestamp"],
             };
             patientData = response.data["data"] as Map<String, dynamic>;
             _doctorComment.text = reportData["description"] ?? "";
@@ -302,7 +302,7 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                       filterQuality: FilterQuality.high,
                     ),
                     title: Text(
-                      "Report ${widget.reportId}",
+                      "Report",
                       style: GoogleFonts.raleway(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).colorScheme.onBackground,
@@ -450,7 +450,7 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                                             ? DateTime.now().toString()
                                             : reportData["timeStamp"]
                                                 .toString(),
-                                      ),
+                                      ).toLocal(),
                                     ),
                                     style: GoogleFonts.sourceCodePro(
                                       color: Theme.of(context)

@@ -206,7 +206,7 @@ class _ViewReportFamilyMemberScreenState
                   "${(double.parse(reportD["modelOutput"].toString().split(",")[1]) * 100)} %",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
-              "timeStamp": reportD["reportTimeStamp"],
+              "timeStamp": reportD["reportTimestamp"],
             };
             patientData = response.data["data"] as Map<String, dynamic>;
             _doctorComment.text = reportData["description"] ?? "";
@@ -463,7 +463,7 @@ class _ViewReportFamilyMemberScreenState
                                             ? DateTime.now().toString()
                                             : reportData["timeStamp"]
                                                 .toString(),
-                                      ),
+                                      ).toLocal(),
                                     ),
                                     style: GoogleFonts.sourceCodePro(
                                       color: Theme.of(context)

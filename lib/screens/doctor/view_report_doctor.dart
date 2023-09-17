@@ -502,7 +502,7 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                     DateFormat("EEEE d/M/y h:mm a").format(
                                       DateTime.parse(
                                         reportData["timeStamp"].toString(),
-                                      ),
+                                      ).toLocal(),
                                     ),
                                     style: GoogleFonts.sourceCodePro(
                                       color: Theme.of(context)

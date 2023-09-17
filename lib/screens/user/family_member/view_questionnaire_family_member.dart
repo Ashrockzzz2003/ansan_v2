@@ -93,6 +93,12 @@ class _ViewFamilyMemberSurveyLevelOneScreenState
           });
         } else if (response.data["message"] != null) {
           showToast(response.data["message"]);
+        } else if (response.statusCode == 401) {
+          showToast("Session Expired. Please login again.");
+          Navigator.of(context).pushAndRemoveUntil(
+              CupertinoPageRoute(builder: (context) {
+                return const WelcomeScreen();
+              }), (route) => false);
         } else {
           if (kDebugMode) {
             print(response.data);

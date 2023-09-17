@@ -373,7 +373,7 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                       label: Text(
                                         DateFormat("E d/M/y h:mm a").format(
                                           DateTime.parse(patientReports[index]
-                                          ["timeStamp"]),
+                                          ["timeStamp"]).toLocal(),
                                         ),
                                         style: GoogleFonts.sourceCodePro(
                                           color: Theme.of(context)

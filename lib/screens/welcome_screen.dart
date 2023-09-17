@@ -51,10 +51,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       height: MediaQuery.of(context).size.height * 0.25,
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 16,
                     ),
                     Text(
-                      "Welcome to ANSAN.\nLogin/Register to continue.",
+                      "Welcome to",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.raleway(
+                        textStyle: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                    Text(
+                      "Amrita Netra Samrakshan System\n(ANSAN)\n",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.raleway(
+                        textStyle: Theme.of(context).textTheme.titleMedium,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Login/Register to continue.",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.raleway(
                         textStyle: Theme.of(context).textTheme.titleMedium,
