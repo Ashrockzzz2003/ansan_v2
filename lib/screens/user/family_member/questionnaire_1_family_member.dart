@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/model/question.dart';
 import 'package:eperimetry_vtwo/screens/auth/login_screen.dart';
@@ -13,17 +15,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FamilyMemberSurveyScreen extends StatefulWidget {
-  const FamilyMemberSurveyScreen({super.key, required this.memberId});
+class FamilyMemberSurveyLevelOneScreen extends StatefulWidget {
+  const FamilyMemberSurveyLevelOneScreen(
+      {super.key, required this.familyMemberId});
 
-  final String memberId;
+  final String familyMemberId;
 
   @override
-  State<FamilyMemberSurveyScreen> createState() =>
-      _FamilyMemberSurveyScreenState();
+  State<FamilyMemberSurveyLevelOneScreen> createState() =>
+      _FamilyMemberSurveyLevelOneScreenState();
 }
 
-class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
+class _FamilyMemberSurveyLevelOneScreenState
+    extends State<FamilyMemberSurveyLevelOneScreen> {
   String? secretToken = "";
   bool isLoading = false;
 
@@ -37,27 +41,13 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
   late List<Question> questionList;
 
   @override
-  void dispose() {
-    for (var element in controllers) {
-      element.dispose();
-    }
-    super.dispose();
-  }
-
-  String? _fieldValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter some text';
-    }
-    return null;
-  }
-
-  @override
   void initState() {
     setState(() {
       isLoading = true;
     });
+
     SharedPreferences.getInstance().then((sp) {
-      if (sp.containsKey("SECRET_TOKEN") && widget.memberId.isNotEmpty) {
+      if (sp.containsKey("SECRET_TOKEN")) {
         secretToken = sp.getString("SECRET_TOKEN");
       } else {
         showToast("Session expired. Please login again.");
@@ -67,9 +57,11 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
         }), (route) => false);
       }
     });
+
     controllers = List.generate(maxIndex, (index) {
       return TextEditingController();
     });
+
     questionList = [
       Question(
         questionFull: "Please enter your height in cm",
@@ -292,6 +284,21 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    for (var element in controllers) {
+      element.dispose();
+    }
+    super.dispose();
+  }
+
+  String? _fieldValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
+  }
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -416,6 +423,7 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
     final dio = Dio();
 
     final sp = await SharedPreferences.getInstance();
+    final Map<String, dynamic>? user = jsonDecode(sp.getString("currentUser")!);
     final String? secretToken = sp.getString("SECRET_TOKEN");
 
     if (secretToken == null) {
@@ -436,7 +444,7 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
           },
         ),
         data: {
-          "memberId": widget.memberId.toString(),
+          "memberId": widget.familyMemberId.toString(),
           "height": controllers[0].text.toString(),
           "weight": controllers[1].text.toString(),
           "covidVaccination": controllers[2].text.toString(),
@@ -452,15 +460,26 @@ class _FamilyMemberSurveyScreenState extends State<FamilyMemberSurveyScreen> {
         },
       );
 
+      if(kDebugMode) {
+        print(response.data);
+      }
+
       if (response.statusCode == 200) {
+
+        if(kDebugMode) {
+          print(response.data);
+        }
+
         showToast("Survey submitted successfully!");
+        user!["surveyLevel"] = "1";
+        sp.setString("currentUser", jsonEncode(user));
         return "1";
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);
         return "0";
       } else if (response.statusCode == 401) {
         showToast("Session Expired! Please login again.");
-        return "-1";
+        return "0";
       } else {
         showToast("Something went wrong. Please try again later.");
         return "0";
