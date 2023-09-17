@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
-import 'package:eperimetry_vtwo/screens/user/view_survey_l1.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -458,37 +457,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             textStyle: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
-                        if (user!["surveyLevel"] != "0") ...[
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          MaterialButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                CupertinoPageRoute(builder: (context) {
-                                  return const ViewUserSurveyLevelOneScreen();
-                                }),
-                              );
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            minWidth: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0, vertical: 10.0),
-                            color: Theme.of(context).colorScheme.secondary,
-                            child: Text(
-                              "View Questionnaire",
-                              style: GoogleFonts.raleway(
-                                textStyle:
-                                    Theme.of(context).textTheme.titleLarge,
-                                fontWeight: FontWeight.w500,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                          ),
-                        ],
                         const SizedBox(
                           height: 48,
                         ),

@@ -23,6 +23,7 @@ class Constants {
 
   // TODO: Update and test this API
   String get viewPatientsUrl => "$baseUrl/getPatientsUnderMe";
+  String get getSurveyUrl => "$baseUrl/getSurvey";
 
   // ADMIN
   String get registerOfficialUrl => "$baseUrl/registerOfficial";

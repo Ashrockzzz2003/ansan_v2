@@ -136,6 +136,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "pincode": pincodeMaskFormatter.getUnmaskedText(),
           });
 
+      if (kDebugMode) {
+        print(response.data);
+      }
+
       if (response.statusCode == 200) {
         showToast("OTP sent successfully.");
         return response.data["SECRET_TOKEN"];

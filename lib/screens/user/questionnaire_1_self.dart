@@ -41,6 +41,7 @@ class _UserSurveyLevelOneScreenState extends State<UserSurveyLevelOneScreen> {
     setState(() {
       isLoading = true;
     });
+
     SharedPreferences.getInstance().then((sp) {
       if (sp.containsKey("SECRET_TOKEN")) {
         secretToken = sp.getString("SECRET_TOKEN");
@@ -52,9 +53,11 @@ class _UserSurveyLevelOneScreenState extends State<UserSurveyLevelOneScreen> {
         }), (route) => false);
       }
     });
+
     controllers = List.generate(maxIndex, (index) {
       return TextEditingController();
     });
+
     questionList = [
       Question(
         questionFull: "Please enter your height in cm",
@@ -456,22 +459,6 @@ class _UserSurveyLevelOneScreenState extends State<UserSurveyLevelOneScreen> {
         showToast("Survey submitted successfully!");
         user!["surveyLevel"] = "1";
         sp.setString("currentUser", jsonEncode(user));
-        sp.setString(
-            "surveyOneData",
-            jsonEncode({
-              "height": controllers[0].text,
-              "weight": controllers[1].text,
-              "covidVaccination": controllers[2].text,
-              "anyAllergies": controllers[3].text,
-              "allergies": controllers[4].text,
-              "symptoms": controllers[5].text,
-              "symptomDuration": controllers[6].text,
-              "injury": controllers[7].text,
-              "medication": controllers[8].text,
-              "medicalHistory": controllers[9].text,
-              "consumptions": controllers[10].text,
-              "familyHistory": controllers[11].text,
-            }));
         return "1";
       } else if (response.data["message"] != null) {
         showToast(response.data["message"]);

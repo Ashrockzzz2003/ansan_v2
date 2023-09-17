@@ -1,7 +1,10 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
+import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
+import 'package:eperimetry_vtwo/utils/constants.dart';
+import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,26 +42,63 @@ class _ViewUserSurveyLevelOneScreenState
   @override
   void initState() {
     SharedPreferences.getInstance().then((sp) {
-      final Map<String, dynamic> surveyLevelOne =
-          jsonDecode(sp.getString("surveyOneData") ?? "");
-
-      if (surveyLevelOne.isEmpty) {
-        Navigator.pop(context);
-        return;
+      final secretToken = sp.getString("SECRET_TOKEN");
+      if (secretToken == null || secretToken.isEmpty) {
+        showToast("Session Expired. Please login again.");
+        Navigator.of(context).pushAndRemoveUntil(
+            CupertinoPageRoute(builder: (context) {
+              return const WelcomeScreen();
+            }), (route) => false);
       }
 
-      _controllers[0].text = surveyLevelOne["height"];
-      _controllers[1].text = surveyLevelOne["weight"];
-      _controllers[2].text = surveyLevelOne["covidVaccination"];
-      _controllers[3].text = surveyLevelOne["anyAllergies"];
-      _controllers[4].text = surveyLevelOne["allergies"];
-      _controllers[5].text = surveyLevelOne["symptoms"];
-      _controllers[6].text = surveyLevelOne["symptomDuration"];
-      _controllers[7].text = surveyLevelOne["injury"];
-      _controllers[8].text = surveyLevelOne["medication"];
-      _controllers[9].text = surveyLevelOne["medicalHistory"];
-      _controllers[10].text = surveyLevelOne["consumptions"];
-      _controllers[11].text = surveyLevelOne["familyHistory"];
+      Dio().post(
+        Constants().getSurveyUrl,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $secretToken",
+            "Content-Type": "application/json"
+          },
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ),
+      ).then((response) {
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> surveyLevelOne = response.data["details"];
+
+          if (kDebugMode) {
+            print(surveyLevelOne);
+          }
+
+          setState(() {
+            _controllers[0].text = surveyLevelOne["height"].toString();
+            _controllers[1].text = surveyLevelOne["weight"].toString();
+            _controllers[2].text = surveyLevelOne["covidVaccination"].toString();
+            _controllers[3].text = surveyLevelOne["anyAllergies"].toString();
+            _controllers[4].text = surveyLevelOne["allergies"].toString();
+            _controllers[5].text = surveyLevelOne["symptoms"].toString();
+            _controllers[6].text = surveyLevelOne["symptomDuration"].toString();
+            _controllers[7].text = surveyLevelOne["injury"].toString();
+            _controllers[8].text = surveyLevelOne["medication"].toString();
+            _controllers[9].text = surveyLevelOne["medicalHistory"].toString();
+            _controllers[10].text = surveyLevelOne["consumptions"].toString();
+            _controllers[11].text = surveyLevelOne["familyHistory"].toString();
+          });
+
+        } else if (response.data["message"] != null) {
+          showToast(response.data["message"]);
+        } else {
+          if (kDebugMode) {
+            print(response.data);
+          }
+          showToast("Something went wrong. Please try again later.");
+        }
+      }).catchError((e) {
+        if (kDebugMode) {
+          print(e);
+        }
+        showToast("Something went wrong. Please try again later.");
+      });
     });
 
     super.initState();

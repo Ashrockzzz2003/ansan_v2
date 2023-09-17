@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:eperimetry_vtwo/screens/user/family_members_screen.dart';
-import 'package:eperimetry_vtwo/screens/user/new_member_screen.dart';
-import 'package:eperimetry_vtwo/screens/user/survey_l1.dart';
+import 'package:eperimetry_vtwo/screens/user/family_member/family_members_screen.dart';
+import 'package:eperimetry_vtwo/screens/user/family_member/new_member_screen.dart';
+import 'package:eperimetry_vtwo/screens/user/questionnaire_1_self.dart';
 import 'package:eperimetry_vtwo/screens/user/user_profile.dart';
-import 'package:eperimetry_vtwo/screens/user/view_survey_l1.dart';
+import 'package:eperimetry_vtwo/screens/user/user_reports.dart';
+import 'package:eperimetry_vtwo/screens/user/view_questionnaire_self.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -755,7 +756,20 @@ class _UserScreenState extends State<UserScreen> {
                                               height: 16,
                                             ),
                                             ElevatedButton.icon(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.of(context).push(
+                                                    CupertinoPageRoute(
+                                                        builder: (context) {
+                                                  return UserReportsScreen(
+                                                    patientId:
+                                                        user!["patientId"]
+                                                            .toString(),
+                                                    patientEmail:
+                                                        user!["userEmail"]
+                                                            .toString(),
+                                                  );
+                                                }));
+                                              },
                                               style: ElevatedButton.styleFrom(
                                                 padding:
                                                     const EdgeInsets.symmetric(

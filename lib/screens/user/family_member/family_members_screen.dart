@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:eperimetry_vtwo/screens/user/new_member_screen.dart';
-import 'package:eperimetry_vtwo/screens/user/questionnaire_1_family_member.dart';
+import 'package:eperimetry_vtwo/screens/user/family_member/family_member_reports.dart';
+import 'package:eperimetry_vtwo/screens/user/family_member/new_member_screen.dart';
+import 'package:eperimetry_vtwo/screens/user/family_member/questionnaire_1_family_member.dart';
 import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
-import 'package:eperimetry_vtwo/screens/user/view_questionnaire_family_member.dart';
+import 'package:eperimetry_vtwo/screens/user/family_member/view_questionnaire_family_member.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
 import 'package:eperimetry_vtwo/utils/loading_screen.dart';
@@ -61,7 +62,7 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
                       : "Female",
                   "dob": familyMember["dob"].toString().split("T")[0],
                   "age": familyMember["age"].toString(),
-                  "userEmail": familyMember["userEmail"].toString(),
+                  "userEmail": sp.getString("userEmail"),
                   "aadhar": familyMember["aadhar"].toString(),
                   "address": familyMember["address"].toString(),
                   "district": familyMember["district"].toString(),
@@ -1077,7 +1078,19 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
                                       ),
                                     ),
                                     ListTile(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(builder: (_) {
+                                          return FamilyMemberReportsScreen(
+                                            patientId: familyMembers[index]
+                                                    ["patientId"]
+                                                .toString(),
+                                            patientEmail: familyMembers[index]
+                                                    ["userEmail"]
+                                                .toString(),
+                                          );
+                                        }));
+                                      },
                                       leading: const Icon(Icons.assignment),
                                       title: Text(
                                         "View Reports",
