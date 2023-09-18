@@ -2408,7 +2408,7 @@ class _ViewReportFrontlineWorkerScreenState
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                if (widget.patientEmail.isNotEmpty) ...[
+                                if (widget.patientEmail.isNotEmpty && widget.patientEmail != 'null') ...[
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.84,

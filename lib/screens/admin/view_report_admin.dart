@@ -58,10 +58,13 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
     try {
       final response = await dio.post(
         Constants().downloadReportUrl,
-        options: Options(headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $secretToken",
-        }),
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $secretToken",
+          },
+          validateStatus: (status) => status! < 500,
+        ),
         data: {
           "patient_token": patientToken,
           "reportId": reportId,
@@ -113,10 +116,13 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
     try {
       final response = await dio.post(
         Constants().emailReportUrl,
-        options: Options(headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $secretToken",
-        }),
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $secretToken",
+          },
+          validateStatus: (status) => status! < 500,
+        ),
         data: {
           "receiverEmail": receiverEmail,
           "patient_token": patientToken,
@@ -2402,7 +2408,7 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                if (widget.patientEmail.isNotEmpty) ...[
+                                if (widget.patientEmail.isNotEmpty && widget.patientEmail != 'null') ...[
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.84,
