@@ -118,10 +118,6 @@ class _FamilyMemberReportsScreenState extends State<FamilyMemberReportsScreen> {
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
-
     super.initState();
   }
 
@@ -163,6 +159,10 @@ class _FamilyMemberReportsScreenState extends State<FamilyMemberReportsScreen> {
         showToast("Something went wrong! Please try again later.");
       }
 
+      setState(() {
+        isLoading = false;
+      });
+
       return "0";
     } catch (e) {
       if (kDebugMode) {
@@ -181,7 +181,7 @@ class _FamilyMemberReportsScreenState extends State<FamilyMemberReportsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading || (patientReports.isEmpty && isLoading)
+    return isLoading
         ? LoadingScreen(
             message: loadingMessage,
           )

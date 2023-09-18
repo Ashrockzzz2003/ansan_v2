@@ -72,6 +72,10 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
           } else {
             showToast("No registered officials added by you!");
           }
+
+          setState(() {
+            isLoading = false;
+          });
         } else if (response.statusCode == 401) {
           showToast("Session Expired! Please login again.");
           Navigator.of(context).pushAndRemoveUntil(
@@ -98,9 +102,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
         }
       });
     });
-    setState(() {
-      isLoading = false;
-    });
+
     super.initState();
   }
 
@@ -129,18 +131,20 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
         ),
         data: {
           "affectedManagerId": familyMembers[index]["managerId"].toString(),
-          "newStatus": familyMembers[index]["status"] == "ACTIVE" || familyMembers[index]["status"] == "WAITLIST"
+          "newStatus": familyMembers[index]["status"] == "ACTIVE" ||
+                  familyMembers[index]["status"] == "WAITLIST"
               ? "INACTIVE"
               : "WAITLIST",
         },
       );
 
       if (response.statusCode == 200) {
-
         setState(() {
-          familyMembers[index]["status"] = familyMembers[index]["status"] == "ACTIVE" || familyMembers[index]["status"] == "WAITLIST"
-              ? "INACTIVE"
-              : "WAITLIST";
+          familyMembers[index]["status"] =
+              familyMembers[index]["status"] == "ACTIVE" ||
+                      familyMembers[index]["status"] == "WAITLIST"
+                  ? "INACTIVE"
+                  : "WAITLIST";
         });
 
         showToast("Official status updated!");
@@ -248,8 +252,14 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
   }
 
   @override
+  void dispose() {
+    familyMembers.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return isLoading && familyMembers.isEmpty
+    return (isLoading == true || familyMembers.isEmpty)
         ? const LoadingScreen()
         : Scaffold(
             extendBodyBehindAppBar: true,
@@ -1467,7 +1477,9 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                     ),
                                   ),
                                   if ((familyMembers[index]["status"] ==
-                                          "ACTIVE" || familyMembers[index]["status"] == "WAITLIST") &&
+                                              "ACTIVE" ||
+                                          familyMembers[index]["status"] ==
+                                              "WAITLIST") &&
                                       familyMembers[index]["role"] !=
                                           "ADMIN") ...[
                                     ListTile(

@@ -122,10 +122,6 @@ class _PatientReportsDoctorScreenState
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
-
     super.initState();
   }
 

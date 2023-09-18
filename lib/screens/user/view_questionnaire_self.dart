@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
+import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -39,19 +40,26 @@ class _ViewUserSurveyLevelOneScreenState
     "Family History",
   ];
 
+  bool isLoading = true;
+
   @override
   void initState() {
+    setState(() {
+      isLoading = true;
+    });
+
     SharedPreferences.getInstance().then((sp) {
       final secretToken = sp.getString("SECRET_TOKEN");
       if (secretToken == null || secretToken.isEmpty) {
         showToast("Session Expired. Please login again.");
         Navigator.of(context).pushAndRemoveUntil(
             CupertinoPageRoute(builder: (context) {
-              return const WelcomeScreen();
-            }), (route) => false);
+          return const WelcomeScreen();
+        }), (route) => false);
       }
 
-      Dio().post(
+      Dio()
+          .post(
         Constants().getSurveyUrl,
         options: Options(
           headers: {
@@ -62,7 +70,8 @@ class _ViewUserSurveyLevelOneScreenState
             return status! < 500;
           },
         ),
-      ).then((response) {
+      )
+          .then((response) {
         if (response.statusCode == 200) {
           final Map<String, dynamic> surveyLevelOne = response.data["details"];
 
@@ -73,7 +82,8 @@ class _ViewUserSurveyLevelOneScreenState
           setState(() {
             _controllers[0].text = surveyLevelOne["height"].toString();
             _controllers[1].text = surveyLevelOne["weight"].toString();
-            _controllers[2].text = surveyLevelOne["covidVaccination"].toString();
+            _controllers[2].text =
+                surveyLevelOne["covidVaccination"].toString();
             _controllers[3].text = surveyLevelOne["anyAllergies"].toString();
             _controllers[4].text = surveyLevelOne["allergies"].toString();
             _controllers[5].text = surveyLevelOne["symptoms"].toString();
@@ -84,26 +94,33 @@ class _ViewUserSurveyLevelOneScreenState
             _controllers[10].text = surveyLevelOne["consumptions"].toString();
             _controllers[11].text = surveyLevelOne["familyHistory"].toString();
           });
-
         } else if (response.data["message"] != null) {
           showToast(response.data["message"]);
         } else if (response.statusCode == 401) {
           showToast("Session Expired. Please login again.");
           Navigator.of(context).pushAndRemoveUntil(
               CupertinoPageRoute(builder: (context) {
-                return const WelcomeScreen();
-              }), (route) => false);
+            return const WelcomeScreen();
+          }), (route) => false);
         } else {
           if (kDebugMode) {
             print(response.data);
           }
           showToast("Something went wrong. Please try again later.");
         }
+
+        setState(() {
+          isLoading = false;
+        });
       }).catchError((e) {
         if (kDebugMode) {
           print(e);
         }
         showToast("Something went wrong. Please try again later.");
+
+        setState(() {
+          isLoading = false;
+        });
       });
     });
 
@@ -112,124 +129,132 @@ class _ViewUserSurveyLevelOneScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            floating: false,
-            pinned: true,
-            snap: false,
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    CupertinoPageRoute(builder: (context) {
-                  return const UserScreen();
-                }), (route) => false);
-              },
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              collapseMode: CollapseMode.parallax,
-              background: Image.asset(
-                "assets/login.png",
-                color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
-                fit: BoxFit.fitWidth,
-                filterQuality: FilterQuality.high,
-              ),
-              title: Text(
-                "Questionnaire Level 1",
-                style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  Image.asset(
-                    "assets/logo.png",
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    filterQuality: FilterQuality.high,
+    return isLoading
+        ? const LoadingScreen()
+        : Scaffold(
+            extendBodyBehindAppBar: true,
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar.large(
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  centerTitle: true,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          CupertinoPageRoute(builder: (context) {
+                        return const UserScreen();
+                      }), (route) => false);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios),
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  for (int i = 0; i < maxIndex; i++) ... [
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.outlineVariant,
-                        ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    collapseMode: CollapseMode.parallax,
+                    background: Image.asset(
+                      "assets/login.png",
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.2),
+                      fit: BoxFit.fitWidth,
+                      filterQuality: FilterQuality.high,
+                    ),
+                    title: Text(
+                      "Questionnaire Level 1",
+                      style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              questionText[i],
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.raleway(
-                                  textStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.merge(TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant))),
-
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/logo.png",
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          filterQuality: FilterQuality.high,
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        for (int i = 0; i < maxIndex; i++) ...[
+                          Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .outlineVariant,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    questionText[i],
+                                    textAlign: TextAlign.left,
+                                    style: GoogleFonts.raleway(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.merge(TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurfaceVariant))),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: TextField(
+                                    controller: _controllers[i],
+                                    readOnly: true,
+                                    style: GoogleFonts.raleway(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.merge(TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary))),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(
-                            height: 8,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: TextField(
-                              controller: _controllers[i],
-                              readOnly: true,
-                              style: GoogleFonts.raleway(
-                                  textStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.merge(TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary))),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                            ),
+                            height: 24,
                           ),
                         ],
-                      ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                  ],
-                  const SizedBox(
-                    height: 24,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

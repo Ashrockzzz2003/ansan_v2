@@ -35,6 +35,7 @@ class _ViewPatientDoctorState extends State<ViewPatientDoctor> {
     setState(() {
       isLoading = true;
     });
+
     SharedPreferences.getInstance().then((sp) {
       final secretToken = sp.getString("SECRET_TOKEN");
       if (secretToken == null || secretToken.isEmpty) {
@@ -83,6 +84,10 @@ class _ViewPatientDoctorState extends State<ViewPatientDoctor> {
           });
           showToast("Something went wrong. Please try again later.");
         }
+
+        setState(() {
+          isLoading = false;
+        });
       }).catchError((e) {
         if (kDebugMode) {
           print(e);
@@ -94,9 +99,6 @@ class _ViewPatientDoctorState extends State<ViewPatientDoctor> {
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
     super.initState();
   }
 

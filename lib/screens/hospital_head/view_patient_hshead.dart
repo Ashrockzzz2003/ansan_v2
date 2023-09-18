@@ -82,6 +82,10 @@ class _ViewPatientHsHeadState extends State<ViewPatientHsHead> {
           });
           showToast("Something went wrong. Please try again later.");
         }
+
+        setState(() {
+          isLoading = false;
+        });
       }).catchError((e) {
         if (kDebugMode) {
           print(e);
@@ -89,13 +93,14 @@ class _ViewPatientHsHeadState extends State<ViewPatientHsHead> {
         setState(() {
           patientData = {};
         });
+        setState(() {
+          isLoading = false;
+        });
         showToast("Something went wrong. Please try again later.");
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
+
     super.initState();
   }
 

@@ -124,10 +124,6 @@ class _PatientReportsFrontlineWorkerScreenState
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
-
     super.initState();
   }
 
@@ -188,7 +184,7 @@ class _PatientReportsFrontlineWorkerScreenState
 
   @override
   Widget build(BuildContext context) {
-    return isLoading || (patientReports.isEmpty && isLoading)
+    return isLoading
         ? LoadingScreen(
             message: loadingMessage,
           )

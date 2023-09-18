@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:eperimetry_vtwo/screens/user/user_screen.dart';
 import 'package:eperimetry_vtwo/screens/welcome_screen.dart';
 import 'package:eperimetry_vtwo/utils/constants.dart';
+import 'package:eperimetry_vtwo/utils/loading_screen.dart';
 import 'package:eperimetry_vtwo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -42,8 +43,14 @@ class _ViewFamilyMemberSurveyLevelOneScreenState
     "Family History",
   ];
 
+  bool isLoading = true;
+
   @override
   void initState() {
+    setState(() {
+      isLoading = true;
+    });
+
     SharedPreferences.getInstance().then((sp) {
       final secretToken = sp.getString("SECRET_TOKEN");
       if (secretToken == null || secretToken.isEmpty) {
@@ -105,11 +112,18 @@ class _ViewFamilyMemberSurveyLevelOneScreenState
           }
           showToast("Something went wrong. Please try again later.");
         }
+
+        setState(() {
+          isLoading = false;
+        });
       }).catchError((e) {
         if (kDebugMode) {
           print(e);
         }
         showToast("Something went wrong. Please try again later.");
+        setState(() {
+          isLoading = false;
+        });
       });
     });
 
@@ -118,7 +132,7 @@ class _ViewFamilyMemberSurveyLevelOneScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading ? const LoadingScreen() : Scaffold(
       extendBodyBehindAppBar: true,
       body: CustomScrollView(
         slivers: [

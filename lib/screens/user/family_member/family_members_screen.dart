@@ -98,6 +98,10 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
             return const UserScreen();
           }), (route) => false);
         }
+
+        setState(() {
+          isLoading = false;
+        });
       }).catchError((error) {
         showToast("Something went wrong!");
         Navigator.of(context).pushAndRemoveUntil(
@@ -107,11 +111,11 @@ class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
         if (kDebugMode) {
           print(error);
         }
-      });
-    });
 
-    setState(() {
-      isLoading = false;
+        setState(() {
+          isLoading = false;
+        });
+      });
     });
 
     super.initState();

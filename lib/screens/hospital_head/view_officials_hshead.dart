@@ -99,6 +99,10 @@ class _ViewOfficialsHsHeadScreenState extends State<ViewOfficialsHsHeadScreen> {
             return const HsHeadScreen();
           }), (route) => false);
         }
+
+        setState(() {
+          isLoading = false;
+        });
       }).catchError((error) {
         showToast("Something went wrong!");
         Navigator.of(context).pushAndRemoveUntil(
@@ -108,10 +112,11 @@ class _ViewOfficialsHsHeadScreenState extends State<ViewOfficialsHsHeadScreen> {
         if (kDebugMode) {
           print(error);
         }
+
+        setState(() {
+          isLoading = false;
+        });
       });
-    });
-    setState(() {
-      isLoading = false;
     });
     super.initState();
   }

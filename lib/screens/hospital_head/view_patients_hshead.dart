@@ -103,10 +103,6 @@ class _ViewPatientsHsHeadState extends State<ViewPatientsHsHead> {
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
-
     super.initState();
   }
 

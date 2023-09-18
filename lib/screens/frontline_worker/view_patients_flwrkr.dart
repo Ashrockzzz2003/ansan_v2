@@ -105,10 +105,6 @@ class _ViewPatientsFrontLineWorkerState
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
-
     super.initState();
   }
 

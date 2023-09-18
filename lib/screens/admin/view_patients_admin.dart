@@ -103,10 +103,6 @@ class _ViewPatientsAdminState extends State<ViewPatientsAdmin> {
       });
     });
 
-    setState(() {
-      isLoading = false;
-    });
-
     super.initState();
   }
 
