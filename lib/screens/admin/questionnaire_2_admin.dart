@@ -449,6 +449,8 @@ class _Questionnaire15cAdminScreenState extends State<Questionnaire15cAdminScree
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",

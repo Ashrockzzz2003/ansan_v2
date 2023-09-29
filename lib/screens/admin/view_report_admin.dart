@@ -303,6 +303,8 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",
@@ -499,7 +501,7 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Left Eye",
+                                              "Right Eye",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.raleway(
                                                 textStyle: Theme.of(context)
@@ -514,7 +516,7 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Right Eye",
+                                              "Left Eye",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.raleway(
                                                 textStyle: Theme.of(context)
@@ -529,6 +531,41 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                     ),
                                     TableRow(
                                       children: [
+                                        TableCell(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Chip(
+                                              label: Text(
+                                                reportData["rightEye"],
+                                                style:
+                                                GoogleFonts.sourceCodePro(
+                                                  textStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                  reportData["rightEye"] ==
+                                                      "Negative"
+                                                      ? Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary
+                                                      : Theme.of(context)
+                                                      .colorScheme
+                                                      .onError,
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                              reportData["rightEye"] ==
+                                                  "Negative"
+                                                  ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                                  : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                            ),
+                                          ),
+                                        ),
                                         TableCell(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -564,41 +601,6 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                             ),
                                           ),
                                         ),
-                                        TableCell(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Chip(
-                                              label: Text(
-                                                reportData["rightEye"],
-                                                style:
-                                                    GoogleFonts.sourceCodePro(
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium,
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                      reportData["rightEye"] ==
-                                                              "Negative"
-                                                          ? Theme.of(context)
-                                                              .colorScheme
-                                                              .onPrimary
-                                                          : Theme.of(context)
-                                                              .colorScheme
-                                                              .onError,
-                                                ),
-                                              ),
-                                              backgroundColor:
-                                                  reportData["rightEye"] ==
-                                                          "Negative"
-                                                      ? Theme.of(context)
-                                                          .colorScheme
-                                                          .primary
-                                                      : Theme.of(context)
-                                                          .colorScheme
-                                                          .error,
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -610,7 +612,7 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                   height: 16,
                                 ),
 
-                                for (int i = 0; i < imageFiles.length; i++) ...[
+                                for (int i = imageFiles.length - 1; i > -1; i--) ...[
                                   Chip(
                                     label: Text(
                                       i == 0

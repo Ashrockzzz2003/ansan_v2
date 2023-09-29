@@ -167,6 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         : Scaffold(
             extendBodyBehindAppBar: true,
             body: CustomScrollView(
+              shrinkWrap: true,
               slivers: [
                 SliverAppBar.large(
                   floating: false,

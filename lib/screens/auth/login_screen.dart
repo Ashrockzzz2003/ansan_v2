@@ -99,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
         : Scaffold(
             extendBodyBehindAppBar: true,
             body: CustomScrollView(
+              shrinkWrap: true,
               slivers: [
                 SliverAppBar.large(
                   floating: false,
@@ -116,6 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
@@ -129,6 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     title: Text(
                       "Login",
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.raleway(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).colorScheme.onBackground,

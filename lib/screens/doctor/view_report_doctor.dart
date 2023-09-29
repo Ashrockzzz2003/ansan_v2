@@ -362,6 +362,8 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.high,
                     ),
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     title: Text(
                       "Patient Report",
                       style: GoogleFonts.raleway(
@@ -548,7 +550,7 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Left Eye",
+                                              "Right Eye",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.raleway(
                                                 textStyle: Theme.of(context)
@@ -563,7 +565,7 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Right Eye",
+                                              "Left Eye",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.raleway(
                                                 textStyle: Theme.of(context)
@@ -578,6 +580,41 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                     ),
                                     TableRow(
                                       children: [
+                                        TableCell(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Chip(
+                                              label: Text(
+                                                reportData["rightEye"],
+                                                style:
+                                                GoogleFonts.sourceCodePro(
+                                                  textStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                  reportData["rightEye"] ==
+                                                      "Negative"
+                                                      ? Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary
+                                                      : Theme.of(context)
+                                                      .colorScheme
+                                                      .onError,
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                              reportData["rightEye"] ==
+                                                  "Negative"
+                                                  ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                                  : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                            ),
+                                          ),
+                                        ),
                                         TableCell(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -613,41 +650,6 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                             ),
                                           ),
                                         ),
-                                        TableCell(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Chip(
-                                              label: Text(
-                                                reportData["rightEye"],
-                                                style:
-                                                    GoogleFonts.sourceCodePro(
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium,
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                      reportData["rightEye"] ==
-                                                              "Negative"
-                                                          ? Theme.of(context)
-                                                              .colorScheme
-                                                              .onPrimary
-                                                          : Theme.of(context)
-                                                              .colorScheme
-                                                              .onError,
-                                                ),
-                                              ),
-                                              backgroundColor:
-                                                  reportData["rightEye"] ==
-                                                          "Negative"
-                                                      ? Theme.of(context)
-                                                          .colorScheme
-                                                          .primary
-                                                      : Theme.of(context)
-                                                          .colorScheme
-                                                          .error,
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -659,7 +661,7 @@ class _ViewReportDoctorScreenState extends State<ViewReportDoctorScreen> {
                                   height: 16,
                                 ),
 
-                                for (int i = 0; i < imageFiles.length; i++) ...[
+                                for (int i = imageFiles.length - 1; i > -1; i--) ...[
                                   Chip(
                                     label: Text(
                                       i == 0

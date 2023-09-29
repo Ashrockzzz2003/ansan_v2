@@ -189,6 +189,7 @@ class _PatientReportsDoctorScreenState
         : Scaffold(
             extendBodyBehindAppBar: true,
             body: CustomScrollView(
+
               slivers: [
                 SliverAppBar.large(
                   floating: false,
@@ -206,6 +207,8 @@ class _PatientReportsDoctorScreenState
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
@@ -410,6 +413,49 @@ class _PatientReportsDoctorScreenState
                                         Chip(
                                           padding: const EdgeInsets.all(2.0),
                                           label: Text(
+                                            "Right Eye",
+                                            style: GoogleFonts.raleway(),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Chip(
+                                          padding: const EdgeInsets.all(2.0),
+                                          label: Text(
+                                            patientReports[index]["rightEye"],
+                                            style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w500,
+                                              color: patientReports[index]
+                                              ["rightEye"] ==
+                                                  "Negative"
+                                                  ? Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary
+                                                  : Theme.of(context)
+                                                  .colorScheme
+                                                  .onError,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          backgroundColor: patientReports[index]
+                                          ["rightEye"] ==
+                                              "Negative"
+                                              ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              : Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Chip(
+                                          padding: const EdgeInsets.all(2.0),
+                                          label: Text(
                                             "Left Eye  ",
                                             style: GoogleFonts.raleway(),
                                             textAlign: TextAlign.left,
@@ -448,49 +494,7 @@ class _PatientReportsDoctorScreenState
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        Chip(
-                                          padding: const EdgeInsets.all(2.0),
-                                          label: Text(
-                                            "Right Eye",
-                                            style: GoogleFonts.raleway(),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Chip(
-                                          padding: const EdgeInsets.all(2.0),
-                                          label: Text(
-                                            patientReports[index]["rightEye"],
-                                            style: GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w500,
-                                              color: patientReports[index]
-                                                          ["rightEye"] ==
-                                                      "Negative"
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary
-                                                  : Theme.of(context)
-                                                      .colorScheme
-                                                      .onError,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          backgroundColor: patientReports[index]
-                                                      ["rightEye"] ==
-                                                  "Negative"
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                        ),
-                                      ],
-                                    ),
+
                                   ],
                                 ),
                                 children: [

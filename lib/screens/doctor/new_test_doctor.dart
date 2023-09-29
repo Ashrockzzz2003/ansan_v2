@@ -45,10 +45,10 @@ class _NewReportDoctorScreenState extends State<NewReportDoctorScreen> {
   String? reportId;
 
   List<String> questionList = [
-    "Please take/upload 1st image of Left Eye",
-    "Please take/upload 2nd image of Left Eye",
     "Please take/upload 1st image of Right Eye",
-    "Please take/upload 2nd image of Right Eye"
+    "Please take/upload 2nd image of Right Eye",
+    "Please take/upload 1st image of Left Eye",
+    "Please take/upload 2nd image of Left Eye"
   ];
 
   @override
@@ -122,6 +122,8 @@ class _NewReportDoctorScreenState extends State<NewReportDoctorScreen> {
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
@@ -484,22 +486,22 @@ class _NewReportDoctorScreenState extends State<NewReportDoctorScreen> {
 
       final FormData formData = FormData.fromMap({
         "leftEye1": await MultipartFile.fromFile(
-          imageFiles[0]!.path,
+          imageFiles[2]!.path,
           filename: "leftEye1.jpg",
           contentType: MediaType("image", "jpg"),
         ),
         "leftEye2": await MultipartFile.fromFile(
-          imageFiles[1]!.path,
+          imageFiles[3]!.path,
           filename: "leftEye2.jpg",
           contentType: MediaType("image", "jpg"),
         ),
         "rightEye1": await MultipartFile.fromFile(
-          imageFiles[2]!.path,
+          imageFiles[0]!.path,
           filename: "rightEye1.jpg",
           contentType: MediaType("image", "jpg"),
         ),
         "rightEye2": await MultipartFile.fromFile(
-          imageFiles[3]!.path,
+          imageFiles[1]!.path,
           filename: "rightEye2.jpg",
           contentType: MediaType("image", "jpg"),
         ),

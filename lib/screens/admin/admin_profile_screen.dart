@@ -64,6 +64,8 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
