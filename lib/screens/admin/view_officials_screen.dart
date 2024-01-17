@@ -842,6 +842,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
                                   ),
                                   ListTile(
                                     onTap: () {
+
                                       setState(() {
                                         _managerIdController.text =
                                             familyMembers[index]["managerId"];
@@ -854,6 +855,7 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
 
                                         role = familyMembers[index]["role"];
                                       });
+
                                       showModalBottomSheet(
                                         context: context,
                                         shape: const RoundedRectangleBorder(

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Survey App',
+        title: 'ANSAN App',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: lightColorScheme ?? _defaultLightColorScheme,

@@ -184,6 +184,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.symmetric(
+                      horizontal: 0.0,
+                      vertical: 8.0,
+                    ),
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
@@ -195,11 +199,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fit: BoxFit.fitWidth,
                       filterQuality: FilterQuality.high,
                     ),
-                    title: Text(
-                      "Register",
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.onBackground,
+                    title: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8.0),
+                      child: Text(
+                        "Register",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.raleway(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
                       ),
                     ),
                   ),
