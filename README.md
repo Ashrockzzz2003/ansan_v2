@@ -8,7 +8,7 @@ Detect glaucoma early with our app.
 
 ## Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Xzup3xKYsck?si=b-Fb1zdYJeyG-pkZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[https://youtu.be/Xzup3xKYsck?si=-Nrkdnv41XcjVvLI](https://youtu.be/Xzup3xKYsck?si=-Nrkdnv41XcjVvLI)
 
 ## Tech Stack
 
