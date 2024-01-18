@@ -47,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
           data: {
             "userEmail": userEmailController.text.trim(),
           });
-
       if (response.statusCode == 200) {
         final otpToken = response.data["SECRET_TOKEN"];
         showToast("OTP sent to your email address");
