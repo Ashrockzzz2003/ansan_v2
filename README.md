@@ -12,8 +12,8 @@ Detect glaucoma early with our app.
 
 ## Tech Stack
 
-| Purpose | Technology | Tool Used | Repo |
-| ------- | ---------- | --------- | ---- |
+| Purpose | Technology | Tool Used |
+| ------- | ---------- | --------- |
 | Mobile App | `Flutter` | `Android Studio` | 
 | Backend | `ExpressJS`, `NodeJS`, `MySQL`, `nginx` | `VS Code` | 
 | Website | `HTML`, `CSS`, `JS` | `VS Code` |
