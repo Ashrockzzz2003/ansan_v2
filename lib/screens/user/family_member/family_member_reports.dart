@@ -206,6 +206,8 @@ class _FamilyMemberReportsScreenState extends State<FamilyMemberReportsScreen> {
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",
@@ -487,7 +489,7 @@ class _FamilyMemberReportsScreenState extends State<FamilyMemberReportsScreen> {
                                         if (value == "1") {
                                           launchUrl(
                                             Uri.parse(
-                                              "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                              "http://localhost:3001/report/$pdfFileName.pdf",
                                             ),
                                             mode: LaunchMode.inAppWebView,
                                           );

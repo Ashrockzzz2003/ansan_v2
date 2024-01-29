@@ -212,15 +212,15 @@ class _ViewReportFamilyMemberScreenState
                       : "Positive",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
-              "timeStamp": reportD["reportTimestamp"],
+              "timeStamp": reportD["reportTimeStamp"],
             };
             patientData = response.data["data"] as Map<String, dynamic>;
             _doctorComment.text = reportData["description"] ?? "";
             imageFiles.addAll([
-              "https://ansan.cb.amrita.edu/fundus/${patientData["leftImage1"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["leftImage2"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["rightImage1"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["rightImage2"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["leftImage1"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["leftImage2"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["rightImage1"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["rightImage2"].toString()}.png",
             ]);
           });
 
@@ -290,7 +290,7 @@ class _ViewReportFamilyMemberScreenState
                           if (value == "1") {
                             launchUrl(
                               Uri.parse(
-                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                "http://localhost:3001/report/$pdfFileName.pdf",
                               ),
                               mode: LaunchMode.externalApplication,
                             );
@@ -310,6 +310,8 @@ class _ViewReportFamilyMemberScreenState
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",
@@ -550,26 +552,27 @@ class _ViewReportFamilyMemberScreenState
                                                   textStyle: Theme.of(context)
                                                       .textTheme
                                                       .titleMedium,
-                                                  color: reportData["leftEye"] ==
-                                                          "Negative"
-                                                      ? Theme.of(context)
-                                                          .colorScheme
-                                                          .onPrimary
-                                                      : Theme.of(context)
-                                                          .colorScheme
-                                                          .onError,
+                                                  color:
+                                                      reportData["leftEye"] ==
+                                                              "Negative"
+                                                          ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimary
+                                                          : Theme.of(context)
+                                                              .colorScheme
+                                                              .onError,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                              backgroundColor: reportData[
-                                                          "leftEye"] ==
-                                                      "Negative"
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .primary
-                                                  : Theme.of(context)
-                                                      .colorScheme
-                                                      .error,
+                                              backgroundColor:
+                                                  reportData["leftEye"] ==
+                                                          "Negative"
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .primary
+                                                      : Theme.of(context)
+                                                          .colorScheme
+                                                          .error,
                                             ),
                                           ),
                                         ),
@@ -585,26 +588,26 @@ class _ViewReportFamilyMemberScreenState
                                                       .textTheme
                                                       .titleMedium,
                                                   fontWeight: FontWeight.w500,
-                                                  color: reportData[
-                                                              "rightEye"] ==
+                                                  color:
+                                                      reportData["rightEye"] ==
+                                                              "Negative"
+                                                          ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimary
+                                                          : Theme.of(context)
+                                                              .colorScheme
+                                                              .onError,
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  reportData["rightEye"] ==
                                                           "Negative"
                                                       ? Theme.of(context)
                                                           .colorScheme
-                                                          .onPrimary
+                                                          .primary
                                                       : Theme.of(context)
                                                           .colorScheme
-                                                          .onError,
-                                                ),
-                                              ),
-                                              backgroundColor: reportData[
-                                                          "rightEye"] ==
-                                                      "Negative"
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .primary
-                                                  : Theme.of(context)
-                                                      .colorScheme
-                                                      .error,
+                                                          .error,
                                             ),
                                           ),
                                         ),
@@ -2342,7 +2345,7 @@ class _ViewReportFamilyMemberScreenState
                                           if (value == "1") {
                                             launchUrl(
                                               Uri.parse(
-                                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                                "http://localhost:3001/report/$pdfFileName.pdf",
                                               ),
                                               mode: LaunchMode
                                                   .externalApplication,
@@ -2417,7 +2420,8 @@ class _ViewReportFamilyMemberScreenState
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                if (widget.patientEmail.isNotEmpty && widget.patientEmail != 'null') ...[
+                                if (widget.patientEmail.isNotEmpty &&
+                                    widget.patientEmail != 'null') ...[
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.84,

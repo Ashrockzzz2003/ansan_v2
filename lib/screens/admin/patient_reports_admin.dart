@@ -395,8 +395,9 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                         ),
                                         textAlign: TextAlign.left,
                                       ),
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.secondary,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     const SizedBox(
                                       height: 16,
@@ -420,27 +421,27 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                             patientReports[index]["rightEye"],
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w500,
-                                              color: patientReports[index][
-                                              "rightEye"] ==
-                                                  "Negative"
+                                              color: patientReports[index]
+                                                          ["rightEye"] ==
+                                                      "Negative"
                                                   ? Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary
+                                                      .colorScheme
+                                                      .onPrimary
                                                   : Theme.of(context)
-                                                  .colorScheme
-                                                  .onError,
+                                                      .colorScheme
+                                                      .onError,
                                             ),
                                             textAlign: TextAlign.left,
                                           ),
                                           backgroundColor: patientReports[index]
-                                          ["rightEye"] ==
-                                              "Negative"
+                                                      ["rightEye"] ==
+                                                  "Negative"
                                               ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
+                                                  .colorScheme
+                                                  .primary
                                               : Theme.of(context)
-                                              .colorScheme
-                                              .error,
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ],
                                     ),
@@ -531,7 +532,7 @@ class _PatientReportsScreenState extends State<PatientReportsScreen> {
                                         if (value == "1") {
                                           launchUrl(
                                             Uri.parse(
-                                              "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                              "http://localhost:3001/report/$pdfFileName.pdf",
                                             ),
                                             mode: LaunchMode.inAppWebView,
                                           );

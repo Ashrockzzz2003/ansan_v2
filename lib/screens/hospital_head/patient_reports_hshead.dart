@@ -68,16 +68,14 @@ class _PatientReportsHsHeadScreenState
               setState(() {
                 patientReports.add({
                   "reportId": report["reportId"].toString(),
-                  "leftEye":
-                  int.parse(
-                      report["modelOutput"].toString().split(",")[0]) ==
-                      0
+                  "leftEye": int.parse(
+                              report["modelOutput"].toString().split(",")[0]) ==
+                          0
                       ? "Negative"
                       : "Positive",
-                  "rightEye":
-                  int.parse(
-                      report["modelOutput"].toString().split(",")[1]) ==
-                      0
+                  "rightEye": int.parse(
+                              report["modelOutput"].toString().split(",")[1]) ==
+                          0
                       ? "Negative"
                       : "Positive",
                   "timeStamp": report["reportTimeStamp"].toString(),
@@ -204,6 +202,8 @@ class _PatientReportsHsHeadScreenState
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",
@@ -332,7 +332,8 @@ class _PatientReportsHsHeadScreenState
                                       label: Text(
                                         DateFormat("E d/M/y h:mm a").format(
                                           DateTime.parse(patientReports[index]
-                                              ["timeStamp"]).toLocal(),
+                                                  ["timeStamp"])
+                                              .toLocal(),
                                         ),
                                         style: GoogleFonts.sourceCodePro(
                                           color: Theme.of(context)
@@ -344,8 +345,9 @@ class _PatientReportsHsHeadScreenState
                                         ),
                                         textAlign: TextAlign.left,
                                       ),
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.secondary,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     const SizedBox(
                                       height: 16,
@@ -412,8 +414,8 @@ class _PatientReportsHsHeadScreenState
                                             patientReports[index]["rightEye"],
                                             style: GoogleFonts.raleway(
                                               fontWeight: FontWeight.w500,
-                                              color: patientReports[index][
-                                                          "rightEye"] ==
+                                              color: patientReports[index]
+                                                          ["rightEye"] ==
                                                       "Negative"
                                                   ? Theme.of(context)
                                                       .colorScheme
@@ -480,7 +482,7 @@ class _PatientReportsHsHeadScreenState
                                         if (value == "1") {
                                           launchUrl(
                                             Uri.parse(
-                                              "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                              "http://localhost:3001/report/$pdfFileName.pdf",
                                             ),
                                             mode: LaunchMode.inAppWebView,
                                           );

@@ -130,6 +130,8 @@ class _ViewPatientHsHeadState extends State<ViewPatientHsHead> {
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     stretchModes: const [
                       StretchMode.zoomBackground,
                       StretchMode.blurBackground,

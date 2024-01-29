@@ -1,6 +1,7 @@
 class Constants {
-  final baseUrl = "https://ansan.cb.amrita.edu/api";
+  // final baseUrl = "https://ansan.cb.amrita.edu/api";
 
+  final baseUrl = "http://localhost:3001/api";
   String get loginUrl => "$baseUrl/login";
   String get loginVerifyUrl => "$baseUrl/loginVerify";
 

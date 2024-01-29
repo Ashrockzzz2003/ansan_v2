@@ -28,6 +28,8 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
 
   @override
   void initState() {
+    super.initState();
+
     setState(() {
       isLoading = true;
     });
@@ -70,6 +72,10 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
               });
             }
           } else {
+            setState(() {
+              familyMembers = [];
+              isLoading = false;
+            });
             showToast("No registered officials added by you!");
           }
 
@@ -102,8 +108,6 @@ class _ViewOfficialsScreenState extends State<ViewOfficialsScreen> {
         }
       });
     });
-
-    super.initState();
   }
 
   Future<String> _toggleStatus(int index) async {

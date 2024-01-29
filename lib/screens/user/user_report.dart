@@ -193,15 +193,15 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                   "${(double.parse(reportD["modelOutput"].toString().split(",")[1]) * 100)} %",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
-              "timeStamp": reportD["reportTimestamp"],
+              "timeStamp": reportD["reportTimeStamp"],
             };
             patientData = response.data["data"] as Map<String, dynamic>;
             _doctorComment.text = reportData["description"] ?? "";
             imageFiles.addAll([
-              "https://ansan.cb.amrita.edu/fundus/${patientData["leftImage1"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["leftImage2"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["rightImage1"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["rightImage2"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["leftImage1"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["leftImage2"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["rightImage1"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["rightImage2"].toString()}.png",
             ]);
           });
 
@@ -271,7 +271,7 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                           if (value == "1") {
                             launchUrl(
                               Uri.parse(
-                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                "http://localhost:3001/report/$pdfFileName.pdf",
                               ),
                               mode: LaunchMode.externalApplication,
                             );
@@ -291,6 +291,8 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",
@@ -2300,7 +2302,7 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                                           if (value == "1") {
                                             launchUrl(
                                               Uri.parse(
-                                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                                "http://localhost:3001/report/$pdfFileName.pdf",
                                               ),
                                               mode: LaunchMode
                                                   .externalApplication,
@@ -2375,7 +2377,8 @@ class _ViewReportUserScreenState extends State<ViewReportUserScreen> {
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                if (widget.patientEmail.isNotEmpty && widget.patientEmail != 'null') ...[
+                                if (widget.patientEmail.isNotEmpty &&
+                                    widget.patientEmail != 'null') ...[
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.84,

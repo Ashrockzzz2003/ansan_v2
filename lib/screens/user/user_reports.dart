@@ -21,12 +21,10 @@ class UserReportsScreen extends StatefulWidget {
   final String patientEmail;
 
   @override
-  State<UserReportsScreen> createState() =>
-      _UserReportsScreenState();
+  State<UserReportsScreen> createState() => _UserReportsScreenState();
 }
 
-class _UserReportsScreenState
-    extends State<UserReportsScreen> {
+class _UserReportsScreenState extends State<UserReportsScreen> {
   final List<Map<String, dynamic>> patientReports = [];
   bool isLoading = true;
 
@@ -46,13 +44,15 @@ class _UserReportsScreenState
         secretToken = sp.getString("SECRET_TOKEN");
       });
 
-      Dio().post(
+      Dio()
+          .post(
         Constants().allPatientReportsUrl,
         options: Options(
           headers: {"Authorization": "Bearer $secretToken"},
           validateStatus: (status) => status! < 500,
         ),
-      ).then((response) {
+      )
+          .then((response) {
         if (kDebugMode) {
           print(response.data);
         }
@@ -194,6 +194,8 @@ class _UserReportsScreenState
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 8.0),
                     collapseMode: CollapseMode.parallax,
                     background: Image.asset(
                       "assets/login.png",
@@ -325,7 +327,8 @@ class _UserReportsScreenState
                                       label: Text(
                                         DateFormat("E d/M/y h:mm a").format(
                                           DateTime.parse(patientReports[index]
-                                              ["timeStamp"]).toLocal(),
+                                                  ["timeStamp"])
+                                              .toLocal(),
                                         ),
                                         style: GoogleFonts.sourceCodePro(
                                           color: Theme.of(context)
@@ -337,8 +340,9 @@ class _UserReportsScreenState
                                         ),
                                         textAlign: TextAlign.left,
                                       ),
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.secondary,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     const SizedBox(
                                       height: 16,
@@ -449,7 +453,7 @@ class _UserReportsScreenState
                                         if (value == "1") {
                                           launchUrl(
                                             Uri.parse(
-                                              "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                              "http://localhost:3001/report/$pdfFileName.pdf",
                                             ),
                                             mode: LaunchMode.inAppWebView,
                                           );

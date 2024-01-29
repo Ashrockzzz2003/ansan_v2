@@ -189,6 +189,8 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
         if (response.statusCode == 200) {
           final reportD = response.data["data"] as Map<String, dynamic>;
 
+          debugPrint(reportD.toString());
+
           setState(() {
             reportData = {
               "reportId": reportD["reportId"],
@@ -205,15 +207,15 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                       : "Positive",
               "description": reportD["description"],
               "descriptionMangerId": reportD["descriptionMangerId"],
-              "timeStamp": reportD["reportTimestamp"],
+              "timeStamp": reportD["reportTimeStamp"],
             };
             patientData = response.data["data"] as Map<String, dynamic>;
             _doctorComment.text = reportData["description"] ?? "";
             imageFiles.addAll([
-              "https://ansan.cb.amrita.edu/fundus/${patientData["leftImage1"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["leftImage2"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["rightImage1"].toString()}.png",
-              "https://ansan.cb.amrita.edu/fundus/${patientData["rightImage2"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["leftImage1"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["leftImage2"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["rightImage1"].toString()}.png",
+              "http://localhost:3001/fundus/${patientData["rightImage2"].toString()}.png",
             ]);
           });
 
@@ -283,7 +285,7 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                           if (value == "1") {
                             launchUrl(
                               Uri.parse(
-                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                "http://localhost:3001/report/$pdfFileName.pdf",
                               ),
                               mode: LaunchMode.externalApplication,
                             );
@@ -458,10 +460,10 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                 ),
                                 Chip(
                                   label: Text(
-                                    DateFormat("EEEE d/M/y h:mm a").format(
+                                    DateFormat.yMMMMd().format(
                                       DateTime.parse(
-                                        reportData["timeStamp"].toString(),
-                                      ).toLocal(),
+                                        reportData["timeStamp"],
+                                      ),
                                     ),
                                     style: GoogleFonts.sourceCodePro(
                                       color: Theme.of(context)
@@ -2335,7 +2337,7 @@ class _ViewReportAdminScreenState extends State<ViewReportAdminScreen> {
                                           if (value == "1") {
                                             launchUrl(
                                               Uri.parse(
-                                                "https://ansan.cb.amrita.edu/report/$pdfFileName.pdf",
+                                                "http://localhost:3001/report/$pdfFileName.pdf",
                                               ),
                                               mode: LaunchMode
                                                   .externalApplication,
