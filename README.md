@@ -1,6 +1,10 @@
-# ansan_v2
+# ansan_v2 (Deprecated)
 
 Detect glaucoma early with our app.
+
+## Latest Version
+
+- [Version 3](https://github.com/Ashrockzzz2003/ansan_v3)
 
 ## Website [Coming Soon]
 
